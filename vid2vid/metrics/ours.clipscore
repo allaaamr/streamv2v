@@ -1,0 +1,203 @@
+{
+    "breakdance-flare_impressionist_1": {
+        "An impressionist painting of a man doing a handstand on the street": 0.9378955364227295
+    },
+    "breakdance-flare_pixelart_0": {
+        "A pixel art of a man doing a handstand on the street": 0.9333038330078125
+    },
+    "breakdance-flare_van_gogh_0": {
+        "A Van Gogh style painting of a man doing a handstand on the street": 0.9364427924156189
+    },
+    "breakdance_impressionist_0": {
+        "An impressionist painting of a man doing a handstand on a brick wall": 0.9684333205223083
+    },
+    "breakdance_pixelart_1": {
+        "A pixel art of a man doing a handstand on a brick wall": 0.9731746315956116
+    },
+    "breakdance_van_gogh_1": {
+        "A Van Gogh style painting of a man doing a handstand on a brick wall": 0.9680837988853455
+    },
+    "dancing_impressionist_1": {
+        "An impressionist painting of a group of people dancing in the street": 0.9714518785476685
+    },
+    "dancing_ukiyoe_1": {
+        "Ukiyo-e Art - a group of people dancing in the street": 0.9679678082466125
+    },
+    "dog-agility_anime_1": {
+        "a dog running through a field of poles, in flat 2d anime": 0.9611877202987671
+    },
+    "dog-agility_edit_1canny": {
+        "A Corgi running through a field of poles.": 0.952504575252533
+    },
+    "dog-agility_edit_2canny": {
+        "A Husky running through a field of poles.": 0.9576616287231445
+    },
+    "dog-agility_oilpainting_1": {
+        "An oil painting of a dog running through a field of poles": 0.9627952575683594
+    },
+    "dog-agility_pixelart_1": {
+        "A pixel art of a dog running through a field of poles": 0.9425632357597351
+    },
+    "dog-agility_ukiyoe_1": {
+        "Ukiyo-e Art - a dog running through a field of poles": 0.9636608958244324
+    },
+    "dog-agility_van_gogh_0": {
+        "A Van Gogh style painting of a dog running through a field of poles": 0.9612623453140259
+    },
+    "dogs-jump_edit_1canny": {
+        "A woman is standing in a field with two tigers.": 0.9474844336509705
+    },
+    "dogs-jump_edit_2canny": {
+        "A woman is standing in a field with two leopards.": 0.948169469833374
+    },
+    "dogs-jump_edit_5canny": {
+        "A woman is standing in a field with two dogs in front of the Egyptian pyramids.": 0.9551873803138733
+    },
+    "dogs-jump_van_gogh_0": {
+        "A Van Gogh style painting of a woman is standing in a field with two dogs": 0.9486806392669678
+    },
+    "elephant_pixelart_0": {
+        "A pixel art of a large elephant standing in a dirt area": 0.9784514307975769
+    },
+    "flamingo_anime_0": {
+        "a group of flamingos standing in the water, in flat 2d anime": 0.9853705167770386
+    },
+    "flamingo_pixelart_1": {
+        "A pixel art of a group of flamingos standing in the water": 0.9864829778671265
+    },
+    "flamingo_ukiyoe_0": {
+        "Ukiyo-e Art - a group of flamingos standing in the water": 0.9853589534759521
+    },
+    "flamingo_van_gogh_1": {
+        "A Van Gogh style painting of a group of flamingos standing in the water": 0.984143078327179
+    },
+    "gold-fish_anime_0": {
+        "goldfish in aquarium, in flat 2d anime": 0.990473747253418
+    },
+    "gold-fish_chineseink_0": {
+        "A Chinese ink painting of goldfish in aquarium": 0.9885203242301941
+    },
+    "gold-fish_edit_4depth": {
+        "Goldfish in an aquarium surrounded by colorful coral reefs.": 0.9903650879859924
+    },
+    "gold-fish_oilpainting_1": {
+        "An oil painting of goldfish in aquarium": 0.9877249002456665
+    },
+    "gold-fish_pixelart_1": {
+        "A pixel art of goldfish in aquarium": 0.9925974011421204
+    },
+    "gold-fish_ukiyoe_1": {
+        "Ukiyo-e Art - goldfish in aquarium": 0.9900517463684082
+    },
+    "guitar-violin_anime_1": {
+        "two men playing violin and guitar in a room, in flat 2d anime": 0.9590859413146973
+    },
+    "guitar-violin_chineseink_0": {
+        "A Chinese ink painting of two men playing violin and guitar in a room": 0.9582662582397461
+    },
+    "guitar-violin_impressionist_1": {
+        "An impressionist painting of two men playing violin and guitar in a room": 0.9553999900817871
+    },
+    "guitar-violin_pixelart_1": {
+        "A pixel art of two men playing violin and guitar in a room": 0.9629489779472351
+    },
+    "guitar-violin_sketch_1": {
+        "A pencil sketch of two men playing violin and guitar in a room": 0.9547423124313354
+    },
+    "guitar-violin_ukiyoe_0": {
+        "Ukiyo-e Art - two men playing violin and guitar in a room": 0.9596462845802307
+    },
+    "guitar-violin_van_gogh_0": {
+        "A Van Gogh style painting of two men playing violin and guitar in a room": 0.9579616785049438
+    },
+    "lindy-hop_pixelart_0": {
+        "A pixel art of a group of people dancing in a dance studio": 0.9622193574905396
+    },
+    "lindy-hop_van_gogh_1": {
+        "A Van Gogh style painting of a group of people dancing in a dance studio": 0.9670475125312805
+    },
+    "mallard-water_chineseink_1": {
+        "A Chinese ink painting of a duck swimming in a pond with some trees": 0.9656239748001099
+    },
+    "mallard-water_edit_0canny": {
+        "A flamingo swimming in a pond with some trees.": 0.9545713067054749
+    },
+    "mallard-water_edit_1canny": {
+        "A swan swimming in a pond with some trees.": 0.9671136736869812
+    },
+    "mallard-water_impressionist_0": {
+        "An impressionist painting of a duck swimming in a pond with some trees": 0.9623064398765564
+    },
+    "mallard-water_van_gogh_0": {
+        "A Van Gogh style painting of a duck swimming in a pond with some trees": 0.960728645324707
+    },
+    "pigs_chineseink_0": {
+        "A Chinese ink painting of a group of pigs are standing on the ground": 0.9840704202651978
+    },
+    "pigs_edit_0canny": {
+        "A group of cows are standing on the ground.": 0.9822763204574585
+    },
+    "pigs_pixelart_0": {
+        "A pixel art of a group of pigs are standing on the ground": 0.9743890166282654
+    },
+    "pigs_van_gogh_1": {
+        "A Van Gogh style painting of a group of pigs are standing on the ground": 0.9829076528549194
+    },
+    "salsa_oilpainting_1": {
+        "An oil painting of a group of people dancing on a street": 0.9771341681480408
+    },
+    "salsa_ukiyoe_0": {
+        "Ukiyo-e Art - a group of people dancing on a street": 0.9755726456642151
+    },
+    "salsa_van_gogh_0": {
+        "A Van Gogh style painting of a group of people dancing on a street": 0.9728481769561768
+    },
+    "sheep_anime_0": {
+        "a group of sheep and a baby lamb in a field, in flat 2d anime": 0.9908180832862854
+    },
+    "sheep_edit_0depth": {
+        "A group of cows and a baby calf in a field.": 0.9900113940238953
+    },
+    "sheep_impressionist_1": {
+        "An impressionist painting of a group of sheep and a baby lamb in a field": 0.9926196336746216
+    },
+    "sheep_pixelart_0": {
+        "A pixel art of a group of sheep and a baby lamb in a field": 0.989864706993103
+    },
+    "soccerball_anime_1": {
+        "a soccer ball is sitting in the grass next to a tree, in flat 2d anime": 0.9732725620269775
+    },
+    "soccerball_oilpainting_0": {
+        "An oil painting of a soccer ball is sitting in the grass next to a tree": 0.9691401124000549
+    },
+    "soccerball_pixelart_1": {
+        "A pixel art of a soccer ball is sitting in the grass next to a tree": 0.9758124947547913
+    },
+    "soccerball_van_gogh_1": {
+        "A Van Gogh style painting of a soccer ball is sitting in the grass next to a tree": 0.9723609685897827
+    },
+    "tennis-vest_anime_1": {
+        "a man holding a tennis racket on a tennis court, in flat 2d anime": 0.9454834461212158
+    },
+    "tennis-vest_ukiyoe_0": {
+        "Ukiyo-e Art - a man holding a tennis racket on a tennis court": 0.9483737945556641
+    },
+    "tennis-vest_van_gogh_0": {
+        "A Van Gogh style painting of a man holding a tennis racket on a tennis court": 0.950279176235199
+    },
+    "tennis_anime_0": {
+        "a man holding a tennis racket on a tennis court, in flat 2d anime": 0.9477013945579529
+    },
+    "tennis_ukiyoe_0": {
+        "Ukiyo-e Art - a man holding a tennis racket on a tennis court": 0.94780433177948
+    },
+    "tennis_van_gogh_1": {
+        "A Van Gogh style painting of a man holding a tennis racket on a tennis court": 0.9509578347206116
+    },
+    "walking_anime_1": {
+        "a man taking a selfie with a woman on a street, in flat 2d anime": 0.9282770156860352
+    },
+    "walking_van_gogh_0": {
+        "A Van Gogh style painting of a man taking a selfie with a woman on a street": 0.9300172924995422
+    }
+}

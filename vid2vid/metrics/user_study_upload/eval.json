@@ -1,0 +1,337 @@
+[
+  {
+    "src_vid_name": "soccerball",
+    "vid_name": "soccerball_anime_1",
+    "prompt": "a soccer ball is sitting in the grass next to a tree, in flat 2d anime"
+  },
+  {
+    "src_vid_name": "dog-agility",
+    "vid_name": "dog-agility_anime_1",
+    "prompt": "a dog running through a field of poles, in flat 2d anime"
+  },
+  {
+    "src_vid_name": "gold-fish",
+    "vid_name": "gold-fish_anime_0",
+    "prompt": "goldfish in aquarium, in flat 2d anime"
+  },
+  {
+    "src_vid_name": "tennis",
+    "vid_name": "tennis_anime_0",
+    "prompt": "a man holding a tennis racket on a tennis court, in flat 2d anime"
+  },
+  {
+    "src_vid_name": "walking",
+    "vid_name": "walking_anime_1",
+    "prompt": "a man taking a selfie with a woman on a street, in flat 2d anime"
+  },
+  {
+    "src_vid_name": "tennis-vest",
+    "vid_name": "tennis-vest_anime_1",
+    "prompt": "a man holding a tennis racket on a tennis court, in flat 2d anime"
+  },
+  {
+    "src_vid_name": "flamingo",
+    "vid_name": "flamingo_anime_0",
+    "prompt": "a group of flamingos standing in the water, in flat 2d anime"
+  },
+  {
+    "src_vid_name": "sheep",
+    "vid_name": "sheep_anime_0",
+    "prompt": "a group of sheep and a baby lamb in a field, in flat 2d anime"
+  },
+  {
+    "src_vid_name": "guitar-violin",
+    "vid_name": "guitar-violin_anime_1",
+    "prompt": "two men playing violin and guitar in a room, in flat 2d anime"
+  },
+  {
+    "src_vid_name": "pigs",
+    "vid_name": "pigs_chineseink_0",
+    "prompt": "A Chinese ink painting of a group of pigs are standing on the ground"
+  },
+  {
+    "src_vid_name": "gold-fish",
+    "vid_name": "gold-fish_chineseink_0",
+    "prompt": "A Chinese ink painting of goldfish in aquarium"
+  },
+  {
+    "src_vid_name": "mallard-water",
+    "vid_name": "mallard-water_chineseink_1",
+    "prompt": "A Chinese ink painting of a duck swimming in a pond with some trees"
+  },
+  {
+    "src_vid_name": "guitar-violin",
+    "vid_name": "guitar-violin_chineseink_0",
+    "prompt": "A Chinese ink painting of two men playing violin and guitar in a room"
+  },
+  {
+    "src_vid_name": "pigs",
+    "vid_name": "pigs_edit_0canny",
+    "prompt": "A group of cows are standing on the ground."
+  },
+  {
+    "src_vid_name": "dog-agility",
+    "vid_name": "dog-agility_edit_1canny",
+    "prompt": "A Corgi running through a field of poles."
+  },
+  {
+    "src_vid_name": "dog-agility",
+    "vid_name": "dog-agility_edit_2canny",
+    "prompt": "A Husky running through a field of poles."
+  },
+  {
+    "src_vid_name": "mallard-water",
+    "vid_name": "mallard-water_edit_0canny",
+    "prompt": "A flamingo swimming in a pond with some trees."
+  },
+  {
+    "src_vid_name": "mallard-water",
+    "vid_name": "mallard-water_edit_1canny",
+    "prompt": "A swan swimming in a pond with some trees."
+  },
+  {
+    "src_vid_name": "dogs-jump",
+    "vid_name": "dogs-jump_edit_1canny",
+    "prompt": "A woman is standing in a field with two tigers."
+  },
+  {
+    "src_vid_name": "dogs-jump",
+    "vid_name": "dogs-jump_edit_2canny",
+    "prompt": "A woman is standing in a field with two leopards."
+  },
+  {
+    "src_vid_name": "dogs-jump",
+    "vid_name": "dogs-jump_edit_5canny",
+    "prompt": "A woman is standing in a field with two dogs in front of the Egyptian pyramids."
+  },
+  {
+    "src_vid_name": "gold-fish",
+    "vid_name": "gold-fish_edit_4depth",
+    "prompt": "Goldfish in an aquarium surrounded by colorful coral reefs."
+  },
+  {
+    "src_vid_name": "sheep",
+    "vid_name": "sheep_edit_0depth",
+    "prompt": "A group of cows and a baby calf in a field."
+  },
+  {
+    "src_vid_name": "breakdance-flare",
+    "vid_name": "breakdance-flare_impressionist_1",
+    "prompt": "An impressionist painting of a man doing a handstand on the street"
+  },
+  {
+    "src_vid_name": "mallard-water",
+    "vid_name": "mallard-water_impressionist_0",
+    "prompt": "An impressionist painting of a duck swimming in a pond with some trees"
+  },
+  {
+    "src_vid_name": "breakdance",
+    "vid_name": "breakdance_impressionist_0",
+    "prompt": "An impressionist painting of a man doing a handstand on a brick wall"
+  },
+  {
+    "src_vid_name": "sheep",
+    "vid_name": "sheep_impressionist_1",
+    "prompt": "An impressionist painting of a group of sheep and a baby lamb in a field"
+  },
+  {
+    "src_vid_name": "guitar-violin",
+    "vid_name": "guitar-violin_impressionist_1",
+    "prompt": "An impressionist painting of two men playing violin and guitar in a room"
+  },
+  {
+    "src_vid_name": "dancing",
+    "vid_name": "dancing_impressionist_1",
+    "prompt": "An impressionist painting of a group of people dancing in the street"
+  },
+  {
+    "src_vid_name": "soccerball",
+    "vid_name": "soccerball_oilpainting_0",
+    "prompt": "An oil painting of a soccer ball is sitting in the grass next to a tree"
+  },
+  {
+    "src_vid_name": "dog-agility",
+    "vid_name": "dog-agility_oilpainting_1",
+    "prompt": "An oil painting of a dog running through a field of poles"
+  },
+  {
+    "src_vid_name": "gold-fish",
+    "vid_name": "gold-fish_oilpainting_1",
+    "prompt": "An oil painting of goldfish in aquarium"
+  },
+  {
+    "src_vid_name": "salsa",
+    "vid_name": "salsa_oilpainting_1",
+    "prompt": "An oil painting of a group of people dancing on a street"
+  },
+  {
+    "src_vid_name": "soccerball",
+    "vid_name": "soccerball_pixelart_1",
+    "prompt": "A pixel art of a soccer ball is sitting in the grass next to a tree"
+  },
+  {
+    "src_vid_name": "pigs",
+    "vid_name": "pigs_pixelart_0",
+    "prompt": "A pixel art of a group of pigs are standing on the ground"
+  },
+  {
+    "src_vid_name": "dog-agility",
+    "vid_name": "dog-agility_pixelart_1",
+    "prompt": "A pixel art of a dog running through a field of poles"
+  },
+  {
+    "src_vid_name": "elephant",
+    "vid_name": "elephant_pixelart_0",
+    "prompt": "A pixel art of a large elephant standing in a dirt area"
+  },
+  {
+    "src_vid_name": "breakdance-flare",
+    "vid_name": "breakdance-flare_pixelart_0",
+    "prompt": "A pixel art of a man doing a handstand on the street"
+  },
+  {
+    "src_vid_name": "gold-fish",
+    "vid_name": "gold-fish_pixelart_1",
+    "prompt": "A pixel art of goldfish in aquarium"
+  },
+  {
+    "src_vid_name": "lindy-hop",
+    "vid_name": "lindy-hop_pixelart_0",
+    "prompt": "A pixel art of a group of people dancing in a dance studio"
+  },
+  {
+    "src_vid_name": "flamingo",
+    "vid_name": "flamingo_pixelart_1",
+    "prompt": "A pixel art of a group of flamingos standing in the water"
+  },
+  {
+    "src_vid_name": "breakdance",
+    "vid_name": "breakdance_pixelart_1",
+    "prompt": "A pixel art of a man doing a handstand on a brick wall"
+  },
+  {
+    "src_vid_name": "sheep",
+    "vid_name": "sheep_pixelart_0",
+    "prompt": "A pixel art of a group of sheep and a baby lamb in a field"
+  },
+  {
+    "src_vid_name": "guitar-violin",
+    "vid_name": "guitar-violin_pixelart_1",
+    "prompt": "A pixel art of two men playing violin and guitar in a room"
+  },
+  {
+    "src_vid_name": "guitar-violin",
+    "vid_name": "guitar-violin_sketch_1",
+    "prompt": "A pencil sketch of two men playing violin and guitar in a room"
+  },
+  {
+    "src_vid_name": "dog-agility",
+    "vid_name": "dog-agility_ukiyoe_1",
+    "prompt": "Ukiyo-e Art - a dog running through a field of poles"
+  },
+  {
+    "src_vid_name": "gold-fish",
+    "vid_name": "gold-fish_ukiyoe_1",
+    "prompt": "Ukiyo-e Art - goldfish in aquarium"
+  },
+  {
+    "src_vid_name": "tennis",
+    "vid_name": "tennis_ukiyoe_0",
+    "prompt": "Ukiyo-e Art - a man holding a tennis racket on a tennis court"
+  },
+  {
+    "src_vid_name": "tennis-vest",
+    "vid_name": "tennis-vest_ukiyoe_0",
+    "prompt": "Ukiyo-e Art - a man holding a tennis racket on a tennis court"
+  },
+  {
+    "src_vid_name": "flamingo",
+    "vid_name": "flamingo_ukiyoe_0",
+    "prompt": "Ukiyo-e Art - a group of flamingos standing in the water"
+  },
+  {
+    "src_vid_name": "guitar-violin",
+    "vid_name": "guitar-violin_ukiyoe_0",
+    "prompt": "Ukiyo-e Art - two men playing violin and guitar in a room"
+  },
+  {
+    "src_vid_name": "dancing",
+    "vid_name": "dancing_ukiyoe_1",
+    "prompt": "Ukiyo-e Art - a group of people dancing in the street"
+  },
+  {
+    "src_vid_name": "salsa",
+    "vid_name": "salsa_ukiyoe_0",
+    "prompt": "Ukiyo-e Art - a group of people dancing on a street"
+  },
+  {
+    "src_vid_name": "soccerball",
+    "vid_name": "soccerball_van_gogh_1",
+    "prompt": "A Van Gogh style painting of a soccer ball is sitting in the grass next to a tree"
+  },
+  {
+    "src_vid_name": "pigs",
+    "vid_name": "pigs_van_gogh_1",
+    "prompt": "A Van Gogh style painting of a group of pigs are standing on the ground"
+  },
+  {
+    "src_vid_name": "dog-agility",
+    "vid_name": "dog-agility_van_gogh_0",
+    "prompt": "A Van Gogh style painting of a dog running through a field of poles"
+  },
+  {
+    "src_vid_name": "breakdance-flare",
+    "vid_name": "breakdance-flare_van_gogh_0",
+    "prompt": "A Van Gogh style painting of a man doing a handstand on the street"
+  },
+  {
+    "src_vid_name": "tennis",
+    "vid_name": "tennis_van_gogh_1",
+    "prompt": "A Van Gogh style painting of a man holding a tennis racket on a tennis court"
+  },
+  {
+    "src_vid_name": "walking",
+    "vid_name": "walking_van_gogh_0",
+    "prompt": "A Van Gogh style painting of a man taking a selfie with a woman on a street"
+  },
+  {
+    "src_vid_name": "mallard-water",
+    "vid_name": "mallard-water_van_gogh_0",
+    "prompt": "A Van Gogh style painting of a duck swimming in a pond with some trees"
+  },
+  {
+    "src_vid_name": "lindy-hop",
+    "vid_name": "lindy-hop_van_gogh_1",
+    "prompt": "A Van Gogh style painting of a group of people dancing in a dance studio"
+  },
+  {
+    "src_vid_name": "tennis-vest",
+    "vid_name": "tennis-vest_van_gogh_0",
+    "prompt": "A Van Gogh style painting of a man holding a tennis racket on a tennis court"
+  },
+  {
+    "src_vid_name": "flamingo",
+    "vid_name": "flamingo_van_gogh_1",
+    "prompt": "A Van Gogh style painting of a group of flamingos standing in the water"
+  },
+  {
+    "src_vid_name": "breakdance",
+    "vid_name": "breakdance_van_gogh_1",
+    "prompt": "A Van Gogh style painting of a man doing a handstand on a brick wall"
+  },
+  {
+    "src_vid_name": "dogs-jump",
+    "vid_name": "dogs-jump_van_gogh_0",
+    "prompt": "A Van Gogh style painting of a woman is standing in a field with two dogs"
+  },
+  {
+    "src_vid_name": "guitar-violin",
+    "vid_name": "guitar-violin_van_gogh_0",
+    "prompt": "A Van Gogh style painting of two men playing violin and guitar in a room"
+  },
+  {
+    "src_vid_name": "salsa",
+    "vid_name": "salsa_van_gogh_0",
+    "prompt": "A Van Gogh style painting of a group of people dancing on a street"
+  }
+]

@@ -1,0 +1,835 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video Comparison</title>
+    <style>
+        .video-container { display: none; }
+        .active { display: block; }
+    </style>
+    <script>
+        let currentVideoIndex = -1;
+        let responses = {};
+
+        function collectResponses() {
+            const videoName = document.querySelectorAll('.video-container')[currentVideoIndex].getAttribute('data-video');
+            responses[videoName] = {
+                consistency: document.querySelector(`input[name="${videoName}_consistency"]:checked`) ? document.querySelector(`input[name="${videoName}_consistency"]:checked`).value : 'No response',
+                alignment: document.querySelector(`input[name="${videoName}_alignment"]:checked`) ? document.querySelector(`input[name="${videoName}_alignment"]:checked`).value : 'No response',
+                preference: document.querySelector(`input[name="${videoName}_preference"]:checked`) ? document.querySelector(`input[name="${videoName}_preference"]:checked`).value : 'No response',
+            };
+        }
+
+        function displayResults() {
+            let results = 'Comparison Results:\n';
+            for (const [video, response] of Object.entries(responses)) {
+                results += `${video}: Consistency - ${response.consistency}, Alignment - ${response.alignment}, Preference - ${response.preference}
+`;
+            }
+            alert(results);
+
+            // Create a blob from the responses object
+            const blob = new Blob([JSON.stringify(responses, null, 2)], { type: 'application/json' });
+
+            // Create a link element
+            const a = document.createElement('a');
+
+            // Set the download attribute to the name of the file you want to download
+            a.download = 'results.json';
+
+            // Create a URL for the blob
+            a.href = window.URL.createObjectURL(blob);
+
+            // Append the link to the body
+            document.body.appendChild(a);
+
+            // Programmatically click the link to trigger the download
+            a.click();
+
+            // Remove the link from the body
+            document.body.removeChild(a);
+        }
+
+        function nextVideo() {
+            if (currentVideoIndex >= 0) {
+                collectResponses();
+            }
+            currentVideoIndex++;
+            const containers = document.querySelectorAll('.video-container');
+            if (currentVideoIndex < containers.length) {
+                containers[currentVideoIndex].style.display = 'block';
+                if (currentVideoIndex > 0) containers[currentVideoIndex - 1].style.display = 'none';
+                containers[currentVideoIndex].querySelectorAll('video').forEach(video => video.play());
+            } else {
+                displayResults();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            nextVideo(); // Show the first video on load
+        });
+    </script>
+</head>
+<body>
+    <h1>Video Comparison</h1>
+
+    <div class="video-container" data-video="breakdance-flare_pixelart_0.mp4">
+        <h2>breakdance-flare_pixelart_0.mp4</h2>
+        <p><strong>Prompt:</strong> A pixel art of a man doing a handstand on the street</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/breakdance-flare_pixelart_0.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/breakdance-flare_pixelart_0.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="breakdance-flare_pixelart_0.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="breakdance-flare_pixelart_0.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="breakdance-flare_pixelart_0.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="breakdance-flare_pixelart_0.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="breakdance-flare_pixelart_0.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="breakdance-flare_pixelart_0.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="breakdance-flare_pixelart_0.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="breakdance-flare_pixelart_0.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="breakdance-flare_pixelart_0.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="breakdance-flare_van_gogh_0.mp4">
+        <h2>breakdance-flare_van_gogh_0.mp4</h2>
+        <p><strong>Prompt:</strong> A Van Gogh style painting of a man doing a handstand on the street</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/breakdance-flare_van_gogh_0.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/breakdance-flare_van_gogh_0.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="breakdance-flare_van_gogh_0.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="breakdance-flare_van_gogh_0.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="breakdance-flare_van_gogh_0.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="breakdance-flare_van_gogh_0.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="breakdance-flare_van_gogh_0.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="breakdance-flare_van_gogh_0.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="breakdance-flare_van_gogh_0.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="breakdance-flare_van_gogh_0.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="breakdance-flare_van_gogh_0.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="dancing_ukiyoe_1.mp4">
+        <h2>dancing_ukiyoe_1.mp4</h2>
+        <p><strong>Prompt:</strong> Ukiyo-e Art - a group of people dancing in the street</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/dancing_ukiyoe_1.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/dancing_ukiyoe_1.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="dancing_ukiyoe_1.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="dancing_ukiyoe_1.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="dancing_ukiyoe_1.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="dancing_ukiyoe_1.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="dancing_ukiyoe_1.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="dancing_ukiyoe_1.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="dancing_ukiyoe_1.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="dancing_ukiyoe_1.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="dancing_ukiyoe_1.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="dog-agility_anime_1.mp4">
+        <h2>dog-agility_anime_1.mp4</h2>
+        <p><strong>Prompt:</strong> a dog running through a field of poles, in flat 2d anime</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/dog-agility_anime_1.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/dog-agility_anime_1.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="dog-agility_anime_1.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="dog-agility_anime_1.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="dog-agility_anime_1.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="dog-agility_anime_1.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="dog-agility_anime_1.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="dog-agility_anime_1.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="dog-agility_anime_1.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="dog-agility_anime_1.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="dog-agility_anime_1.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="dog-agility_oilpainting_1.mp4">
+        <h2>dog-agility_oilpainting_1.mp4</h2>
+        <p><strong>Prompt:</strong> An oil painting of a dog running through a field of poles</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/dog-agility_oilpainting_1.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/dog-agility_oilpainting_1.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="dog-agility_oilpainting_1.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="dog-agility_oilpainting_1.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="dog-agility_oilpainting_1.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="dog-agility_oilpainting_1.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="dog-agility_oilpainting_1.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="dog-agility_oilpainting_1.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="dog-agility_oilpainting_1.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="dog-agility_oilpainting_1.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="dog-agility_oilpainting_1.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="dog-agility_pixelart_1.mp4">
+        <h2>dog-agility_pixelart_1.mp4</h2>
+        <p><strong>Prompt:</strong> A pixel art of a dog running through a field of poles</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/dog-agility_pixelart_1.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/dog-agility_pixelart_1.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="dog-agility_pixelart_1.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="dog-agility_pixelart_1.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="dog-agility_pixelart_1.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="dog-agility_pixelart_1.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="dog-agility_pixelart_1.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="dog-agility_pixelart_1.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="dog-agility_pixelart_1.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="dog-agility_pixelart_1.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="dog-agility_pixelart_1.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="dog-agility_van_gogh_0.mp4">
+        <h2>dog-agility_van_gogh_0.mp4</h2>
+        <p><strong>Prompt:</strong> A Van Gogh style painting of a dog running through a field of poles</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/dog-agility_van_gogh_0.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/dog-agility_van_gogh_0.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="dog-agility_van_gogh_0.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="dog-agility_van_gogh_0.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="dog-agility_van_gogh_0.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="dog-agility_van_gogh_0.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="dog-agility_van_gogh_0.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="dog-agility_van_gogh_0.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="dog-agility_van_gogh_0.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="dog-agility_van_gogh_0.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="dog-agility_van_gogh_0.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="dogs-jump_edit_1canny.mp4">
+        <h2>dogs-jump_edit_1canny.mp4</h2>
+        <p><strong>Prompt:</strong> A woman is standing in a field with two tigers.</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/dogs-jump_edit_1canny.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/dogs-jump_edit_1canny.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="dogs-jump_edit_1canny.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="dogs-jump_edit_1canny.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="dogs-jump_edit_1canny.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="dogs-jump_edit_1canny.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="dogs-jump_edit_1canny.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="dogs-jump_edit_1canny.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="dogs-jump_edit_1canny.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="dogs-jump_edit_1canny.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="dogs-jump_edit_1canny.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="dogs-jump_edit_2canny.mp4">
+        <h2>dogs-jump_edit_2canny.mp4</h2>
+        <p><strong>Prompt:</strong> A woman is standing in a field with two leopards.</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/dogs-jump_edit_2canny.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/dogs-jump_edit_2canny.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="dogs-jump_edit_2canny.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="dogs-jump_edit_2canny.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="dogs-jump_edit_2canny.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="dogs-jump_edit_2canny.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="dogs-jump_edit_2canny.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="dogs-jump_edit_2canny.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="dogs-jump_edit_2canny.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="dogs-jump_edit_2canny.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="dogs-jump_edit_2canny.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="dogs-jump_edit_5canny.mp4">
+        <h2>dogs-jump_edit_5canny.mp4</h2>
+        <p><strong>Prompt:</strong> A woman is standing in a field with two dogs in front of the Egyptian pyramids.</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/dogs-jump_edit_5canny.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/dogs-jump_edit_5canny.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="dogs-jump_edit_5canny.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="dogs-jump_edit_5canny.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="dogs-jump_edit_5canny.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="dogs-jump_edit_5canny.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="dogs-jump_edit_5canny.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="dogs-jump_edit_5canny.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="dogs-jump_edit_5canny.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="dogs-jump_edit_5canny.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="dogs-jump_edit_5canny.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="elephant_pixelart_0.mp4">
+        <h2>elephant_pixelart_0.mp4</h2>
+        <p><strong>Prompt:</strong> A pixel art of a large elephant standing in a dirt area</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/elephant_pixelart_0.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/elephant_pixelart_0.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="elephant_pixelart_0.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="elephant_pixelart_0.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="elephant_pixelart_0.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="elephant_pixelart_0.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="elephant_pixelart_0.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="elephant_pixelart_0.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="elephant_pixelart_0.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="elephant_pixelart_0.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="elephant_pixelart_0.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="flamingo_anime_0.mp4">
+        <h2>flamingo_anime_0.mp4</h2>
+        <p><strong>Prompt:</strong> a group of flamingos standing in the water, in flat 2d anime</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/flamingo_anime_0.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/flamingo_anime_0.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="flamingo_anime_0.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="flamingo_anime_0.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="flamingo_anime_0.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="flamingo_anime_0.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="flamingo_anime_0.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="flamingo_anime_0.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="flamingo_anime_0.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="flamingo_anime_0.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="flamingo_anime_0.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="flamingo_ukiyoe_0.mp4">
+        <h2>flamingo_ukiyoe_0.mp4</h2>
+        <p><strong>Prompt:</strong> Ukiyo-e Art - a group of flamingos standing in the water</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/flamingo_ukiyoe_0.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/flamingo_ukiyoe_0.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="flamingo_ukiyoe_0.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="flamingo_ukiyoe_0.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="flamingo_ukiyoe_0.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="flamingo_ukiyoe_0.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="flamingo_ukiyoe_0.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="flamingo_ukiyoe_0.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="flamingo_ukiyoe_0.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="flamingo_ukiyoe_0.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="flamingo_ukiyoe_0.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="gold-fish_anime_0.mp4">
+        <h2>gold-fish_anime_0.mp4</h2>
+        <p><strong>Prompt:</strong> goldfish in aquarium, in flat 2d anime</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/gold-fish_anime_0.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/gold-fish_anime_0.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="gold-fish_anime_0.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="gold-fish_anime_0.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="gold-fish_anime_0.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="gold-fish_anime_0.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="gold-fish_anime_0.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="gold-fish_anime_0.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="gold-fish_anime_0.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="gold-fish_anime_0.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="gold-fish_anime_0.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="gold-fish_chineseink_0.mp4">
+        <h2>gold-fish_chineseink_0.mp4</h2>
+        <p><strong>Prompt:</strong> A Chinese ink painting of goldfish in aquarium</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/gold-fish_chineseink_0.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/gold-fish_chineseink_0.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="gold-fish_chineseink_0.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="gold-fish_chineseink_0.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="gold-fish_chineseink_0.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="gold-fish_chineseink_0.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="gold-fish_chineseink_0.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="gold-fish_chineseink_0.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="gold-fish_chineseink_0.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="gold-fish_chineseink_0.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="gold-fish_chineseink_0.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="gold-fish_edit_4depth.mp4">
+        <h2>gold-fish_edit_4depth.mp4</h2>
+        <p><strong>Prompt:</strong> Goldfish in an aquarium surrounded by colorful coral reefs.</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/gold-fish_edit_4depth.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/gold-fish_edit_4depth.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="gold-fish_edit_4depth.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="gold-fish_edit_4depth.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="gold-fish_edit_4depth.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="gold-fish_edit_4depth.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="gold-fish_edit_4depth.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="gold-fish_edit_4depth.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="gold-fish_edit_4depth.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="gold-fish_edit_4depth.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="gold-fish_edit_4depth.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="gold-fish_oilpainting_1.mp4">
+        <h2>gold-fish_oilpainting_1.mp4</h2>
+        <p><strong>Prompt:</strong> An oil painting of goldfish in aquarium</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/gold-fish_oilpainting_1.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/gold-fish_oilpainting_1.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="gold-fish_oilpainting_1.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="gold-fish_oilpainting_1.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="gold-fish_oilpainting_1.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="gold-fish_oilpainting_1.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="gold-fish_oilpainting_1.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="gold-fish_oilpainting_1.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="gold-fish_oilpainting_1.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="gold-fish_oilpainting_1.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="gold-fish_oilpainting_1.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="guitar-violin_anime_1.mp4">
+        <h2>guitar-violin_anime_1.mp4</h2>
+        <p><strong>Prompt:</strong> two men playing violin and guitar in a room, in flat 2d anime</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/guitar-violin_anime_1.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/guitar-violin_anime_1.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="guitar-violin_anime_1.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="guitar-violin_anime_1.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="guitar-violin_anime_1.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="guitar-violin_anime_1.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="guitar-violin_anime_1.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="guitar-violin_anime_1.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="guitar-violin_anime_1.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="guitar-violin_anime_1.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="guitar-violin_anime_1.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="guitar-violin_ukiyoe_0.mp4">
+        <h2>guitar-violin_ukiyoe_0.mp4</h2>
+        <p><strong>Prompt:</strong> Ukiyo-e Art - two men playing violin and guitar in a room</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/guitar-violin_ukiyoe_0.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/guitar-violin_ukiyoe_0.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="guitar-violin_ukiyoe_0.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="guitar-violin_ukiyoe_0.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="guitar-violin_ukiyoe_0.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="guitar-violin_ukiyoe_0.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="guitar-violin_ukiyoe_0.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="guitar-violin_ukiyoe_0.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="guitar-violin_ukiyoe_0.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="guitar-violin_ukiyoe_0.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="guitar-violin_ukiyoe_0.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="pigs_chineseink_0.mp4">
+        <h2>pigs_chineseink_0.mp4</h2>
+        <p><strong>Prompt:</strong> A Chinese ink painting of a group of pigs are standing on the ground</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/pigs_chineseink_0.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/pigs_chineseink_0.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="pigs_chineseink_0.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="pigs_chineseink_0.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="pigs_chineseink_0.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="pigs_chineseink_0.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="pigs_chineseink_0.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="pigs_chineseink_0.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="pigs_chineseink_0.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="pigs_chineseink_0.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="pigs_chineseink_0.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="pigs_pixelart_0.mp4">
+        <h2>pigs_pixelart_0.mp4</h2>
+        <p><strong>Prompt:</strong> A pixel art of a group of pigs are standing on the ground</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/pigs_pixelart_0.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/pigs_pixelart_0.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="pigs_pixelart_0.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="pigs_pixelart_0.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="pigs_pixelart_0.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="pigs_pixelart_0.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="pigs_pixelart_0.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="pigs_pixelart_0.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="pigs_pixelart_0.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="pigs_pixelart_0.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="pigs_pixelart_0.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="pigs_van_gogh_1.mp4">
+        <h2>pigs_van_gogh_1.mp4</h2>
+        <p><strong>Prompt:</strong> A Van Gogh style painting of a group of pigs are standing on the ground</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/pigs_van_gogh_1.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/pigs_van_gogh_1.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="pigs_van_gogh_1.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="pigs_van_gogh_1.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="pigs_van_gogh_1.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="pigs_van_gogh_1.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="pigs_van_gogh_1.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="pigs_van_gogh_1.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="pigs_van_gogh_1.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="pigs_van_gogh_1.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="pigs_van_gogh_1.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="salsa_oilpainting_1.mp4">
+        <h2>salsa_oilpainting_1.mp4</h2>
+        <p><strong>Prompt:</strong> An oil painting of a group of people dancing on a street</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/salsa_oilpainting_1.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/salsa_oilpainting_1.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="salsa_oilpainting_1.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="salsa_oilpainting_1.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="salsa_oilpainting_1.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="salsa_oilpainting_1.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="salsa_oilpainting_1.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="salsa_oilpainting_1.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="salsa_oilpainting_1.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="salsa_oilpainting_1.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="salsa_oilpainting_1.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="salsa_ukiyoe_0.mp4">
+        <h2>salsa_ukiyoe_0.mp4</h2>
+        <p><strong>Prompt:</strong> Ukiyo-e Art - a group of people dancing on a street</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/salsa_ukiyoe_0.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/salsa_ukiyoe_0.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="salsa_ukiyoe_0.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="salsa_ukiyoe_0.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="salsa_ukiyoe_0.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="salsa_ukiyoe_0.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="salsa_ukiyoe_0.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="salsa_ukiyoe_0.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="salsa_ukiyoe_0.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="salsa_ukiyoe_0.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="salsa_ukiyoe_0.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="sheep_anime_0.mp4">
+        <h2>sheep_anime_0.mp4</h2>
+        <p><strong>Prompt:</strong> a group of sheep and a baby lamb in a field, in flat 2d anime</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/sheep_anime_0.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/sheep_anime_0.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="sheep_anime_0.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="sheep_anime_0.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="sheep_anime_0.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="sheep_anime_0.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="sheep_anime_0.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="sheep_anime_0.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="sheep_anime_0.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="sheep_anime_0.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="sheep_anime_0.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="sheep_edit_0depth.mp4">
+        <h2>sheep_edit_0depth.mp4</h2>
+        <p><strong>Prompt:</strong> A group of cows and a baby calf in a field.</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/sheep_edit_0depth.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/sheep_edit_0depth.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="sheep_edit_0depth.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="sheep_edit_0depth.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="sheep_edit_0depth.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="sheep_edit_0depth.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="sheep_edit_0depth.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="sheep_edit_0depth.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="sheep_edit_0depth.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="sheep_edit_0depth.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="sheep_edit_0depth.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="soccerball_anime_1.mp4">
+        <h2>soccerball_anime_1.mp4</h2>
+        <p><strong>Prompt:</strong> a soccer ball is sitting in the grass next to a tree, in flat 2d anime</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/soccerball_anime_1.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/soccerball_anime_1.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="soccerball_anime_1.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="soccerball_anime_1.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="soccerball_anime_1.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="soccerball_anime_1.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="soccerball_anime_1.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="soccerball_anime_1.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="soccerball_anime_1.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="soccerball_anime_1.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="soccerball_anime_1.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="soccerball_oilpainting_0.mp4">
+        <h2>soccerball_oilpainting_0.mp4</h2>
+        <p><strong>Prompt:</strong> An oil painting of a soccer ball is sitting in the grass next to a tree</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/soccerball_oilpainting_0.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/soccerball_oilpainting_0.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="soccerball_oilpainting_0.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="soccerball_oilpainting_0.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="soccerball_oilpainting_0.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="soccerball_oilpainting_0.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="soccerball_oilpainting_0.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="soccerball_oilpainting_0.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="soccerball_oilpainting_0.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="soccerball_oilpainting_0.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="soccerball_oilpainting_0.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="soccerball_pixelart_1.mp4">
+        <h2>soccerball_pixelart_1.mp4</h2>
+        <p><strong>Prompt:</strong> A pixel art of a soccer ball is sitting in the grass next to a tree</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/soccerball_pixelart_1.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/soccerball_pixelart_1.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="soccerball_pixelart_1.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="soccerball_pixelart_1.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="soccerball_pixelart_1.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="soccerball_pixelart_1.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="soccerball_pixelart_1.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="soccerball_pixelart_1.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="soccerball_pixelart_1.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="soccerball_pixelart_1.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="soccerball_pixelart_1.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="soccerball_van_gogh_1.mp4">
+        <h2>soccerball_van_gogh_1.mp4</h2>
+        <p><strong>Prompt:</strong> A Van Gogh style painting of a soccer ball is sitting in the grass next to a tree</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/soccerball_van_gogh_1.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/soccerball_van_gogh_1.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="soccerball_van_gogh_1.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="soccerball_van_gogh_1.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="soccerball_van_gogh_1.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="soccerball_van_gogh_1.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="soccerball_van_gogh_1.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="soccerball_van_gogh_1.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="soccerball_van_gogh_1.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="soccerball_van_gogh_1.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="soccerball_van_gogh_1.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="tennis-vest_anime_1.mp4">
+        <h2>tennis-vest_anime_1.mp4</h2>
+        <p><strong>Prompt:</strong> a man holding a tennis racket on a tennis court, in flat 2d anime</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/tennis-vest_anime_1.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/tennis-vest_anime_1.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="tennis-vest_anime_1.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="tennis-vest_anime_1.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="tennis-vest_anime_1.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="tennis-vest_anime_1.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="tennis-vest_anime_1.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="tennis-vest_anime_1.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="tennis-vest_anime_1.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="tennis-vest_anime_1.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="tennis-vest_anime_1.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="tennis-vest_ukiyoe_0.mp4">
+        <h2>tennis-vest_ukiyoe_0.mp4</h2>
+        <p><strong>Prompt:</strong> Ukiyo-e Art - a man holding a tennis racket on a tennis court</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/tennis-vest_ukiyoe_0.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/tennis-vest_ukiyoe_0.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="tennis-vest_ukiyoe_0.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="tennis-vest_ukiyoe_0.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="tennis-vest_ukiyoe_0.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="tennis-vest_ukiyoe_0.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="tennis-vest_ukiyoe_0.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="tennis-vest_ukiyoe_0.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="tennis-vest_ukiyoe_0.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="tennis-vest_ukiyoe_0.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="tennis-vest_ukiyoe_0.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="tennis_anime_0.mp4">
+        <h2>tennis_anime_0.mp4</h2>
+        <p><strong>Prompt:</strong> a man holding a tennis racket on a tennis court, in flat 2d anime</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/tennis_anime_0.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/tennis_anime_0.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="tennis_anime_0.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="tennis_anime_0.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="tennis_anime_0.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="tennis_anime_0.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="tennis_anime_0.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="tennis_anime_0.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="tennis_anime_0.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="tennis_anime_0.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="tennis_anime_0.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="tennis_van_gogh_1.mp4">
+        <h2>tennis_van_gogh_1.mp4</h2>
+        <p><strong>Prompt:</strong> A Van Gogh style painting of a man holding a tennis racket on a tennis court</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/tennis_van_gogh_1.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/tennis_van_gogh_1.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="tennis_van_gogh_1.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="tennis_van_gogh_1.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="tennis_van_gogh_1.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="tennis_van_gogh_1.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="tennis_van_gogh_1.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="tennis_van_gogh_1.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="tennis_van_gogh_1.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="tennis_van_gogh_1.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="tennis_van_gogh_1.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="walking_anime_1.mp4">
+        <h2>walking_anime_1.mp4</h2>
+        <p><strong>Prompt:</strong> a man taking a selfie with a woman on a street, in flat 2d anime</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/walking_anime_1.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/walking_anime_1.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="walking_anime_1.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="walking_anime_1.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="walking_anime_1.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="walking_anime_1.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="walking_anime_1.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="walking_anime_1.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="walking_anime_1.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="walking_anime_1.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="walking_anime_1.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <div class="video-container" data-video="walking_van_gogh_0.mp4">
+        <h2>walking_van_gogh_0.mp4</h2>
+        <p><strong>Prompt:</strong> A Van Gogh style painting of a man taking a selfie with a woman on a street</p>  <!-- Display the prompt here -->
+        <video controls autoplay muted loop src="codef/walking_van_gogh_0.mp4"></video>
+        <video controls autoplay muted loop src="StreamV2V/walking_van_gogh_0.mp4"></video>
+        <div>
+            <p>1. Which one is more consistent:</p>
+            <label><input type="radio" name="walking_van_gogh_0.mp4_consistency" value="A"> A</label>
+            <label><input type="radio" name="walking_van_gogh_0.mp4_consistency" value="B"> B</label>
+            <label><input type="radio" name="walking_van_gogh_0.mp4_consistency" value="Draw"> Draw</label>
+            <p>2. Which one aligns better with the prompt:</p>
+            <label><input type="radio" name="walking_van_gogh_0.mp4_alignment" value="A"> A</label>
+            <label><input type="radio" name="walking_van_gogh_0.mp4_alignment" value="B"> B</label>
+            <label><input type="radio" name="walking_van_gogh_0.mp4_alignment" value="Draw"> Draw</label>
+            <p>3. Which one do you think is better:</p>
+            <label><input type="radio" name="walking_van_gogh_0.mp4_preference" value="A"> A</label>
+            <label><input type="radio" name="walking_van_gogh_0.mp4_preference" value="B"> B</label>
+            <label><input type="radio" name="walking_van_gogh_0.mp4_preference" value="Draw"> Draw</label>
+        </div>
+    </div>
+    
+    <button onclick="nextVideo()">Next Video</button>
+</body>
+</html>

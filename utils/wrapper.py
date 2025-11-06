@@ -6,13 +6,13 @@ from typing import List, Literal, Optional, Union, Dict
 
 import numpy as np
 import torch
-from diffusers import AutoencoderTiny, StableDiffusionPipeline, StableDiffusionXLPipeline
+from diffusers import AutoencoderTiny, StableDiffusionPipeline, StableDiffusionXLPipeline, StableDiffusionInstructPix2PixPipeline,AutoPipelineForImage2Image
 from diffusers.models.attention_processor import XFormersAttnProcessor, AttnProcessor2_0
 from PIL import Image
 
-from streamv2v import StreamV2V
-from streamv2v.image_utils import postprocess_image
-from streamv2v.models.attention_processor import CachedSTXFormersAttnProcessor, CachedSTAttnProcessor2_0
+from src.streamv2v import StreamV2V
+from src.streamv2v.image_utils import postprocess_image
+from src.streamv2v.models.attention_processor import CachedSTXFormersAttnProcessor, CachedSTAttnProcessor2_0
 
 
 torch.set_grad_enabled(False)
@@ -203,10 +203,6 @@ class StreamV2VWrapper:
             engine_dir=engine_dir,
         )
 
-        if device_ids is not None:
-            self.stream.unet = torch.nn.DataParallel(
-                self.stream.unet, device_ids=device_ids
-            )
 
         if enable_similar_image_filter:
             self.stream.enable_similar_image_filter(similar_image_filter_threshold, similar_image_filter_max_skip_frame)
@@ -319,24 +315,35 @@ class StreamV2VWrapper:
             The generated image.
         """
         if prompt is not None:
+
             self.stream.update_prompt(prompt)
 
-        if isinstance(image, str) or isinstance(image, Image.Image):
-            image = self.preprocess_image(image)
 
+
+        if isinstance(image, str) or isinstance(image, Image.Image):
+
+            image = self.preprocess_image(image)
         image_tensor = self.stream(image)
         image = self.postprocess_image(image_tensor, output_type=self.output_type)
 
-        if self.use_safety_checker:
-            safety_checker_input = self.feature_extractor(
-                image, return_tensors="pt"
-            ).to(self.device)
-            _, has_nsfw_concept = self.safety_checker(
-                images=image_tensor.to(self.dtype),
-                clip_input=safety_checker_input.pixel_values.to(self.dtype),
-            )
-            image = self.nsfw_fallback_img if has_nsfw_concept[0] else image
 
+        if self.use_safety_checker:
+
+            safety_checker_input = self.feature_extractor(
+
+                image, return_tensors="pt"
+
+            ).to(self.device)
+
+            _, has_nsfw_concept = self.safety_checker(
+
+                images=image_tensor.to(self.dtype),
+
+                clip_input=safety_checker_input.pixel_values.to(self.dtype),
+
+            )
+
+            image = self.nsfw_fallback_img if has_nsfw_concept[0] else image
         return image
 
     def preprocess_image(self, image: Union[str, Image.Image]) -> torch.Tensor:
@@ -399,79 +406,15 @@ class StreamV2VWrapper:
         seed: int = 2,
         engine_dir: Optional[Union[str, Path]] = "engines",
     ) -> StreamV2V:
-        """
-        Loads the model.
-
-        This method does the following:
-
-        1. Loads the model from the model_id_or_path.
-        2. Loads and fuses the LCM-LoRA model from the lcm_lora_id if needed.
-        3. Loads the VAE model from the vae_id if needed.
-        4. Enables acceleration if needed.
-        5. Prepares the model for inference.
-        6. Load the safety checker if needed.
-
-        Parameters
-        ----------
-        model_id_or_path : str
-            The model id or path to load.
-        t_index_list : List[int]
-            The t_index_list to use for inference.
-        lora_dict : Optional[Dict[str, float]], optional
-            The lora_dict to load, by default None.
-            Keys are the LoRA names and values are the LoRA scales.
-            Example: {'LoRA_1' : 0.5 , 'LoRA_2' : 0.7 ,...}
-        lcm_lora_id : Optional[str], optional
-            The lcm_lora_id to load, by default None.
-        vae_id : Optional[str], optional
-            The vae_id to load, by default None.
-        acceleration : Literal["none", "xfomers", "sfast", "tensorrt"], optional
-            The acceleration method, by default "tensorrt".
-        warmup : int, optional
-            The number of warmup steps to perform, by default 10.
-        do_add_noise : bool, optional
-            Whether to add noise for following denoising steps or not,
-            by default True.
-        use_lcm_lora : bool, optional
-            Whether to use LCM-LoRA or not, by default True.
-        use_tiny_vae : bool, optional
-            Whether to use TinyVAE or not, by default True.
-        cfg_type : Literal["none", "full", "self", "initialize"],
-        optional
-            The cfg_type for img2img mode, by default "        seed : int, optional
-".
-        seed : int, optional
-            The seed, by default 2.
-
-        Returns
-        -------
-        StreamV2V
-            The loaded model.
-        """
 
         # Choose the pipeline based on the flag
-        pipeline_cls = StableDiffusionXLPipeline if self.sd_xl else StableDiffusionPipeline
+        # pipeline_cls = StableDiffusionXLPipeline if self.sd_xl else StableDiffusionPipeline
+        # pipe = pipeline_cls.from_pretrained(model_id_or_path).to(device=self.device, dtype=self.dtype)
 
-        try:
-            # Attempt to load the model from a local directory
-            pipe = pipeline_cls.from_pretrained(model_id_or_path).to(device=self.device, dtype=self.dtype)
-        except ValueError:
-            # If the model is not found locally, load from Hugging Face
-            try:
-                pipe = pipeline_cls.from_single_file(model_id_or_path).to(device=self.device, dtype=self.dtype)
-            except Exception as e:
-                logging.error(f"Failed to load model from Hugging Face: {e}")
-                sys.exit("Model load has failed from both local and Hugging Face sources.")
-        except Exception as e:
-            # Handle unexpected errors
-            logging.error(f"Unexpected error occurred: {e}")
-            traceback.print_exc()
-            sys.exit("Model load has failed due to an unexpected error.")
 
-        if self.sd_xl:
-            # Avoid error if "text_embeds" not in added_cond_kwargs: TypeError: argument of type 'NoneType' is not iterable
-            # https://github.com/huggingface/diffusers/issues/4649
-            pipe.unet.config.addition_embed_type = None
+        pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
+            "timbrooks/instruct-pix2pix").to(device=self.device, dtype=self.dtype)
+
             
         stream = StreamV2V(
             pipe=pipe,
@@ -506,6 +449,7 @@ class StreamV2VWrapper:
                     device=pipe.device, dtype=pipe.dtype
                 )
             else:
+                # breakpoint()
                 stream.vae = AutoencoderTiny.from_pretrained("madebyollin/taesd").to(
                     device=pipe.device, dtype=pipe.dtype
                 )
@@ -514,6 +458,7 @@ class StreamV2VWrapper:
             if acceleration == "xformers":
                 stream.pipe.enable_xformers_memory_efficient_attention()
                 if self.use_cached_attn:
+                    print("here")
                     attn_processors = stream.pipe.unet.attn_processors
                     new_attn_processors = {}
                     for key, attn_processor in attn_processors.items():
@@ -531,177 +476,15 @@ class StreamV2VWrapper:
                                                                                  use_grid=self.use_grid)
                     stream.pipe.unet.set_attn_processor(new_attn_processors)
 
-            if acceleration == "tensorrt":
-                if self.use_cached_attn:
-                    raise NotImplementedError("TensorRT seems not support the costom attention_processor")
-                else:
-                    stream.pipe.enable_xformers_memory_efficient_attention()
-                    if self.use_cached_attn:
-                        attn_processors = stream.pipe.unet.attn_processors
-                        new_attn_processors = {}
-                        for key, attn_processor in attn_processors.items():
-                            assert isinstance(attn_processor, XFormersAttnProcessor), \
-                                "We only replace 'XFormersAttnProcessor' to 'CachedSTXFormersAttnProcessor'"
-                            new_attn_processors[key] = CachedSTXFormersAttnProcessor(name=key,
-                                                                                    use_feature_injection=self.use_feature_injection,
-                                                                                    feature_injection_strength=self.feature_injection_strength,
-                                                                                    feature_similarity_threshold=self.feature_similarity_threshold,
-                                                                                    interval=self.cache_interval, 
-                                                                                    max_frames=self.cache_maxframes,
-                                                                                    use_tome_cache=self.use_tome_cache,
-                                                                                    tome_metric=self.tome_metric,
-                                                                                    tome_ratio=self.tome_ratio,
-                                                                                    use_grid=self.use_grid)
-                        stream.pipe.unet.set_attn_processor(new_attn_processors)
-
-                from polygraphy import cuda
-                from streamv2v.acceleration.tensorrt import (
-                    TorchVAEEncoder,
-                    compile_unet,
-                    compile_vae_decoder,
-                    compile_vae_encoder,
-                )
-                from streamv2v.acceleration.tensorrt.engine import (
-                    AutoencoderKLEngine,
-                    UNet2DConditionModelEngine,
-                )
-                from streamv2v.acceleration.tensorrt.models import (
-                    VAE,
-                    UNet,
-                    VAEEncoder,
-                )
-
-                def create_prefix(
-                    model_id_or_path: str,
-                    max_batch_size: int,
-                    min_batch_size: int,
-                ):
-                    maybe_path = Path(model_id_or_path)
-                    if maybe_path.exists():
-                        return f"{maybe_path.stem}--lcm_lora-{use_lcm_lora}--tiny_vae-{use_tiny_vae}--max_batch-{max_batch_size}--min_batch-{min_batch_size}--cache--{self.use_cached_attn}--mode-{self.mode}"
-                    else:
-                        return f"{model_id_or_path}--lcm_lora-{use_lcm_lora}--tiny_vae-{use_tiny_vae}--max_batch-{max_batch_size}--min_batch-{min_batch_size}--cache--{self.use_cached_attn}--mode-{self.mode}"
-
-                engine_dir = Path(engine_dir)
-                unet_path = os.path.join(
-                    engine_dir,
-                    create_prefix(
-                        model_id_or_path=model_id_or_path,
-                        max_batch_size=stream.trt_unet_batch_size,
-                        min_batch_size=stream.trt_unet_batch_size,
-                    ),
-                    "unet.engine",
-                )
-                vae_encoder_path = os.path.join(
-                    engine_dir,
-                    create_prefix(
-                        model_id_or_path=model_id_or_path,
-                        max_batch_size=stream.frame_bff_size,
-                        min_batch_size=stream.frame_bff_size,
-                    ),
-                    "vae_encoder.engine",
-                )
-                vae_decoder_path = os.path.join(
-                    engine_dir,
-                    create_prefix(
-                        model_id_or_path=model_id_or_path,
-                        max_batch_size=stream.frame_bff_size,
-                        min_batch_size=stream.frame_bff_size,
-                    ),
-                    "vae_decoder.engine",
-                )
-
-                if not os.path.exists(unet_path):
-                    os.makedirs(os.path.dirname(unet_path), exist_ok=True)
-                    unet_model = UNet(
-                        fp16=True,
-                        device=stream.device,
-                        max_batch_size=stream.trt_unet_batch_size,
-                        min_batch_size=stream.trt_unet_batch_size,
-                        embedding_dim=stream.text_encoder.config.hidden_size,
-                        unet_dim=stream.unet.config.in_channels,
-                    )
-                    compile_unet(
-                        stream.unet,
-                        unet_model,
-                        unet_path + ".onnx",
-                        unet_path + ".opt.onnx",
-                        unet_path,
-                        opt_batch_size=stream.trt_unet_batch_size,
-                    )
-
-                if not os.path.exists(vae_decoder_path):
-                    os.makedirs(os.path.dirname(vae_decoder_path), exist_ok=True)
-                    stream.vae.forward = stream.vae.decode
-                    vae_decoder_model = VAE(
-                        device=stream.device,
-                        max_batch_size=stream.frame_bff_size,
-                        min_batch_size=stream.frame_bff_size,
-                    )
-                    compile_vae_decoder(
-                        stream.vae,
-                        vae_decoder_model,
-                        vae_decoder_path + ".onnx",
-                        vae_decoder_path + ".opt.onnx",
-                        vae_decoder_path,
-                        opt_batch_size=stream.frame_bff_size,
-                    )
-                    delattr(stream.vae, "forward")
-
-                if not os.path.exists(vae_encoder_path):
-                    os.makedirs(os.path.dirname(vae_encoder_path), exist_ok=True)
-                    vae_encoder = TorchVAEEncoder(stream.vae).to(torch.device("cuda"))
-                    vae_encoder_model = VAEEncoder(
-                        device=stream.device,
-                        max_batch_size=stream.frame_bff_size,
-                        min_batch_size=stream.frame_bff_size,
-                    )
-                    compile_vae_encoder(
-                        vae_encoder,
-                        vae_encoder_model,
-                        vae_encoder_path + ".onnx",
-                        vae_encoder_path + ".opt.onnx",
-                        vae_encoder_path,
-                        opt_batch_size=stream.frame_bff_size,
-                    )
-
-                cuda_steram = cuda.Stream()
-
-                vae_config = stream.vae.config
-                vae_dtype = stream.vae.dtype
-
-                stream.unet = UNet2DConditionModelEngine(
-                    unet_path, cuda_steram, use_cuda_graph=False
-                )
-                stream.vae = AutoencoderKLEngine(
-                    vae_encoder_path,
-                    vae_decoder_path,
-                    cuda_steram,
-                    stream.pipe.vae_scale_factor,
-                    use_cuda_graph=False,
-                )
-                setattr(stream.vae, "config", vae_config)
-                setattr(stream.vae, "dtype", vae_dtype)
-
-                gc.collect()
-                torch.cuda.empty_cache()
-
-                print("TensorRT acceleration enabled.")
-            if acceleration == "sfast":
-                if self.use_cached_attn:
-                    raise NotImplementedError
-                from streamv2v.acceleration.sfast import (
-                    accelerate_with_stable_fast,
-                )
-
-                stream = accelerate_with_stable_fast(stream)
-                print("StableFast acceleration enabled.")
+            
         except Exception:
             traceback.print_exc()
             print("Acceleration has failed. Falling back to normal mode.")
-
         if seed < 0: # Random seed
+
             seed = np.random.randint(0, 1000000)
+
+
 
         stream.prepare(
             "",

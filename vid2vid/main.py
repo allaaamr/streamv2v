@@ -1,123 +1,111 @@
 import os
 import sys
 import time
-from typing import Literal, Dict, Optional
+import argparse
+from typing import Literal
 
-import fire
 import torch
 from torchvision.io import read_video, write_video
 from tqdm import tqdm
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-
-from utils.wrapper import StreamV2VWrapper
+from utils.wrapper import StreamV2VWrapper  # noqa: E402
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
+torch.cuda.empty_cache()
+torch.cuda.ipc_collect()
+def parse_args():
+    p = argparse.ArgumentParser("StreamV2V video editing (argparse version)")
+    # Required-ish I/O
+    p.add_argument("--input_path", type=str, default="./src.mp4", help="Path to input video")
+    p.add_argument("--prompt", type=str, default="Virat kohli is giving a talk", help="Editing prompt")
+    p.add_argument("--output_path", type=str, default=os.path.join(CURRENT_DIR, "outputs", "edited.mp4"),
+                   help="Exact save path for the output video (directories will be created)")
+
+    # Model and sampling
+    p.add_argument("--model_id", type=str, default="Jiali/stable-diffusion-1.5")
+    p.add_argument("--scale", type=float, default=1.0, help="Spatial scale factor for H,W")
+    p.add_argument("--guidance_scale", type=float, default=1.0)
+    p.add_argument("--diffusion_steps", type=int, default=4)
+    p.add_argument("--noise_strength", type=float, default=0.4)
+
+    # Performance/acceleration
+    p.add_argument("--acceleration", type=str, choices=["none", "xformers", "tensorrt"], default="xformers")
+    p.add_argument("--use_denoising_batch", action="store_true", default=True)
+    p.add_argument("--no_use_denoising_batch", dest="use_denoising_batch", action="store_false")
+    p.add_argument("--use_cached_attn", action="store_true", default=True)
+    p.add_argument("--no_use_cached_attn", dest="use_cached_attn", action="store_false")
+    p.add_argument("--use_feature_injection", action="store_true", default=True)
+    p.add_argument("--no_use_feature_injection", dest="use_feature_injection", action="store_false")
+    p.add_argument("--feature_injection_strength", type=float, default=0.8)
+    p.add_argument("--feature_similarity_threshold", type=float, default=0.98)
+    p.add_argument("--cache_interval", type=int, default=4)
+    p.add_argument("--cache_maxframes", type=int, default=1)
+    p.add_argument("--use_tome_cache", action="store_true", default=True)
+    p.add_argument("--no_use_tome_cache", dest="use_tome_cache", action="store_false")
+    p.add_argument("--do_add_noise", action="store_true", default=True)
+    p.add_argument("--no_do_add_noise", dest="do_add_noise", action="store_false")
+    p.add_argument("--enable_similar_image_filter", action="store_true", default=False)
+    p.add_argument("--seed", type=int, default=2)
+
+    return p.parse_args()
+
+
 def main(
-    input: str,
+    input_path: str,
     prompt: str,
-    output_dir: str = os.path.join(CURRENT_DIR, "outputs"),
-    model_id: str = "Jiali/stable-diffusion-1.5",
-    scale: float = 1.0,
-    guidance_scale: float = 1.0,
-    diffusion_steps: int = 4,
-    noise_strength: float = 0.4,
-    acceleration: Literal["none", "xformers", "tensorrt"] = "xformers",
-    use_denoising_batch: bool = True,
-    use_cached_attn: bool = True,
-    use_feature_injection: bool = True,
-    feature_injection_strength: float = 0.8,
-    feature_similarity_threshold: float = 0.98,
-    cache_interval: int = 4,
-    cache_maxframes: int = 1,
-    use_tome_cache: bool = True,
-    do_add_noise: bool = True,
-    enable_similar_image_filter: bool = False,
-    seed: int = 2,
+    output_path: str,
+    model_id: str,
+    scale: float,
+    guidance_scale: float,
+    diffusion_steps: int,
+    noise_strength: float,
+    acceleration: Literal["none", "xformers", "tensorrt"],
+    use_denoising_batch: bool,
+    use_cached_attn: bool,
+    use_feature_injection: bool,
+    feature_injection_strength: float,
+    feature_similarity_threshold: float,
+    cache_interval: int,
+    cache_maxframes: int,
+    use_tome_cache: bool,
+    do_add_noise: bool,
+    enable_similar_image_filter: bool,
+    seed: int,
 ):
-
-    """
-    Perform video-to-video translation with StreamV2V.
-
-    Parameters
-    ----------
-    input: str
-        The input video name.
-    prompt: str
-        The editting prompt to perform video translation.
-    output_dir: str, optional
-        The directory of the output video.
-    model_id: str, optional
-        The base image diffusion model. 
-        By default, it is SD 1.5 ("runwayml/stable-diffusion-v1-5").
-    scale: float, optional
-        The scale of the resolution, by default 1.0.
-    guidance_scale: float, optional
-        Classifier-free guidance (CFG).
-        By default, it is not enabled, 1.0.
-    diffusion_steps: int, optional
-        Diffusion steps to perform. Higher steps ususally lead to higher quality but slower speed.
-        By default, it is 4.
-    noise_strength: float, optional
-        Our editing method is SDEdit. Higher the noise_strength means more noise is added to the starting frames.
-        Highter strength ususally leads to better edit effects but may sacrifice the consistency.
-        By default, it is 0.4.
-    acceleration: Literal["none", "xformers", "tensorrt"] = "xformers"
-        The type of acceleration to use for video translation. 
-        By default, it is xformers.
-    use_denoising_batch: bool, optional
-        Whether to use denoising batch or not.
-        By default, it is True.
-    use_cached_attn: bool, optional
-        Whether to cache the self attention maps of the pervious frames to imporve temporal consistency.
-        If it is set to False, it would roll back to per-frame StreamDiffusion.
-        By default, it is True
-    use_feature_injection: bool, optional
-        Whether directly to inject the features of the pervious frames to imporve temporal consistency.
-        By default, it is True
-    feature_injection_strength: float, optional
-        The strength to perform feature injection. Higher value means higher weights from previous frames.
-        By default, it is 0.8
-    feature_similarity_threshold: float, optional
-        The threshold to identify the similar features.
-        By default, it is 0.98
-    cache_interval: int, optional
-        The frame interval to update the feature bank.
-        By default, it is 4
-    cache_maxframes: int, optional
-        The max frames to cache in the feature bank. Use FIFO (First-In-First-Out) strategy to update. 
-        Only effective when use_tome_cache = False, otherwise, cache_maxframes is set to 1.
-    use_tome_cache : bool, optional
-        Use Token Merging (ToMe) to update the bank.
-        By default, it is True.
-    enable_similar_image_filter: bool, optional
-        Whether to enable similar image filter or not,
-        By default, it is False.
-    seed: int, optional
-        The seed, by default 2. if -1, use random seed.
-    """
-    if not os.path.exists(output_dir):
-        os.mkdir(output_dir)
-    video_info = read_video(input)
-    video = video_info[0] / 255
-    fps = video_info[2]["video_fps"]
-    height = int(video.shape[1] * scale)
-    width = int(video.shape[2] * scale)
-
-    init_step = int(50 * (1 - noise_strength))
-    interval = int(50 * noise_strength) // diffusion_steps
-    t_index_list = [init_step + i * interval for i in range(diffusion_steps)]
-
-
+    # --- ensure output directory exists ---
+    out_dir = os.path.dirname(output_path)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
+    print("A")
+    # --- read input video ---
+    video_tensor, _, info = read_video(input_path)  # [T,H,W,C], uint8
+    fps = float(info["video_fps"])
+    video = video_tensor.float() / 255.0  # [0,1] float
+    print("B")
+    # --- compute scaled dims (keep divisible by 8 for diffusion safety) ---
+    in_h, in_w = int(video.shape[1]), int(video.shape[2])
+    h = max(8, int(in_h * scale))
+    w = max(8, int(in_w * scale))
+    h = (h // 8) * 8
+    w = (w // 8) * 8
+    print("C")
+    # --- build timesteps schedule ---
+    steps = max(1, diffusion_steps)
+    init_step = int(50 * (1.0 - noise_strength))
+    interval = max(1, int(50 * noise_strength) // steps)
+    t_index_list = [init_step + i * interval for i in range(steps)]
+    print("D")
+    # --- init wrapper ---
     stream = StreamV2VWrapper(
         model_id_or_path=model_id,
         mode="img2img",
         t_index_list=t_index_list,
         frame_buffer_size=1,
-        width=width,
-        height=height,
+        width=w,
+        height=h,
         warmup=10,
         acceleration=acceleration,
         do_add_noise=do_add_noise,
@@ -134,58 +122,94 @@ def main(
         use_tome_cache=use_tome_cache,
         seed=seed,
     )
-    stream.prepare(
-        prompt=prompt,
-        num_inference_steps=50,
-        guidance_scale=guidance_scale,
-    )
-
-    # Specify LORAs
-    if any(word in prompt for word in ['pixelart', 'pixel art', 'Pixel art', 'PixArFK']):
-        stream.stream.load_lora("./lora_weights/PixelArtRedmond15V-PixelArt-PIXARFK.safetensors", adapter_name='pixelart')
+    stream.prepare(prompt=prompt, num_inference_steps=50, guidance_scale=guidance_scale)
+    print("E")
+    # --- optional LoRAs by prompt keywords ---
+    if any(word in prompt for word in ["pixelart", "pixel art", "Pixel art", "PixArFK"]):
+        stream.stream.load_lora("./lora_weights/PixelArtRedmond15V-PixelArt-PIXARFK.safetensors", adapter_name="pixelart")
         stream.stream.pipe.set_adapters(["lcm", "pixelart"], adapter_weights=[1.0, 1.0])
-        print("Use LORA: pixelart in ./lora_weights/PixelArtRedmond15V-PixelArt-PIXARFK.safetensors")
-    elif any(word in prompt for word in ['lowpoly', 'low poly', 'Low poly']):
-        stream.stream.load_lora("./lora_weights/low_poly.safetensors", adapter_name='lowpoly')
+        print("Use LORA: pixelart")
+    elif any(word in prompt for word in ["lowpoly", "low poly", "Low poly"]):
+        stream.stream.load_lora("./lora_weights/low_poly.safetensors", adapter_name="lowpoly")
         stream.stream.pipe.set_adapters(["lcm", "lowpoly"], adapter_weights=[1.0, 1.0])
-        print("Use LORA: lowpoly in ./lora_weights/low_poly.safetensors")
-    elif any(word in prompt for word in ['Claymation', 'claymation']):
-        stream.stream.load_lora("./lora_weights/Claymation.safetensors", adapter_name='claymation')
+        print("Use LORA: lowpoly")
+    elif any(word in prompt for word in ["Claymation", "claymation"]):
+        stream.stream.load_lora("./lora_weights/Claymation.safetensors", adapter_name="claymation")
         stream.stream.pipe.set_adapters(["lcm", "claymation"], adapter_weights=[1.0, 1.0])
-        print("Use LORA: claymation in ./lora_weights/Claymation.safetensors")
-    elif any(word in prompt for word in ['crayons', 'Crayons', 'crayons doodle', 'Crayons doodle']):
-        stream.stream.load_lora("./lora_weights/doodle.safetensors", adapter_name='crayons')
+        print("Use LORA: claymation")
+    elif any(word in prompt for word in ["crayons", "Crayons", "crayons doodle", "Crayons doodle"]):
+        stream.stream.load_lora("./lora_weights/doodle.safetensors", adapter_name="crayons")
         stream.stream.pipe.set_adapters(["lcm", "crayons"], adapter_weights=[1.0, 1.0])
-        print("Use LORA: crayons in ./lora_weights/doodle.safetensors")
-    elif any(word in prompt for word in ['sketch', 'Sketch', 'pencil drawing', 'Pencil drawing']):
-        stream.stream.load_lora("./lora_weights/Sketch_offcolor.safetensors", adapter_name='sketch')
+        print("Use LORA: crayons")
+    elif any(word in prompt for word in ["sketch", "Sketch", "pencil drawing", "Pencil drawing"]):
+        stream.stream.load_lora("./lora_weights/Sketch_offcolor.safetensors", adapter_name="sketch")
         stream.stream.pipe.set_adapters(["lcm", "sketch"], adapter_weights=[1.0, 1.0])
-        print("Use LORA: sketch in ./lora_weights/Sketch_offcolor.safetensors")
-    elif any(word in prompt for word in ['oil painting', 'Oil painting']):
-        stream.stream.load_lora("./lora_weights/bichu-v0612.safetensors", adapter_name='oilpainting')
+        print("Use LORA: sketch")
+    elif any(word in prompt for word in ["oil painting", "Oil painting"]):
+        stream.stream.load_lora("./lora_weights/bichu-v0612.safetensors", adapter_name="oilpainting")
         stream.stream.pipe.set_adapters(["lcm", "oilpainting"], adapter_weights=[1.0, 1.0])
-        print("Use LORA: oilpainting in ./lora_weights/bichu-v0612.safetensors")
+        print("Use LORA: oilpainting")
 
-    video_result = torch.zeros(video.shape[0], height, width, 3)
-
+    # --- warmup on first frame ---
+    out_video = torch.zeros(video.shape[0], h, w, 3, dtype=torch.float32)
     for _ in range(stream.batch_size):
         stream(image=video[0].permute(2, 0, 1))
-
-    inference_time = []
+    print("F")
+    # --- inference loop ---
+    times = []
     for i in tqdm(range(video.shape[0])):
-        iteration_start_time = time.time()
-        output_image = stream(video[i].permute(2, 0, 1))
-        video_result[i] = output_image.permute(1, 2, 0)
-        iteration_end_time = time.time()
-        inference_time.append(iteration_end_time -iteration_start_time )
-    print(f'Avg time: {sum(inference_time[20:])/len(inference_time[20:])}')
+        t0 = time.time()
+        out_img = stream(video[i].permute(2, 0, 1))  # CHW [0,1]
+        out_video[i] = out_img.permute(1, 2, 0)      # HWC
+        times.append(time.time() - t0)
 
-    video_result = video_result * 255
-    prompt_txt = prompt.replace(' ', '-')
-    input_vid = input.split('/')[-1]
-    output = os.path.join(output_dir, f"{input_vid.rsplit('.', 1)[0]}_{prompt_txt}.{input_vid.rsplit('.', 1)[1]}")
-    write_video(output, video_result, fps=fps)
+    if len(times) > 20:
+        print(f"Avg/frame (skip first 20): {sum(times[20:]) / len(times[20:]):.4f}s")
+
+    # # --- save output exactly where requested ---
+    from fractions import Fraction
+
+    out_video = out_video * 255
+    fps = Fraction(float(fps)).limit_denominator()
+    write_video(output_path, out_video, fps=fps, video_codec="libx264")
+    # --- save output exactly where requested ---
+    # import imageio.v2 as iio
+    # from fractions import Fraction
+
+    # # ensure uint8 on CPU
+    # # (if you kept a full tensor, convert it once; if you stream frames, do inside the loop)
+    # fps = Fraction(float(fps)).limit_denominator()
+    # writer = iio.get_writer(output_path, fps=float(fps), codec='libx264', quality=8)
+
+    # for i in range(out_video.shape[0]):
+    #     frame = out_video[i].clamp(0, 255).to(torch.uint8).cpu().numpy()
+    #     writer.append_data(frame)
+
+    # writer.close()
+
 
 
 if __name__ == "__main__":
-    fire.Fire(main)
+    args = parse_args()
+    main(
+        input_path=args.input_path,
+        prompt=args.prompt,
+        output_path=args.output_path,
+        model_id=args.model_id,
+        scale=args.scale,
+        guidance_scale=args.guidance_scale,
+        diffusion_steps=args.diffusion_steps,
+        noise_strength=args.noise_strength,
+        acceleration=args.acceleration,
+        use_denoising_batch=args.use_denoising_batch,
+        use_cached_attn=args.use_cached_attn,
+        use_feature_injection=args.use_feature_injection,
+        feature_injection_strength=args.feature_injection_strength,
+        feature_similarity_threshold=args.feature_similarity_threshold,
+        cache_interval=args.cache_interval,
+        cache_maxframes=args.cache_maxframes,
+        use_tome_cache=args.use_tome_cache,
+        do_add_noise=args.do_add_noise,
+        enable_similar_image_filter=args.enable_similar_image_filter,
+        seed=args.seed,
+    )
