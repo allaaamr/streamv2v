@@ -1,0 +1,338 @@
+{
+  "0.1": {
+    "soccerball": {
+      "warp_error": 107.6496688862254,
+      "clip_avg": 34.427376937866214,
+      "clip_max": 37.43516540527344,
+      "status": "success"
+    },
+    "dog-agility": {
+      "warp_error": 114.33422105419261,
+      "clip_avg": 31.05004946390788,
+      "clip_max": 35.132080078125,
+      "status": "success"
+    },
+    "gold-fish": {
+      "warp_error": 99.9565070940024,
+      "clip_avg": 29.19650149345398,
+      "clip_max": 30.41205406188965,
+      "status": "success"
+    },
+    "tennis": {
+      "warp_error": 111.58099854658076,
+      "clip_avg": 25.799680709838867,
+      "clip_max": 26.5234432220459,
+      "status": "success"
+    },
+    "walking": {
+      "warp_error": 116.484340220824,
+      "clip_avg": 26.109726667404175,
+      "clip_max": 28.706058502197266,
+      "status": "success"
+    },
+    "tennis-vest": {
+      "warp_error": 105.0863025613639,
+      "clip_avg": 22.44594717025757,
+      "clip_max": 25.227933883666992,
+      "status": "success"
+    },
+    "flamingo": {
+      "warp_error": 111.11391025838361,
+      "clip_avg": 29.913864135742188,
+      "clip_max": 31.19658851623535,
+      "status": "success"
+    },
+    "sheep": {
+      "warp_error": 49.48594847482376,
+      "clip_avg": 31.710260936192103,
+      "clip_max": 32.18926239013672,
+      "status": "success"
+    },
+    "guitar-violin": {
+      "warp_error": 113.87402098990742,
+      "clip_avg": 26.149093945821125,
+      "clip_max": 29.128021240234375,
+      "status": "success"
+    }
+  },
+  "0.2": {
+    "soccerball": {
+      "warp_error": 103.86702921601254,
+      "clip_avg": 33.368256378173825,
+      "clip_max": 35.99574279785156,
+      "status": "success"
+    },
+    "dog-agility": {
+      "warp_error": 114.14152556186507,
+      "clip_avg": 33.970411936442055,
+      "clip_max": 36.16551971435547,
+      "status": "success"
+    },
+    "gold-fish": {
+      "warp_error": 98.68626728498252,
+      "clip_avg": 28.740620374679565,
+      "clip_max": 30.036697387695312,
+      "status": "success"
+    },
+    "tennis": {
+      "warp_error": 109.75758645058369,
+      "clip_avg": 25.255178996494838,
+      "clip_max": 26.93891143798828,
+      "status": "success"
+    },
+    "walking": {
+      "warp_error": 117.16640944294056,
+      "clip_avg": 25.9238703250885,
+      "clip_max": 29.724184036254883,
+      "status": "success"
+    },
+    "tennis-vest": {
+      "warp_error": 100.531339171796,
+      "clip_avg": 23.69794535636902,
+      "clip_max": 29.075740814208984,
+      "status": "success"
+    },
+    "flamingo": {
+      "warp_error": 108.96854326028024,
+      "clip_avg": 30.45075535774231,
+      "clip_max": 31.437114715576172,
+      "status": "success"
+    },
+    "sheep": {
+      "warp_error": 51.15225036300232,
+      "clip_avg": 30.7556027003697,
+      "clip_max": 31.51271629333496,
+      "status": "success"
+    },
+    "guitar-violin": {
+      "warp_error": 113.10531226841134,
+      "clip_avg": 26.47116247812907,
+      "clip_max": 29.798036575317383,
+      "status": "success"
+    }
+  },
+  "0.4": {
+    "soccerball": {
+      "warp_error": 106.85898432094592,
+      "clip_avg": 32.72162780761719,
+      "clip_max": 36.25181579589844,
+      "status": "success"
+    },
+    "dog-agility": {
+      "warp_error": 113.57519931941056,
+      "clip_avg": 34.54486338297526,
+      "clip_max": 36.31733703613281,
+      "status": "success"
+    },
+    "gold-fish": {
+      "warp_error": 95.37128436473083,
+      "clip_avg": 28.661607027053833,
+      "clip_max": 29.734573364257812,
+      "status": "success"
+    },
+    "tennis": {
+      "warp_error": 105.42108166324988,
+      "clip_avg": 26.83803912571498,
+      "clip_max": 30.539003372192383,
+      "status": "success"
+    },
+    "walking": {
+      "warp_error": 116.65292312122428,
+      "clip_avg": 27.46286964416504,
+      "clip_max": 31.19403076171875,
+      "status": "success"
+    },
+    "tennis-vest": {
+      "warp_error": 94.05950179694032,
+      "clip_avg": 26.943821668624878,
+      "clip_max": 29.803462982177734,
+      "status": "success"
+    },
+    "flamingo": {
+      "warp_error": 108.37063044617315,
+      "clip_avg": 31.746499061584473,
+      "clip_max": 32.49268341064453,
+      "status": "success"
+    },
+    "sheep": {
+      "warp_error": 47.530461180213415,
+      "clip_avg": 32.59684262956892,
+      "clip_max": 33.16942596435547,
+      "status": "success"
+    },
+    "guitar-violin": {
+      "warp_error": 107.7626671358851,
+      "clip_avg": 27.44731267293294,
+      "clip_max": 30.470565795898438,
+      "status": "success"
+    }
+  },
+  "0.6": {
+    "soccerball": {
+      "warp_error": 105.561975515456,
+      "clip_avg": 33.74080848693848,
+      "clip_max": 36.05321502685547,
+      "status": "success"
+    },
+    "dog-agility": {
+      "warp_error": 110.55667389249817,
+      "clip_avg": 35.285569508870445,
+      "clip_max": 37.009124755859375,
+      "status": "success"
+    },
+    "gold-fish": {
+      "warp_error": 85.98162149773098,
+      "clip_avg": 29.760364294052124,
+      "clip_max": 31.422250747680664,
+      "status": "success"
+    },
+    "tennis": {
+      "warp_error": 109.13231979129502,
+      "clip_avg": 29.671749114990234,
+      "clip_max": 31.494335174560547,
+      "status": "success"
+    },
+    "walking": {
+      "warp_error": 121.51605991236657,
+      "clip_avg": 27.63077688217163,
+      "clip_max": 29.238849639892578,
+      "status": "success"
+    },
+    "tennis-vest": {
+      "warp_error": 93.66721213494615,
+      "clip_avg": 31.109481811523438,
+      "clip_max": 34.474456787109375,
+      "status": "success"
+    },
+    "flamingo": {
+      "warp_error": 106.48362654882543,
+      "clip_avg": 32.22305679321289,
+      "clip_max": 32.99375915527344,
+      "status": "success"
+    },
+    "sheep": {
+      "warp_error": 46.98595629821272,
+      "clip_avg": 32.41494015284947,
+      "clip_max": 33.61162567138672,
+      "status": "success"
+    },
+    "guitar-violin": {
+      "warp_error": 108.35184574879816,
+      "clip_avg": 28.74724833170573,
+      "clip_max": 30.56446647644043,
+      "status": "success"
+    }
+  },
+  "0.8": {
+    "soccerball": {
+      "warp_error": 97.87313673694221,
+      "clip_avg": 29.288231658935548,
+      "clip_max": 32.162132263183594,
+      "status": "success"
+    },
+    "dog-agility": {
+      "warp_error": 112.07011493675044,
+      "clip_avg": 29.19057782491048,
+      "clip_max": 29.690954208374023,
+      "status": "success"
+    },
+    "gold-fish": {
+      "warp_error": 79.01530347425583,
+      "clip_avg": 31.4542019367218,
+      "clip_max": 32.205387115478516,
+      "status": "success"
+    },
+    "tennis": {
+      "warp_error": 105.88132712690735,
+      "clip_avg": 30.24172592163086,
+      "clip_max": 36.19102096557617,
+      "status": "success"
+    },
+    "walking": {
+      "warp_error": 121.15266789128601,
+      "clip_avg": 24.320110321044922,
+      "clip_max": 27.174488067626953,
+      "status": "success"
+    },
+    "tennis-vest": {
+      "warp_error": 103.81052415926995,
+      "clip_avg": 27.185359954833984,
+      "clip_max": 30.0567626953125,
+      "status": "success"
+    },
+    "flamingo": {
+      "warp_error": 110.49796639667466,
+      "clip_avg": 31.114892959594727,
+      "clip_max": 32.809085845947266,
+      "status": "success"
+    },
+    "sheep": {
+      "warp_error": 45.22267030657436,
+      "clip_avg": 31.193450927734375,
+      "clip_max": 32.142242431640625,
+      "status": "success"
+    },
+    "guitar-violin": {
+      "warp_error": 109.21737167409711,
+      "clip_avg": 27.712610244750977,
+      "clip_max": 30.08517074584961,
+      "status": "success"
+    }
+  },
+  "1.0": {
+    "soccerball": {
+      "warp_error": 102.47284674483082,
+      "clip_avg": 27.340283584594726,
+      "clip_max": 30.125835418701172,
+      "status": "success"
+    },
+    "dog-agility": {
+      "warp_error": 109.30340393036049,
+      "clip_avg": 27.103272755940754,
+      "clip_max": 28.700437545776367,
+      "status": "success"
+    },
+    "gold-fish": {
+      "warp_error": 84.44180948434398,
+      "clip_avg": 32.055180311203,
+      "clip_max": 33.98988723754883,
+      "status": "success"
+    },
+    "tennis": {
+      "warp_error": 109.60298858879428,
+      "clip_avg": 26.099587849208287,
+      "clip_max": 29.01209259033203,
+      "status": "success"
+    },
+    "walking": {
+      "warp_error": 124.73506691656483,
+      "clip_avg": 22.517714977264404,
+      "clip_max": 24.638343811035156,
+      "status": "success"
+    },
+    "tennis-vest": {
+      "warp_error": 108.95955769835183,
+      "clip_avg": 22.943397045135498,
+      "clip_max": 25.17097282409668,
+      "status": "success"
+    },
+    "flamingo": {
+      "warp_error": 112.66278462426304,
+      "clip_avg": 32.57327842712402,
+      "clip_max": 33.51108932495117,
+      "status": "success"
+    },
+    "sheep": {
+      "warp_error": 44.423895434448355,
+      "clip_avg": 31.22797421046666,
+      "clip_max": 31.9619140625,
+      "status": "success"
+    },
+    "guitar-violin": {
+      "warp_error": 111.13026324866506,
+      "clip_avg": 26.942230224609375,
+      "clip_max": 29.644018173217773,
+      "status": "success"
+    }
+  }
+}
