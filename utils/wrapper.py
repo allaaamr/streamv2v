@@ -1,3 +1,4 @@
+# wrapper.py
 import gc
 import os
 from pathlib import Path
@@ -6,14 +7,17 @@ from typing import List, Literal, Optional, Union, Dict
 
 import numpy as np
 import torch
-from diffusers import AutoencoderTiny, StableDiffusionPipeline, StableDiffusionXLPipeline, StableDiffusionInstructPix2PixPipeline,AutoPipelineForImage2Image
-from diffusers.models.attention_processor import XFormersAttnProcessor, AttnProcessor2_0
+from diffusers import AutoencoderTiny, StableDiffusionPipeline, StableDiffusionInstructPix2PixPipeline
+from diffusers.models.attention_processor import XFormersAttnProcessor
 from PIL import Image
 
-from src.streamv2v import StreamV2V
+from src.streamv2v.pipeline import StreamV2V
 from src.streamv2v.image_utils import postprocess_image
-from src.streamv2v.models.attention_processor import CachedSTXFormersAttnProcessor, CachedSTAttnProcessor2_0
-
+# Cached processors (now also cache CROSS-attention K/V)
+from src.streamv2v.models.attention_processor import (
+    CachedSTXFormersAttnProcessor,
+    CachedSTAttnProcessor2_0,  # in case you later need a non-xformers path
+)
 
 torch.set_grad_enabled(False)
 torch.backends.cuda.matmul.allow_tf32 = True
@@ -51,7 +55,7 @@ class StreamV2VWrapper:
         feature_injection_strength: float = 0.8,
         feature_similarity_threshold: float = 0.98,
         cache_interval: int = 4,
-        cache_maxframes: int = 1, 
+        cache_maxframes: int = 1,
         use_tome_cache: bool = True,
         tome_metric: str = "keys",
         tome_ratio: float = 0.5,
@@ -59,120 +63,35 @@ class StreamV2VWrapper:
         seed: int = 2,
         use_safety_checker: bool = False,
         engine_dir: Optional[Union[str, Path]] = "engines",
+        # NEW: toggle for cross-attn caching
+        cache_cross_attention: bool = True,
     ):
         """
-        Initializes the StreamV2VWrapper.
-
-        Parameters
-        ----------
-        model_id_or_path : str
-            The model identifier or path to load.
-        t_index_list : List[int]
-            The list of indices to use for inference.
-        lora_dict : Optional[Dict[str, float]], optional
-            Dictionary of LoRA names and their corresponding scales, 
-            by default None. Example: {'LoRA_1': 0.5, 'LoRA_2': 0.7, ...}
-        output_type : Literal["pil", "pt", "np", "latent"], optional
-            The type of output image, by default "pil".
-        mode : Literal["img2img", "txt2img"], optional
-            txt2img or img2img, by default "img2img".
-        lcm_lora_id : Optional[str], optional
-            The identifier for the LCM-LoRA to load, by default None.
-            If None, the default LCM-LoRA ("latent-consistency/lcm-lora-sdv1-5") is used.
-        vae_id : Optional[str], optional
-            The identifier for the VAE to load, by default None.
-            If None, the default TinyVAE ("madebyollin/taesd") is used.
-        device : Literal["cpu", "cuda"], optional
-            The device to use for inference, by default "cuda".
-        dtype : torch.dtype, optional
-            The data type for inference, by default torch.float16.
-        frame_buffer_size : int, optional
-            The size of the frame buffer for denoising batch, by default 1.
-        width : int, optional
-            The width of the image, by default 512.
-        height : int, optional
-            The height of the image, by default 512.
-        warmup : int, optional
-            The number of warmup steps to perform, by default 10.
-        acceleration : Literal["none", "xformers", "tensorrt"], optional
-            The acceleration method, by default "xformers".
-        do_add_noise : bool, optional
-            Whether to add noise during denoising steps, by default True.
-        device_ids : Optional[List[int]], optional
-            List of device IDs to use for DataParallel, by default None.
-        use_lcm_lora : bool, optional
-            Whether to use LCM-LoRA, by default True.
-        use_tiny_vae : bool, optional
-            Whether to use TinyVAE, by default True.
-        enable_similar_image_filter : bool, optional
-            Whether to enable similar image filtering, by default False.
-        similar_image_filter_threshold : float, optional
-            The threshold for the similar image filter, by default 0.98.
-        similar_image_filter_max_skip_frame : int, optional
-            The maximum number of frames to skip for similar image filter, by default 10.
-        use_denoising_batch : bool, optional
-            Whether to use denoising batch, by default True.
-        cfg_type : Literal["none", "full", "self", "initialize"], optional
-            The CFG type for img2img mode, by default "self". 
-        use_cached_attn : bool, optional
-            Whether to cache self-attention maps from previous frames to improve temporal consistency, by default True.
-        use_feature_injection : bool, optional
-            Whether to use feature maps from previous frames to improve temporal consistency, by default True.
-        feature_injection_strength : float, optional
-            The strength of feature injection, by default 0.8.
-        feature_similarity_threshold : float, optional
-            The similarity threshold for feature injection, by default 0.98.
-        cache_interval : int, optional
-            The interval at which to cache attention maps, by default 4.
-        cache_maxframes : int, optional
-            The maximum number of frames to cache attention maps, by default 1.
-        use_tome_cache : bool, optional
-            Whether to use Tome caching, by default True.
-        tome_metric : str, optional
-            The metric to use for Tome, by default "keys".
-        tome_ratio : float, optional
-            The ratio for Tome, by default 0.5.
-        use_grid : bool, optional
-            Whether to use grid, by default False.
-        seed : int, optional
-            The seed for random number generation, by default 2.
-        use_safety_checker : bool, optional
-            Whether to use a safety checker, by default False.
-        engine_dir : Optional[Union[str, Path]], optional
-            The directory for the engine, by default "engines".
+        Wrapper with the same surface API your main.py expects
+        (batch_size, __call__, prepare, img2img/txt2img, etc.),
+        plus cross-attention caching via custom attention processors.
         """
-        # TODO: Test SD turbo
-        self.sd_turbo = "turbo" in model_id_or_path
-        self.sd_xl = "xl" in model_id_or_path
+        self.sd_turbo = "turbo" in (model_id_or_path or "")
+        self.sd_xl = "xl" in (model_id_or_path or "")
 
         if mode == "txt2img":
             if cfg_type != "none":
-                raise ValueError(
-                    f"txt2img mode accepts only cfg_type = 'none', but got {cfg_type}"
-                )
-            if use_denoising_batch and frame_buffer_size > 1:
-                if not self.sd_turbo:
-                    raise ValueError(
-                        "txt2img mode cannot use denoising batch with frame_buffer_size > 1."
-                    )
-        if mode == "img2img":
-            if not use_denoising_batch:
-                raise NotImplementedError(
-                    "vid2vid mode must use denoising batch for now."
-                )
+                raise ValueError("txt2img mode accepts only cfg_type = 'none'")
+            if use_denoising_batch and frame_buffer_size > 1 and not self.sd_turbo:
+                raise ValueError("txt2img mode cannot use denoising batch with frame_buffer_size > 1.")
+        if mode == "img2img" and not use_denoising_batch:
+            raise NotImplementedError("vid2vid mode must use denoising batch for now.")
         self.mode = mode
 
+        # Basic config
         self.device = device
         self.dtype = dtype
         self.width = width
         self.height = height
         self.output_type = output_type
         self.frame_buffer_size = frame_buffer_size
-        self.batch_size = (
-            len(t_index_list) * frame_buffer_size
-            if use_denoising_batch
-            else frame_buffer_size
-        )
+        # main.py uses this in warmup
+        self.batch_size = (len(t_index_list) * frame_buffer_size) if use_denoising_batch else frame_buffer_size
 
         self.use_denoising_batch = use_denoising_batch
         self.use_cached_attn = use_cached_attn
@@ -186,7 +105,9 @@ class StreamV2VWrapper:
         self.tome_ratio = tome_ratio
         self.use_grid = use_grid
         self.use_safety_checker = use_safety_checker
+        self.cache_cross_attention = cache_cross_attention
 
+        # Build/load model and stream
         self.stream: StreamV2V = self._load_model(
             model_id_or_path=model_id_or_path,
             lora_dict=lora_dict,
@@ -203,10 +124,22 @@ class StreamV2VWrapper:
             engine_dir=engine_dir,
         )
 
-
-        if enable_similar_image_filter:
+        # Optional similar-frame skipping
+        if enable_similar_image_filter and hasattr(self.stream, "enable_similar_image_filter"):
             self.stream.enable_similar_image_filter(similar_image_filter_threshold, similar_image_filter_max_skip_frame)
 
+        # Optional safety checker setup (unchanged)
+        if self.use_safety_checker:
+            from transformers import CLIPFeatureExtractor
+            from diffusers.pipelines.stable_diffusion.safety_checker import StableDiffusionSafetyChecker
+
+            self.safety_checker = StableDiffusionSafetyChecker.from_pretrained(
+                "CompVis/stable-diffusion-safety-checker"
+            ).to(self.stream.pipe.device)
+            self.feature_extractor = CLIPFeatureExtractor.from_pretrained("openai/clip-vit-base-patch32")
+            self.nsfw_fallback_img = Image.new("RGB", (512, 512), (0, 0, 0))
+
+    # -------- Public API expected by main.py --------
     def prepare(
         self,
         prompt: str,
@@ -215,21 +148,6 @@ class StreamV2VWrapper:
         guidance_scale: float = 1.0,
         delta: float = 1.0,
     ) -> None:
-        """
-        Prepares the model for inference.
-
-        Parameters
-        ----------
-        prompt : str
-            The prompt to generate images from.
-        num_inference_steps : int, optional
-            The number of inference steps to perform, by default 50.
-        guidance_scale : float, optional
-            The guidance scale to use, by default 1.0.
-        delta : float, optional
-            The delta multiplier of virtual residual noise,
-            by default 1.0.
-        """
         self.stream.prepare(
             prompt,
             negative_prompt,
@@ -242,22 +160,7 @@ class StreamV2VWrapper:
         self,
         image: Optional[Union[str, Image.Image, torch.Tensor]] = None,
         prompt: Optional[str] = None,
-    ) -> Union[Image.Image, List[Image.Image]]:
-        """
-       Performs img2img or txt2img based on the mode.
-
-        Parameters
-        ----------
-        image : Optional[Union[str, Image.Image, torch.Tensor]]
-            The image to generate from.
-        prompt : Optional[str]
-            The prompt to generate images from.
-
-        Returns
-        -------
-        Union[Image.Image, List[Image.Image]]
-            The generated image.
-        """
+    ) -> Union[Image.Image, List[Image.Image], torch.Tensor, np.ndarray]:
         if self.mode == "img2img":
             return self.img2img(image, prompt)
         else:
@@ -266,130 +169,61 @@ class StreamV2VWrapper:
     def txt2img(
         self, prompt: Optional[str] = None
     ) -> Union[Image.Image, List[Image.Image], torch.Tensor, np.ndarray]:
-        """
-        Performs txt2img.
-        Parameters
-        ----------
-        prompt : Optional[str]
-            The prompt to generate images from.
-        Returns
-        -------
-        Union[Image.Image, List[Image.Image]]
-            The generated image.
-        """
-        if prompt is not None:
+        if prompt is not None and hasattr(self.stream, "update_prompt"):
             self.stream.update_prompt(prompt)
 
-        if self.sd_turbo:
-            image_tensor = self.stream.txt2img_sd_turbo(self.batch_size)
+        if self.sd_turbo and hasattr(self.stream, "txt2img_sd_turbo"):
+            image_tensor = self.stream.txt2img(self.batch_size)  # SD Turbo path can vary
         else:
             image_tensor = self.stream.txt2img(self.frame_buffer_size)
-        image = self.postprocess_image(image_tensor, output_type=self.output_type)
-
-        if self.use_safety_checker:
-            safety_checker_input = self.feature_extractor(
-                image, return_tensors="pt"
-            ).to(self.device)
-            _, has_nsfw_concept = self.safety_checker(
-                images=image_tensor.to(self.dtype),
-                clip_input=safety_checker_input.pixel_values.to(self.dtype),
-            )
-            image = self.nsfw_fallback_img if has_nsfw_concept[0] else image
-
-        return image
+        return self._postprocess(image_tensor)
 
     def img2img(
         self, image: Union[str, Image.Image, torch.Tensor], prompt: Optional[str] = None
     ) -> Union[Image.Image, List[Image.Image], torch.Tensor, np.ndarray]:
-        """
-        Performs img2img.
-
-        Parameters
-        ----------
-        image : Union[str, Image.Image, torch.Tensor]
-            The image to generate from.
-
-        Returns
-        -------
-        Image.Image
-            The generated image.
-        """
-        if prompt is not None:
-
+        if prompt is not None and hasattr(self.stream, "update_prompt"):
             self.stream.update_prompt(prompt)
 
-
-
-        if isinstance(image, str) or isinstance(image, Image.Image):
-
-            image = self.preprocess_image(image)
+        if isinstance(image, (str, Image.Image)):
+            image = self._preprocess(image)
         image_tensor = self.stream(image)
-        image = self.postprocess_image(image_tensor, output_type=self.output_type)
+        return self._postprocess(image_tensor)
 
-
-        if self.use_safety_checker:
-
-            safety_checker_input = self.feature_extractor(
-
-                image, return_tensors="pt"
-
-            ).to(self.device)
-
-            _, has_nsfw_concept = self.safety_checker(
-
-                images=image_tensor.to(self.dtype),
-
-                clip_input=safety_checker_input.pixel_values.to(self.dtype),
-
-            )
-
-            image = self.nsfw_fallback_img if has_nsfw_concept[0] else image
-        return image
-
-    def preprocess_image(self, image: Union[str, Image.Image]) -> torch.Tensor:
-        """
-        Preprocesses the image.
-
-        Parameters
-        ----------
-        image : Union[str, Image.Image, torch.Tensor]
-            The image to preprocess.
-
-        Returns
-        -------
-        torch.Tensor
-            The preprocessed image.
-        """
+    # -------- Helpers --------
+    def _preprocess(self, image: Union[str, Image.Image]) -> torch.Tensor:
         if isinstance(image, str):
             image = Image.open(image).convert("RGB").resize((self.width, self.height))
         if isinstance(image, Image.Image):
             image = image.convert("RGB").resize((self.width, self.height))
+        return self.stream.image_processor.preprocess(image, self.height, self.width).to(
+            device=self.device, dtype=self.dtype
+        )
 
-        return self.stream.image_processor.preprocess(
-            image, self.height, self.width
-        ).to(device=self.device, dtype=self.dtype)
-
-    def postprocess_image(
-        self, image_tensor: torch.Tensor, output_type: str = "pil"
+    def _postprocess(
+        self, image_tensor: torch.Tensor, output_type: str = None
     ) -> Union[Image.Image, List[Image.Image], torch.Tensor, np.ndarray]:
         """
-        Postprocesses the image.
-
-        Parameters
-        ----------
-        image_tensor : torch.Tensor
-            The image tensor to postprocess.
-
-        Returns
-        -------
-        Union[Image.Image, List[Image.Image]]
-            The postprocessed image.
+        Make behavior identical to your old wrapper:
+        - When frame_buffer_size == 1: return a SINGLE image (CHW for 'pt', PIL for 'pil', etc.)
+        - When frame_buffer_size > 1: return the whole batch
         """
-        if self.frame_buffer_size > 1:
-            return postprocess_image(image_tensor.cpu(), output_type=output_type)
-        else:
-            return postprocess_image(image_tensor.cpu(), output_type=output_type)[0]
+        output_type = output_type or self.output_type
+        result = postprocess_image(image_tensor.cpu(), output_type=output_type)
 
+        # Old wrapper always returned the first item when frame_buffer_size == 1
+        if self.frame_buffer_size == 1:
+            # If result is a list, take first; if it's a 4D tensor [1,C,H,W], take [0]
+            if isinstance(result, list):
+                return result[0]
+            if isinstance(result, torch.Tensor) and result.ndim == 4 and result.shape[0] == 1:
+                return result[0]
+            # If it's already CHW or a PIL image, just return it
+            return result
+        else:
+            # Return the whole batch for multi-frame buffer
+            return result
+
+    # -------- Build & attach models --------
     def _load_model(
         self,
         model_id_or_path: str,
@@ -406,16 +240,11 @@ class StreamV2VWrapper:
         seed: int = 2,
         engine_dir: Optional[Union[str, Path]] = "engines",
     ) -> StreamV2V:
-
-        # Choose the pipeline based on the flag
-        # pipeline_cls = StableDiffusionXLPipeline if self.sd_xl else StableDiffusionPipeline
-        # pipe = pipeline_cls.from_pretrained(model_id_or_path).to(device=self.device, dtype=self.dtype)
-
-
+        # Use instruct-pix2pix (same as your old code)
         pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
-            "timbrooks/instruct-pix2pix").to(device=self.device, dtype=self.dtype)
+            "timbrooks/instruct-pix2pix"
+        ).to(device=self.device, dtype=self.dtype)
 
-            
         stream = StreamV2V(
             pipe=pipe,
             t_index_list=t_index_list,
@@ -427,88 +256,68 @@ class StreamV2VWrapper:
             use_denoising_batch=self.use_denoising_batch,
             cfg_type=cfg_type,
         )
+
+        # LCM-LoRA & user LoRAs
         if not self.sd_turbo:
             if use_lcm_lora:
                 if lcm_lora_id is not None:
-                    stream.load_lcm_lora(
-                        pretrained_model_name_or_path_or_dict=lcm_lora_id,
-                        adapter_name="lcm")
+                    stream.load_lcm_lora(pretrained_model_name_or_path_or_dict=lcm_lora_id, adapter_name="lcm")
                 else:
                     stream.load_lcm_lora(
                         pretrained_model_name_or_path_or_dict="latent-consistency/lcm-lora-sdv1-5",
-                        adapter_name="lcm"
-                        )
-
+                        adapter_name="lcm",
+                    )
             if lora_dict is not None:
                 for lora_name, lora_scale in lora_dict.items():
                     stream.load_lora(lora_name)
-                    
+
+        # Tiny VAE
         if use_tiny_vae:
             if vae_id is not None:
-                stream.vae = AutoencoderTiny.from_pretrained(vae_id).to(
-                    device=pipe.device, dtype=pipe.dtype
-                )
+                stream.vae = AutoencoderTiny.from_pretrained(vae_id).to(device=pipe.device, dtype=pipe.dtype)
             else:
-                # breakpoint()
-                stream.vae = AutoencoderTiny.from_pretrained("madebyollin/taesd").to(
-                    device=pipe.device, dtype=pipe.dtype
-                )
+                stream.vae = AutoencoderTiny.from_pretrained("madebyollin/taesd").to(device=pipe.device, dtype=pipe.dtype)
 
+        # Acceleration + cached attention (per attention module) + cross-attn K/V cache
         try:
             if acceleration == "xformers":
                 stream.pipe.enable_xformers_memory_efficient_attention()
                 if self.use_cached_attn:
-                    print("here")
                     attn_processors = stream.pipe.unet.attn_processors
                     new_attn_processors = {}
                     for key, attn_processor in attn_processors.items():
-                        assert isinstance(attn_processor, XFormersAttnProcessor), \
-                              "We only replace 'XFormersAttnProcessor' to 'CachedSTXFormersAttnProcessor'"
-                        new_attn_processors[key] = CachedSTXFormersAttnProcessor(name=key,
-                                                                                 use_feature_injection=self.use_feature_injection,
-                                                                                 feature_injection_strength=self.feature_injection_strength,
-                                                                                 feature_similarity_threshold=self.feature_similarity_threshold,
-                                                                                 interval=self.cache_interval, 
-                                                                                 max_frames=self.cache_maxframes,
-                                                                                 use_tome_cache=self.use_tome_cache,
-                                                                                 tome_metric=self.tome_metric,
-                                                                                 tome_ratio=self.tome_ratio,
-                                                                                 use_grid=self.use_grid)
+                        assert isinstance(
+                            attn_processor, XFormersAttnProcessor
+                        ), "We only replace XFormersAttnProcessor with CachedSTXFormersAttnProcessor"
+                        new_attn_processors[key] = CachedSTXFormersAttnProcessor(
+                            name=key,
+                            use_feature_injection=self.use_feature_injection,
+                            feature_injection_strength=self.feature_injection_strength,
+                            feature_similarity_threshold=self.feature_similarity_threshold,
+                            interval=self.cache_interval,
+                            max_frames=self.cache_maxframes,
+                            use_tome_cache=self.use_tome_cache,
+                            tome_metric=self.tome_metric,
+                            tome_ratio=self.tome_ratio,
+                            use_grid=self.use_grid,
+                            cache_cross_attention=self.cache_cross_attention,  # <- cross-attn K/V caching
+                        )
                     stream.pipe.unet.set_attn_processor(new_attn_processors)
-
-            
         except Exception:
             traceback.print_exc()
             print("Acceleration has failed. Falling back to normal mode.")
-        if seed < 0: # Random seed
 
-            seed = np.random.randint(0, 1000000)
-
-
+        # Seed + initial prepare
+        if seed < 0:
+            seed = np.random.randint(0, 1_000_000)
 
         stream.prepare(
             "",
             "",
             num_inference_steps=50,
-            guidance_scale=1.2
-            if stream.cfg_type in ["full", "self", "initialize"]
-            else 1.0,
+            guidance_scale=1.2 if stream.cfg_type in ["full", "self", "initialize"] else 1.0,
             generator=torch.manual_seed(seed),
             seed=seed,
         )
-
-        if self.use_safety_checker:
-            from transformers import CLIPFeatureExtractor
-            from diffusers.pipelines.stable_diffusion.safety_checker import (
-                StableDiffusionSafetyChecker,
-            )
-
-            self.safety_checker = StableDiffusionSafetyChecker.from_pretrained(
-                "CompVis/stable-diffusion-safety-checker"
-            ).to(pipe.device)
-            self.feature_extractor = CLIPFeatureExtractor.from_pretrained(
-                "openai/clip-vit-base-patch32"
-            )
-            self.nsfw_fallback_img = Image.new("RGB", (512, 512), (0, 0, 0))
 
         return stream

@@ -14,8 +14,6 @@ from utils.wrapper import StreamV2VWrapper  # noqa: E402
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-torch.cuda.empty_cache()
-torch.cuda.ipc_collect()
 def parse_args():
     p = argparse.ArgumentParser("StreamV2V video editing (argparse version)")
     # Required-ish I/O
@@ -28,8 +26,8 @@ def parse_args():
     p.add_argument("--model_id", type=str, default="Jiali/stable-diffusion-1.5")
     p.add_argument("--scale", type=float, default=1.0, help="Spatial scale factor for H,W")
     p.add_argument("--guidance_scale", type=float, default=1.0)
-    p.add_argument("--diffusion_steps", type=int, default=4)
-    p.add_argument("--noise_strength", type=float, default=0.4)
+    p.add_argument("--diffusion_steps", type=int, default=6)
+    p.add_argument("--noise_strength", type=float, default=0.6)
 
     # Performance/acceleration
     p.add_argument("--acceleration", type=str, choices=["none", "xformers", "tensorrt"], default="xformers")
@@ -79,25 +77,25 @@ def main(
     out_dir = os.path.dirname(output_path)
     if out_dir:
         os.makedirs(out_dir, exist_ok=True)
-    print("A")
+
     # --- read input video ---
     video_tensor, _, info = read_video(input_path)  # [T,H,W,C], uint8
     fps = float(info["video_fps"])
     video = video_tensor.float() / 255.0  # [0,1] float
-    print("B")
+
     # --- compute scaled dims (keep divisible by 8 for diffusion safety) ---
     in_h, in_w = int(video.shape[1]), int(video.shape[2])
     h = max(8, int(in_h * scale))
     w = max(8, int(in_w * scale))
     h = (h // 8) * 8
     w = (w // 8) * 8
-    print("C")
+
     # --- build timesteps schedule ---
     steps = max(1, diffusion_steps)
     init_step = int(50 * (1.0 - noise_strength))
     interval = max(1, int(50 * noise_strength) // steps)
     t_index_list = [init_step + i * interval for i in range(steps)]
-    print("D")
+
     # --- init wrapper ---
     stream = StreamV2VWrapper(
         model_id_or_path=model_id,
@@ -123,30 +121,30 @@ def main(
         seed=seed,
     )
     stream.prepare(prompt=prompt, num_inference_steps=50, guidance_scale=guidance_scale)
-    print("E")
+
     # --- optional LoRAs by prompt keywords ---
     if any(word in prompt for word in ["pixelart", "pixel art", "Pixel art", "PixArFK"]):
-        stream.stream.load_lora("./lora_weights/PixelArtRedmond15V-PixelArt-PIXARFK.safetensors", adapter_name="pixelart")
+        stream.stream.load_lora("/home/alaa.mohamed/streamv2v/vid2vid//lora_weights/PixelArtRedmond15V-PixelArt-PIXARFK.safetensors", adapter_name="pixelart")
         stream.stream.pipe.set_adapters(["lcm", "pixelart"], adapter_weights=[1.0, 1.0])
         print("Use LORA: pixelart")
     elif any(word in prompt for word in ["lowpoly", "low poly", "Low poly"]):
-        stream.stream.load_lora("./lora_weights/low_poly.safetensors", adapter_name="lowpoly")
+        stream.stream.load_lora("/home/alaa.mohamed/streamv2v/vid2vid//lora_weights/low_poly.safetensors", adapter_name="lowpoly")
         stream.stream.pipe.set_adapters(["lcm", "lowpoly"], adapter_weights=[1.0, 1.0])
         print("Use LORA: lowpoly")
     elif any(word in prompt for word in ["Claymation", "claymation"]):
-        stream.stream.load_lora("./lora_weights/Claymation.safetensors", adapter_name="claymation")
+        stream.stream.load_lora("/home/alaa.mohamed/streamv2v/vid2vid//lora_weights/Claymation.safetensors", adapter_name="claymation")
         stream.stream.pipe.set_adapters(["lcm", "claymation"], adapter_weights=[1.0, 1.0])
         print("Use LORA: claymation")
     elif any(word in prompt for word in ["crayons", "Crayons", "crayons doodle", "Crayons doodle"]):
-        stream.stream.load_lora("./lora_weights/doodle.safetensors", adapter_name="crayons")
+        stream.stream.load_lora("/home/alaa.mohamed/streamv2v/vid2vid//lora_weights/doodle.safetensors", adapter_name="crayons")
         stream.stream.pipe.set_adapters(["lcm", "crayons"], adapter_weights=[1.0, 1.0])
         print("Use LORA: crayons")
     elif any(word in prompt for word in ["sketch", "Sketch", "pencil drawing", "Pencil drawing"]):
-        stream.stream.load_lora("./lora_weights/Sketch_offcolor.safetensors", adapter_name="sketch")
+        stream.stream.load_lora("/home/alaa.mohamed/streamv2v/vid2vid//lora_weights/Sketch_offcolor.safetensors", adapter_name="sketch")
         stream.stream.pipe.set_adapters(["lcm", "sketch"], adapter_weights=[1.0, 1.0])
         print("Use LORA: sketch")
     elif any(word in prompt for word in ["oil painting", "Oil painting"]):
-        stream.stream.load_lora("./lora_weights/bichu-v0612.safetensors", adapter_name="oilpainting")
+        stream.stream.load_lora("/home/alaa.mohamed/streamv2v/vid2vid//lora_weights/bichu-v0612.safetensors", adapter_name="oilpainting")
         stream.stream.pipe.set_adapters(["lcm", "oilpainting"], adapter_weights=[1.0, 1.0])
         print("Use LORA: oilpainting")
 
@@ -154,7 +152,7 @@ def main(
     out_video = torch.zeros(video.shape[0], h, w, 3, dtype=torch.float32)
     for _ in range(stream.batch_size):
         stream(image=video[0].permute(2, 0, 1))
-    print("F")
+
     # --- inference loop ---
     times = []
     for i in tqdm(range(video.shape[0])):
@@ -166,27 +164,12 @@ def main(
     if len(times) > 20:
         print(f"Avg/frame (skip first 20): {sum(times[20:]) / len(times[20:]):.4f}s")
 
-    # # --- save output exactly where requested ---
+    # --- save output exactly where requested ---
     from fractions import Fraction
 
     out_video = out_video * 255
     fps = Fraction(float(fps)).limit_denominator()
     write_video(output_path, out_video, fps=fps, video_codec="libx264")
-    # --- save output exactly where requested ---
-    # import imageio.v2 as iio
-    # from fractions import Fraction
-
-    # # ensure uint8 on CPU
-    # # (if you kept a full tensor, convert it once; if you stream frames, do inside the loop)
-    # fps = Fraction(float(fps)).limit_denominator()
-    # writer = iio.get_writer(output_path, fps=float(fps), codec='libx264', quality=8)
-
-    # for i in range(out_video.shape[0]):
-    #     frame = out_video[i].clamp(0, 255).to(torch.uint8).cpu().numpy()
-    #     writer.append_data(frame)
-
-    # writer.close()
-
 
 
 if __name__ == "__main__":

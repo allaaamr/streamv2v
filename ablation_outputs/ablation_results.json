@@ -1,337 +1,2021 @@
 {
-  "0.1": {
-    "soccerball": {
-      "warp_error": 107.6496688862254,
-      "clip_avg": 34.427376937866214,
-      "clip_max": 37.43516540527344,
-      "status": "success"
-    },
-    "dog-agility": {
-      "warp_error": 114.33422105419261,
-      "clip_avg": 31.05004946390788,
-      "clip_max": 35.132080078125,
-      "status": "success"
-    },
-    "gold-fish": {
-      "warp_error": 99.9565070940024,
-      "clip_avg": 29.19650149345398,
-      "clip_max": 30.41205406188965,
-      "status": "success"
-    },
-    "tennis": {
-      "warp_error": 111.58099854658076,
-      "clip_avg": 25.799680709838867,
-      "clip_max": 26.5234432220459,
-      "status": "success"
-    },
-    "walking": {
-      "warp_error": 116.484340220824,
-      "clip_avg": 26.109726667404175,
-      "clip_max": 28.706058502197266,
-      "status": "success"
-    },
-    "tennis-vest": {
-      "warp_error": 105.0863025613639,
-      "clip_avg": 22.44594717025757,
-      "clip_max": 25.227933883666992,
-      "status": "success"
-    },
-    "flamingo": {
-      "warp_error": 111.11391025838361,
-      "clip_avg": 29.913864135742188,
-      "clip_max": 31.19658851623535,
-      "status": "success"
-    },
-    "sheep": {
-      "warp_error": 49.48594847482376,
-      "clip_avg": 31.710260936192103,
-      "clip_max": 32.18926239013672,
-      "status": "success"
-    },
-    "guitar-violin": {
-      "warp_error": 113.87402098990742,
-      "clip_avg": 26.149093945821125,
-      "clip_max": 29.128021240234375,
-      "status": "success"
-    }
-  },
   "0.2": {
-    "soccerball": {
-      "warp_error": 103.86702921601254,
-      "clip_avg": 33.368256378173825,
-      "clip_max": 35.99574279785156,
+    "soccerball_a soccer ball is sitting in the grass next to a tree, in flat 2d anime": {
+      "warp_error": 100.60436654816368,
+      "text_score": 0.32891353964805603,
+      "consistency_score": 0.9184001684188843,
       "status": "success"
     },
-    "dog-agility": {
-      "warp_error": 114.14152556186507,
-      "clip_avg": 33.970411936442055,
-      "clip_max": 36.16551971435547,
+    "dog-agility_a dog running through a field of poles, in flat 2d anime": {
+      "warp_error": 113.5437338911119,
+      "text_score": 0.35362696647644043,
+      "consistency_score": 0.9235374927520752,
       "status": "success"
     },
-    "gold-fish": {
-      "warp_error": 98.68626728498252,
-      "clip_avg": 28.740620374679565,
-      "clip_max": 30.036697387695312,
+    "gold-fish_goldfish in aquarium, in flat 2d anime": {
+      "warp_error": 100.93578902294507,
+      "text_score": 0.29396575689315796,
+      "consistency_score": 0.9759582281112671,
       "status": "success"
     },
-    "tennis": {
-      "warp_error": 109.75758645058369,
-      "clip_avg": 25.255178996494838,
-      "clip_max": 26.93891143798828,
+    "tennis_a man holding a tennis racket on a tennis court, in flat 2d anime": {
+      "warp_error": 111.54661603629599,
+      "text_score": 0.2544788420200348,
+      "consistency_score": 0.9107257723808289,
       "status": "success"
     },
-    "walking": {
-      "warp_error": 117.16640944294056,
-      "clip_avg": 25.9238703250885,
-      "clip_max": 29.724184036254883,
+    "walking_a man taking a selfie with a woman on a street, in flat 2d anime": {
+      "warp_error": 120.62367504671192,
+      "text_score": 0.2510965168476105,
+      "consistency_score": 0.8596897721290588,
       "status": "success"
     },
-    "tennis-vest": {
-      "warp_error": 100.531339171796,
-      "clip_avg": 23.69794535636902,
-      "clip_max": 29.075740814208984,
+    "tennis-vest_a man holding a tennis racket on a tennis court, in flat 2d anime": {
+      "warp_error": 101.31564656898337,
+      "text_score": 0.2325635403394699,
+      "consistency_score": 0.930148184299469,
       "status": "success"
     },
-    "flamingo": {
-      "warp_error": 108.96854326028024,
-      "clip_avg": 30.45075535774231,
-      "clip_max": 31.437114715576172,
+    "flamingo_a group of flamingos standing in the water, in flat 2d anime": {
+      "warp_error": 109.63906234481982,
+      "text_score": 0.31131553649902344,
+      "consistency_score": 0.9591637253761292,
       "status": "success"
     },
-    "sheep": {
-      "warp_error": 51.15225036300232,
-      "clip_avg": 30.7556027003697,
-      "clip_max": 31.51271629333496,
+    "sheep_a group of sheep and a baby lamb in a field, in flat 2d anime": {
+      "warp_error": 54.66470913762131,
+      "text_score": 0.3227505385875702,
+      "consistency_score": 0.9682774543762207,
       "status": "success"
     },
-    "guitar-violin": {
-      "warp_error": 113.10531226841134,
-      "clip_avg": 26.47116247812907,
-      "clip_max": 29.798036575317383,
+    "guitar-violin_two men playing violin and guitar in a room, in flat 2d anime": {
+      "warp_error": 113.33885739202493,
+      "text_score": 0.2700868844985962,
+      "consistency_score": 0.8924522399902344,
+      "status": "success"
+    },
+    "pigs_A Chinese ink painting of a group of pigs are standing on the ground": {
+      "warp_error": 109.99469915026246,
+      "text_score": 0.2452910840511322,
+      "consistency_score": 0.9645147323608398,
+      "status": "success"
+    },
+    "gold-fish_A Chinese ink painting of goldfish in aquarium": {
+      "warp_error": 99.58097802020201,
+      "text_score": 0.26423031091690063,
+      "consistency_score": 0.9779663681983948,
+      "status": "success"
+    },
+    "mallard-water_A Chinese ink painting of a duck swimming in a pond with some trees": {
+      "warp_error": 119.86349734228753,
+      "text_score": 0.2347910851240158,
+      "consistency_score": 0.9236379861831665,
+      "status": "success"
+    },
+    "guitar-violin_A Chinese ink painting of two men playing violin and guitar in a room": {
+      "warp_error": 113.06233864681556,
+      "text_score": 0.22248105704784393,
+      "consistency_score": 0.9130719304084778,
+      "status": "success"
+    },
+    "pigs_A group of cows are standing on the ground.": {
+      "warp_error": 109.42423296154179,
+      "text_score": 0.2696477770805359,
+      "consistency_score": 0.9584949612617493,
+      "status": "success"
+    },
+    "dog-agility_A Corgi running through a field of poles.": {
+      "warp_error": 113.94572671577083,
+      "text_score": 0.33759570121765137,
+      "consistency_score": 0.9299560785293579,
+      "status": "success"
+    },
+    "dog-agility_A Husky running through a field of poles.": {
+      "warp_error": 113.21362525390181,
+      "text_score": 0.344568133354187,
+      "consistency_score": 0.8869922757148743,
+      "status": "success"
+    },
+    "mallard-water_A flamingo swimming in a pond with some trees.": {
+      "warp_error": 118.58098596140677,
+      "text_score": 0.31741082668304443,
+      "consistency_score": 0.9249156713485718,
+      "status": "success"
+    },
+    "mallard-water_A swan swimming in a pond with some trees.": {
+      "warp_error": 118.8536828328809,
+      "text_score": 0.2867995500564575,
+      "consistency_score": 0.9188557267189026,
+      "status": "success"
+    },
+    "dogs-jump_A woman is standing in a field with two tigers.": {
+      "warp_error": 89.3358617557646,
+      "text_score": 0.2696535587310791,
+      "consistency_score": 0.8850480318069458,
+      "status": "success"
+    },
+    "dogs-jump_A woman is standing in a field with two leopards.": {
+      "warp_error": 89.07405509926826,
+      "text_score": 0.2488049566745758,
+      "consistency_score": 0.882839560508728,
+      "status": "success"
+    },
+    "dogs-jump_A woman is standing in a field with two dogs in front of the Egyptian pyramids.": {
+      "warp_error": 89.31087884040522,
+      "text_score": 0.27245578169822693,
+      "consistency_score": 0.8957773447036743,
+      "status": "success"
+    },
+    "gold-fish_Goldfish in an aquarium surrounded by colorful coral reefs.": {
+      "warp_error": 100.3740614092332,
+      "text_score": 0.30769193172454834,
+      "consistency_score": 0.9767943024635315,
+      "status": "success"
+    },
+    "sheep_A group of cows and a baby calf in a field.": {
+      "warp_error": 52.82012511045308,
+      "text_score": 0.313366174697876,
+      "consistency_score": 0.9615639448165894,
+      "status": "success"
+    },
+    "breakdance-flare_An impressionist painting of a man doing a handstand on the street": {
+      "warp_error": 113.16899284867803,
+      "text_score": 0.30638039112091064,
+      "consistency_score": 0.8830597996711731,
+      "status": "success"
+    },
+    "mallard-water_An impressionist painting of a duck swimming in a pond with some trees": {
+      "warp_error": 118.96124989361154,
+      "text_score": 0.29234158992767334,
+      "consistency_score": 0.924767792224884,
+      "status": "success"
+    },
+    "breakdance_An impressionist painting of a man doing a handstand on a brick wall": {
+      "warp_error": 67.85787433713983,
+      "text_score": 0.2115420550107956,
+      "consistency_score": 0.9035178422927856,
+      "status": "success"
+    },
+    "sheep_An impressionist painting of a group of sheep and a baby lamb in a field": {
+      "warp_error": 54.45123433168559,
+      "text_score": 0.3025083541870117,
+      "consistency_score": 0.9618793725967407,
+      "status": "success"
+    },
+    "guitar-violin_An impressionist painting of two men playing violin and guitar in a room": {
+      "warp_error": 112.07729945482045,
+      "text_score": 0.25396132469177246,
+      "consistency_score": 0.9018275141716003,
+      "status": "success"
+    },
+    "dancing_An impressionist painting of a group of people dancing in the street": {
+      "warp_error": 105.25817125431769,
+      "text_score": 0.3226522207260132,
+      "consistency_score": 0.9027439951896667,
+      "status": "success"
+    },
+    "soccerball_An oil painting of a soccer ball is sitting in the grass next to a tree": {
+      "warp_error": 100.19196032801456,
+      "text_score": 0.31238123774528503,
+      "consistency_score": 0.9234826564788818,
+      "status": "success"
+    },
+    "dog-agility_An oil painting of a dog running through a field of poles": {
+      "warp_error": 113.4788155798855,
+      "text_score": 0.3120921552181244,
+      "consistency_score": 0.9062619805335999,
+      "status": "success"
+    },
+    "gold-fish_An oil painting of goldfish in aquarium": {
+      "warp_error": 97.75045907738405,
+      "text_score": 0.2961198687553406,
+      "consistency_score": 0.9807887077331543,
+      "status": "success"
+    },
+    "salsa_An oil painting of a group of people dancing on a street": {
+      "warp_error": 90.1295729855408,
+      "text_score": 0.25169774889945984,
+      "consistency_score": 0.9200686812400818,
+      "status": "success"
+    },
+    "soccerball_A pixel art of a soccer ball is sitting in the grass next to a tree": {
+      "warp_error": 96.49744244738945,
+      "text_score": 0.31197139620780945,
+      "consistency_score": 0.9227553606033325,
+      "status": "success"
+    },
+    "pigs_A pixel art of a group of pigs are standing on the ground": {
+      "warp_error": 103.28356235673948,
+      "text_score": 0.3270472288131714,
+      "consistency_score": 0.9456992149353027,
+      "status": "success"
+    },
+    "dog-agility_A pixel art of a dog running through a field of poles": {
+      "warp_error": 110.30973880873995,
+      "text_score": 0.3079361021518707,
+      "consistency_score": 0.8948289155960083,
+      "status": "success"
+    },
+    "elephant_A pixel art of a large elephant standing in a dirt area": {
+      "warp_error": 109.07069049775218,
+      "text_score": 0.32113444805145264,
+      "consistency_score": 0.9502397179603577,
+      "status": "success"
+    },
+    "breakdance-flare_A pixel art of a man doing a handstand on the street": {
+      "warp_error": 112.43577475603331,
+      "text_score": 0.2812499403953552,
+      "consistency_score": 0.8944703936576843,
+      "status": "success"
+    },
+    "gold-fish_A pixel art of goldfish in aquarium": {
+      "warp_error": 97.98802172397093,
+      "text_score": 0.2766256630420685,
+      "consistency_score": 0.9731393456459045,
+      "status": "success"
+    },
+    "lindy-hop_A pixel art of a group of people dancing in a dance studio": {
+      "warp_error": 105.02202460888427,
+      "text_score": 0.2947092056274414,
+      "consistency_score": 0.9252145290374756,
+      "status": "success"
+    },
+    "flamingo_A pixel art of a group of flamingos standing in the water": {
+      "warp_error": 108.54879385919371,
+      "text_score": 0.2871183156967163,
+      "consistency_score": 0.9562717080116272,
+      "status": "success"
+    },
+    "breakdance_A pixel art of a man doing a handstand on a brick wall": {
+      "warp_error": 68.61624586035522,
+      "text_score": 0.28390398621559143,
+      "consistency_score": 0.9133552312850952,
+      "status": "success"
+    },
+    "sheep_A pixel art of a group of sheep and a baby lamb in a field": {
+      "warp_error": 48.603064351394856,
+      "text_score": 0.3006582260131836,
+      "consistency_score": 0.9625020027160645,
+      "status": "success"
+    },
+    "guitar-violin_A pixel art of two men playing violin and guitar in a room": {
+      "warp_error": 110.73014079728976,
+      "text_score": 0.24762019515037537,
+      "consistency_score": 0.9092839360237122,
+      "status": "success"
+    },
+    "guitar-violin_A pencil sketch of two men playing violin and guitar in a room": {
+      "warp_error": 112.53272620044471,
+      "text_score": 0.23259572684764862,
+      "consistency_score": 0.8889971971511841,
+      "status": "success"
+    },
+    "dog-agility_Ukiyo-e Art - a dog running through a field of poles": {
+      "warp_error": 113.35838608700506,
+      "text_score": 0.2671154737472534,
+      "consistency_score": 0.9181564450263977,
+      "status": "success"
+    },
+    "gold-fish_Ukiyo-e Art - goldfish in aquarium": {
+      "warp_error": 100.83295613064631,
+      "text_score": 0.2598998248577118,
+      "consistency_score": 0.9786096811294556,
+      "status": "success"
+    },
+    "tennis_Ukiyo-e Art - a man holding a tennis racket on a tennis court": {
+      "warp_error": 110.8773266007673,
+      "text_score": 0.17596569657325745,
+      "consistency_score": 0.8977181315422058,
+      "status": "success"
+    },
+    "tennis-vest_Ukiyo-e Art - a man holding a tennis racket on a tennis court": {
+      "warp_error": 101.67870281609278,
+      "text_score": 0.16441020369529724,
+      "consistency_score": 0.928551971912384,
+      "status": "success"
+    },
+    "flamingo_Ukiyo-e Art - a group of flamingos standing in the water": {
+      "warp_error": 109.25377466700911,
+      "text_score": 0.25198835134506226,
+      "consistency_score": 0.9494726657867432,
+      "status": "success"
+    },
+    "guitar-violin_Ukiyo-e Art - two men playing violin and guitar in a room": {
+      "warp_error": 113.38541267483589,
+      "text_score": 0.20436815917491913,
+      "consistency_score": 0.899228036403656,
+      "status": "success"
+    },
+    "dancing_Ukiyo-e Art - a group of people dancing in the street": {
+      "warp_error": 105.2887913498778,
+      "text_score": 0.280245840549469,
+      "consistency_score": 0.9010852575302124,
+      "status": "success"
+    },
+    "salsa_Ukiyo-e Art - a group of people dancing on a street": {
+      "warp_error": 90.6742007814341,
+      "text_score": 0.20987491309642792,
+      "consistency_score": 0.8960950970649719,
+      "status": "success"
+    },
+    "soccerball_A Van Gogh style painting of a soccer ball is sitting in the grass next to a tree": {
+      "warp_error": 100.35228409762615,
+      "text_score": 0.31064873933792114,
+      "consistency_score": 0.9116579294204712,
+      "status": "success"
+    },
+    "pigs_A Van Gogh style painting of a group of pigs are standing on the ground": {
+      "warp_error": 111.14161740642837,
+      "text_score": 0.24200895428657532,
+      "consistency_score": 0.9599197506904602,
+      "status": "success"
+    },
+    "dog-agility_A Van Gogh style painting of a dog running through a field of poles": {
+      "warp_error": 111.6371692593547,
+      "text_score": 0.2737922668457031,
+      "consistency_score": 0.9093376398086548,
+      "status": "success"
+    },
+    "breakdance-flare_A Van Gogh style painting of a man doing a handstand on the street": {
+      "warp_error": 113.1427951577068,
+      "text_score": 0.275562584400177,
+      "consistency_score": 0.8836591243743896,
+      "status": "success"
+    },
+    "tennis_A Van Gogh style painting of a man holding a tennis racket on a tennis court": {
+      "warp_error": 111.30944266593575,
+      "text_score": 0.21561528742313385,
+      "consistency_score": 0.9138234853744507,
+      "status": "success"
+    },
+    "walking_A Van Gogh style painting of a man taking a selfie with a woman on a street": {
+      "warp_error": 120.51996462593068,
+      "text_score": 0.24542075395584106,
+      "consistency_score": 0.8513148427009583,
+      "status": "success"
+    },
+    "mallard-water_A Van Gogh style painting of a duck swimming in a pond with some trees": {
+      "warp_error": 119.62166719951459,
+      "text_score": 0.25804364681243896,
+      "consistency_score": 0.9462791085243225,
+      "status": "success"
+    },
+    "lindy-hop_A Van Gogh style painting of a group of people dancing in a dance studio": {
+      "warp_error": 106.89942605192901,
+      "text_score": 0.25356024503707886,
+      "consistency_score": 0.9486632347106934,
+      "status": "success"
+    },
+    "tennis-vest_A Van Gogh style painting of a man holding a tennis racket on a tennis court": {
+      "warp_error": 100.90343590241855,
+      "text_score": 0.19312039017677307,
+      "consistency_score": 0.9301511645317078,
+      "status": "success"
+    },
+    "flamingo_A Van Gogh style painting of a group of flamingos standing in the water": {
+      "warp_error": 109.1882215673137,
+      "text_score": 0.25474968552589417,
+      "consistency_score": 0.9478972554206848,
+      "status": "success"
+    },
+    "breakdance_A Van Gogh style painting of a man doing a handstand on a brick wall": {
+      "warp_error": 68.25466251867465,
+      "text_score": 0.18626846373081207,
+      "consistency_score": 0.9096884727478027,
+      "status": "success"
+    },
+    "dogs-jump_A Van Gogh style painting of a woman is standing in a field with two dogs": {
+      "warp_error": 90.33683932509341,
+      "text_score": 0.24876707792282104,
+      "consistency_score": 0.894178569316864,
+      "status": "success"
+    },
+    "guitar-violin_A Van Gogh style painting of two men playing violin and guitar in a room": {
+      "warp_error": 112.70636184003331,
+      "text_score": 0.19384849071502686,
+      "consistency_score": 0.8996309638023376,
+      "status": "success"
+    },
+    "salsa_A Van Gogh style painting of a group of people dancing on a street": {
+      "warp_error": 91.08911544280218,
+      "text_score": 0.22916539013385773,
+      "consistency_score": 0.915799617767334,
       "status": "success"
     }
   },
   "0.4": {
-    "soccerball": {
-      "warp_error": 106.85898432094592,
-      "clip_avg": 32.72162780761719,
-      "clip_max": 36.25181579589844,
+    "soccerball_a soccer ball is sitting in the grass next to a tree, in flat 2d anime": {
+      "warp_error": 108.24237121421517,
+      "text_score": 0.3433435559272766,
+      "consistency_score": 0.9145773649215698,
       "status": "success"
     },
-    "dog-agility": {
-      "warp_error": 113.57519931941056,
-      "clip_avg": 34.54486338297526,
-      "clip_max": 36.31733703613281,
+    "dog-agility_a dog running through a field of poles, in flat 2d anime": {
+      "warp_error": 112.08974590393183,
+      "text_score": 0.36605438590049744,
+      "consistency_score": 0.9272201061248779,
       "status": "success"
     },
-    "gold-fish": {
-      "warp_error": 95.37128436473083,
-      "clip_avg": 28.661607027053833,
-      "clip_max": 29.734573364257812,
+    "gold-fish_goldfish in aquarium, in flat 2d anime": {
+      "warp_error": 97.32476900653216,
+      "text_score": 0.28624269366264343,
+      "consistency_score": 0.9556573033332825,
       "status": "success"
     },
-    "tennis": {
-      "warp_error": 105.42108166324988,
-      "clip_avg": 26.83803912571498,
-      "clip_max": 30.539003372192383,
+    "tennis_a man holding a tennis racket on a tennis court, in flat 2d anime": {
+      "warp_error": 107.47540189206426,
+      "text_score": 0.2755802869796753,
+      "consistency_score": 0.8894971609115601,
       "status": "success"
     },
-    "walking": {
-      "warp_error": 116.65292312122428,
-      "clip_avg": 27.46286964416504,
-      "clip_max": 31.19403076171875,
+    "walking_a man taking a selfie with a woman on a street, in flat 2d anime": {
+      "warp_error": 120.09861129648571,
+      "text_score": 0.26899975538253784,
+      "consistency_score": 0.8135455250740051,
       "status": "success"
     },
-    "tennis-vest": {
-      "warp_error": 94.05950179694032,
-      "clip_avg": 26.943821668624878,
-      "clip_max": 29.803462982177734,
+    "tennis-vest_a man holding a tennis racket on a tennis court, in flat 2d anime": {
+      "warp_error": 99.99812262161639,
+      "text_score": 0.270432710647583,
+      "consistency_score": 0.8630660772323608,
       "status": "success"
     },
-    "flamingo": {
-      "warp_error": 108.37063044617315,
-      "clip_avg": 31.746499061584473,
-      "clip_max": 32.49268341064453,
+    "flamingo_a group of flamingos standing in the water, in flat 2d anime": {
+      "warp_error": 108.83442827017319,
+      "text_score": 0.31623318791389465,
+      "consistency_score": 0.9660487174987793,
       "status": "success"
     },
-    "sheep": {
-      "warp_error": 47.530461180213415,
-      "clip_avg": 32.59684262956892,
-      "clip_max": 33.16942596435547,
+    "sheep_a group of sheep and a baby lamb in a field, in flat 2d anime": {
+      "warp_error": 51.56749830606999,
+      "text_score": 0.32394158840179443,
+      "consistency_score": 0.9453332424163818,
       "status": "success"
     },
-    "guitar-violin": {
-      "warp_error": 107.7626671358851,
-      "clip_avg": 27.44731267293294,
-      "clip_max": 30.470565795898438,
+    "guitar-violin_two men playing violin and guitar in a room, in flat 2d anime": {
+      "warp_error": 109.32461608178444,
+      "text_score": 0.2670321762561798,
+      "consistency_score": 0.8973069190979004,
+      "status": "success"
+    },
+    "pigs_A Chinese ink painting of a group of pigs are standing on the ground": {
+      "warp_error": 107.76660661214733,
+      "text_score": 0.254350483417511,
+      "consistency_score": 0.9329479932785034,
+      "status": "success"
+    },
+    "gold-fish_A Chinese ink painting of goldfish in aquarium": {
+      "warp_error": 97.11271973592112,
+      "text_score": 0.25584766268730164,
+      "consistency_score": 0.9645402431488037,
+      "status": "success"
+    },
+    "mallard-water_A Chinese ink painting of a duck swimming in a pond with some trees": {
+      "warp_error": 117.10171623730743,
+      "text_score": 0.2532035708427429,
+      "consistency_score": 0.9481760859489441,
+      "status": "success"
+    },
+    "guitar-violin_A Chinese ink painting of two men playing violin and guitar in a room": {
+      "warp_error": 110.26473880105914,
+      "text_score": 0.2248704731464386,
+      "consistency_score": 0.8999575972557068,
+      "status": "success"
+    },
+    "pigs_A group of cows are standing on the ground.": {
+      "warp_error": 103.45566744729341,
+      "text_score": 0.2958219051361084,
+      "consistency_score": 0.9485966563224792,
+      "status": "success"
+    },
+    "dog-agility_A Corgi running through a field of poles.": {
+      "warp_error": 113.69387048308094,
+      "text_score": 0.3544405400753021,
+      "consistency_score": 0.8863581418991089,
+      "status": "success"
+    },
+    "dog-agility_A Husky running through a field of poles.": {
+      "warp_error": 111.50514895942781,
+      "text_score": 0.3783939480781555,
+      "consistency_score": 0.9026753902435303,
+      "status": "success"
+    },
+    "mallard-water_A flamingo swimming in a pond with some trees.": {
+      "warp_error": 114.23100866909671,
+      "text_score": 0.3105355501174927,
+      "consistency_score": 0.9354923963546753,
+      "status": "success"
+    },
+    "mallard-water_A swan swimming in a pond with some trees.": {
+      "warp_error": 113.6479817622651,
+      "text_score": 0.296722412109375,
+      "consistency_score": 0.9596258997917175,
+      "status": "success"
+    },
+    "dogs-jump_A woman is standing in a field with two tigers.": {
+      "warp_error": 89.39285540479453,
+      "text_score": 0.2855026423931122,
+      "consistency_score": 0.8938528895378113,
+      "status": "success"
+    },
+    "dogs-jump_A woman is standing in a field with two leopards.": {
+      "warp_error": 88.62999905375777,
+      "text_score": 0.27428311109542847,
+      "consistency_score": 0.884269118309021,
+      "status": "success"
+    },
+    "dogs-jump_A woman is standing in a field with two dogs in front of the Egyptian pyramids.": {
+      "warp_error": 89.55263010330403,
+      "text_score": 0.2728637456893921,
+      "consistency_score": 0.870091438293457,
+      "status": "success"
+    },
+    "gold-fish_Goldfish in an aquarium surrounded by colorful coral reefs.": {
+      "warp_error": 96.46920025483715,
+      "text_score": 0.3046100437641144,
+      "consistency_score": 0.9692419171333313,
+      "status": "success"
+    },
+    "sheep_A group of cows and a baby calf in a field.": {
+      "warp_error": 49.14045692549081,
+      "text_score": 0.3065436780452728,
+      "consistency_score": 0.950637936592102,
+      "status": "success"
+    },
+    "breakdance-flare_An impressionist painting of a man doing a handstand on the street": {
+      "warp_error": 113.79654985704236,
+      "text_score": 0.24145501852035522,
+      "consistency_score": 0.8445637822151184,
+      "status": "success"
+    },
+    "mallard-water_An impressionist painting of a duck swimming in a pond with some trees": {
+      "warp_error": 115.91843404591155,
+      "text_score": 0.31343165040016174,
+      "consistency_score": 0.950110673904419,
+      "status": "success"
+    },
+    "breakdance_An impressionist painting of a man doing a handstand on a brick wall": {
+      "warp_error": 74.92339954604931,
+      "text_score": 0.2583732306957245,
+      "consistency_score": 0.9350751042366028,
+      "status": "success"
+    },
+    "sheep_An impressionist painting of a group of sheep and a baby lamb in a field": {
+      "warp_error": 51.713376634860126,
+      "text_score": 0.30489909648895264,
+      "consistency_score": 0.9623267650604248,
+      "status": "success"
+    },
+    "guitar-violin_An impressionist painting of two men playing violin and guitar in a room": {
+      "warp_error": 109.86355270625161,
+      "text_score": 0.24673601984977722,
+      "consistency_score": 0.8972692489624023,
+      "status": "success"
+    },
+    "dancing_An impressionist painting of a group of people dancing in the street": {
+      "warp_error": 105.22475265327849,
+      "text_score": 0.3295170068740845,
+      "consistency_score": 0.9365934133529663,
+      "status": "success"
+    },
+    "soccerball_An oil painting of a soccer ball is sitting in the grass next to a tree": {
+      "warp_error": 104.52705258947294,
+      "text_score": 0.3480853736400604,
+      "consistency_score": 0.8828088045120239,
+      "status": "success"
+    },
+    "dog-agility_An oil painting of a dog running through a field of poles": {
+      "warp_error": 109.83147924005932,
+      "text_score": 0.3298693895339966,
+      "consistency_score": 0.9220024347305298,
+      "status": "success"
+    },
+    "gold-fish_An oil painting of goldfish in aquarium": {
+      "warp_error": 94.08613227346083,
+      "text_score": 0.30847135186195374,
+      "consistency_score": 0.9689906239509583,
+      "status": "success"
+    },
+    "salsa_An oil painting of a group of people dancing on a street": {
+      "warp_error": 89.36394253614648,
+      "text_score": 0.2991432249546051,
+      "consistency_score": 0.9424847364425659,
+      "status": "success"
+    },
+    "soccerball_A pixel art of a soccer ball is sitting in the grass next to a tree": {
+      "warp_error": 101.6140444450124,
+      "text_score": 0.324486643075943,
+      "consistency_score": 0.8733075857162476,
+      "status": "success"
+    },
+    "pigs_A pixel art of a group of pigs are standing on the ground": {
+      "warp_error": 92.20016407876838,
+      "text_score": 0.33161407709121704,
+      "consistency_score": 0.9327331781387329,
+      "status": "success"
+    },
+    "dog-agility_A pixel art of a dog running through a field of poles": {
+      "warp_error": 105.36123959494846,
+      "text_score": 0.31954121589660645,
+      "consistency_score": 0.879260778427124,
+      "status": "success"
+    },
+    "elephant_A pixel art of a large elephant standing in a dirt area": {
+      "warp_error": 105.73525763859077,
+      "text_score": 0.36805808544158936,
+      "consistency_score": 0.9503426551818848,
+      "status": "success"
+    },
+    "breakdance-flare_A pixel art of a man doing a handstand on the street": {
+      "warp_error": 113.75047940871433,
+      "text_score": 0.28892409801483154,
+      "consistency_score": 0.8849497437477112,
+      "status": "success"
+    },
+    "gold-fish_A pixel art of goldfish in aquarium": {
+      "warp_error": 103.64039561895841,
+      "text_score": 0.2800181806087494,
+      "consistency_score": 0.9679366946220398,
+      "status": "success"
+    },
+    "lindy-hop_A pixel art of a group of people dancing in a dance studio": {
+      "warp_error": 103.72956526956936,
+      "text_score": 0.30902722477912903,
+      "consistency_score": 0.9205858111381531,
+      "status": "success"
+    },
+    "flamingo_A pixel art of a group of flamingos standing in the water": {
+      "warp_error": 106.46343231347464,
+      "text_score": 0.2928203344345093,
+      "consistency_score": 0.9668023586273193,
+      "status": "success"
+    },
+    "breakdance_A pixel art of a man doing a handstand on a brick wall": {
+      "warp_error": 78.95660193327768,
+      "text_score": 0.2936899662017822,
+      "consistency_score": 0.9145110845565796,
+      "status": "success"
+    },
+    "sheep_A pixel art of a group of sheep and a baby lamb in a field": {
+      "warp_error": 49.10584710966929,
+      "text_score": 0.31962358951568604,
+      "consistency_score": 0.9549635648727417,
+      "status": "success"
+    },
+    "guitar-violin_A pixel art of two men playing violin and guitar in a room": {
+      "warp_error": 108.42451355379973,
+      "text_score": 0.3186960816383362,
+      "consistency_score": 0.920352578163147,
+      "status": "success"
+    },
+    "guitar-violin_A pencil sketch of two men playing violin and guitar in a room": {
+      "warp_error": 112.92760575652422,
+      "text_score": 0.2498691976070404,
+      "consistency_score": 0.899167001247406,
+      "status": "success"
+    },
+    "dog-agility_Ukiyo-e Art - a dog running through a field of poles": {
+      "warp_error": 111.48853382442083,
+      "text_score": 0.2779597043991089,
+      "consistency_score": 0.9332116842269897,
+      "status": "success"
+    },
+    "gold-fish_Ukiyo-e Art - goldfish in aquarium": {
+      "warp_error": 97.6942597916024,
+      "text_score": 0.25400710105895996,
+      "consistency_score": 0.9625727534294128,
+      "status": "success"
+    },
+    "tennis_Ukiyo-e Art - a man holding a tennis racket on a tennis court": {
+      "warp_error": 108.04742500843443,
+      "text_score": 0.19480746984481812,
+      "consistency_score": 0.8806543350219727,
+      "status": "success"
+    },
+    "tennis-vest_Ukiyo-e Art - a man holding a tennis racket on a tennis court": {
+      "warp_error": 100.13014902103535,
+      "text_score": 0.19887052476406097,
+      "consistency_score": 0.888421893119812,
+      "status": "success"
+    },
+    "flamingo_Ukiyo-e Art - a group of flamingos standing in the water": {
+      "warp_error": 108.22879942900701,
+      "text_score": 0.26195383071899414,
+      "consistency_score": 0.970314621925354,
+      "status": "success"
+    },
+    "guitar-violin_Ukiyo-e Art - two men playing violin and guitar in a room": {
+      "warp_error": 110.14969421020662,
+      "text_score": 0.20042836666107178,
+      "consistency_score": 0.9016136527061462,
+      "status": "success"
+    },
+    "dancing_Ukiyo-e Art - a group of people dancing in the street": {
+      "warp_error": 104.3795760363446,
+      "text_score": 0.27406445145606995,
+      "consistency_score": 0.9316511154174805,
+      "status": "success"
+    },
+    "salsa_Ukiyo-e Art - a group of people dancing on a street": {
+      "warp_error": 89.8884524630849,
+      "text_score": 0.24426010251045227,
+      "consistency_score": 0.9275819063186646,
+      "status": "success"
+    },
+    "soccerball_A Van Gogh style painting of a soccer ball is sitting in the grass next to a tree": {
+      "warp_error": 106.57297325690544,
+      "text_score": 0.3259291350841522,
+      "consistency_score": 0.9112181663513184,
+      "status": "success"
+    },
+    "pigs_A Van Gogh style painting of a group of pigs are standing on the ground": {
+      "warp_error": 108.0356477429115,
+      "text_score": 0.2518777549266815,
+      "consistency_score": 0.9298792481422424,
+      "status": "success"
+    },
+    "dog-agility_A Van Gogh style painting of a dog running through a field of poles": {
+      "warp_error": 110.56737618534385,
+      "text_score": 0.2911404073238373,
+      "consistency_score": 0.9432133436203003,
+      "status": "success"
+    },
+    "breakdance-flare_A Van Gogh style painting of a man doing a handstand on the street": {
+      "warp_error": 114.67190538518805,
+      "text_score": 0.22776690125465393,
+      "consistency_score": 0.8410337567329407,
+      "status": "success"
+    },
+    "tennis_A Van Gogh style painting of a man holding a tennis racket on a tennis court": {
+      "warp_error": 108.68399701334604,
+      "text_score": 0.22545209527015686,
+      "consistency_score": 0.8898428678512573,
+      "status": "success"
+    },
+    "walking_A Van Gogh style painting of a man taking a selfie with a woman on a street": {
+      "warp_error": 120.36249396717821,
+      "text_score": 0.24508294463157654,
+      "consistency_score": 0.8195064067840576,
+      "status": "success"
+    },
+    "mallard-water_A Van Gogh style painting of a duck swimming in a pond with some trees": {
+      "warp_error": 116.48610992921891,
+      "text_score": 0.27573809027671814,
+      "consistency_score": 0.9452463388442993,
+      "status": "success"
+    },
+    "lindy-hop_A Van Gogh style painting of a group of people dancing in a dance studio": {
+      "warp_error": 104.76622333261405,
+      "text_score": 0.26538532972335815,
+      "consistency_score": 0.9221785068511963,
+      "status": "success"
+    },
+    "tennis-vest_A Van Gogh style painting of a man holding a tennis racket on a tennis court": {
+      "warp_error": 99.80194188710198,
+      "text_score": 0.2126530110836029,
+      "consistency_score": 0.8933169841766357,
+      "status": "success"
+    },
+    "flamingo_A Van Gogh style painting of a group of flamingos standing in the water": {
+      "warp_error": 106.51230116819603,
+      "text_score": 0.2702786922454834,
+      "consistency_score": 0.9719827175140381,
+      "status": "success"
+    },
+    "breakdance_A Van Gogh style painting of a man doing a handstand on a brick wall": {
+      "warp_error": 75.09555473143028,
+      "text_score": 0.23738224804401398,
+      "consistency_score": 0.9253585934638977,
+      "status": "success"
+    },
+    "dogs-jump_A Van Gogh style painting of a woman is standing in a field with two dogs": {
+      "warp_error": 92.02385103027503,
+      "text_score": 0.24787941575050354,
+      "consistency_score": 0.8752037882804871,
+      "status": "success"
+    },
+    "guitar-violin_A Van Gogh style painting of two men playing violin and guitar in a room": {
+      "warp_error": 110.261904013815,
+      "text_score": 0.186704620718956,
+      "consistency_score": 0.8978034853935242,
+      "status": "success"
+    },
+    "salsa_A Van Gogh style painting of a group of people dancing on a street": {
+      "warp_error": 90.06967528571207,
+      "text_score": 0.23702552914619446,
+      "consistency_score": 0.921779990196228,
       "status": "success"
     }
   },
   "0.6": {
-    "soccerball": {
-      "warp_error": 105.561975515456,
-      "clip_avg": 33.74080848693848,
-      "clip_max": 36.05321502685547,
+    "soccerball_a soccer ball is sitting in the grass next to a tree, in flat 2d anime": {
+      "warp_error": 108.64339184540033,
+      "text_score": 0.2923608720302582,
+      "consistency_score": 0.9031796455383301,
       "status": "success"
     },
-    "dog-agility": {
-      "warp_error": 110.55667389249817,
-      "clip_avg": 35.285569508870445,
-      "clip_max": 37.009124755859375,
+    "dog-agility_a dog running through a field of poles, in flat 2d anime": {
+      "warp_error": 112.00184840963009,
+      "text_score": 0.36008524894714355,
+      "consistency_score": 0.8941794633865356,
       "status": "success"
     },
-    "gold-fish": {
-      "warp_error": 85.98162149773098,
-      "clip_avg": 29.760364294052124,
-      "clip_max": 31.422250747680664,
+    "gold-fish_goldfish in aquarium, in flat 2d anime": {
+      "warp_error": 89.03877989801246,
+      "text_score": 0.30152347683906555,
+      "consistency_score": 0.957667350769043,
       "status": "success"
     },
-    "tennis": {
-      "warp_error": 109.13231979129502,
-      "clip_avg": 29.671749114990234,
-      "clip_max": 31.494335174560547,
+    "tennis_a man holding a tennis racket on a tennis court, in flat 2d anime": {
+      "warp_error": 112.45790754722641,
+      "text_score": 0.3034164011478424,
+      "consistency_score": 0.8151675462722778,
       "status": "success"
     },
-    "walking": {
-      "warp_error": 121.51605991236657,
-      "clip_avg": 27.63077688217163,
-      "clip_max": 29.238849639892578,
+    "walking_a man taking a selfie with a woman on a street, in flat 2d anime": {
+      "warp_error": 123.01155646876875,
+      "text_score": 0.2740742266178131,
+      "consistency_score": 0.8131319880485535,
       "status": "success"
     },
-    "tennis-vest": {
-      "warp_error": 93.66721213494615,
-      "clip_avg": 31.109481811523438,
-      "clip_max": 34.474456787109375,
+    "tennis-vest_a man holding a tennis racket on a tennis court, in flat 2d anime": {
+      "warp_error": 101.16316391120449,
+      "text_score": 0.3138478398323059,
+      "consistency_score": 0.8004211783409119,
       "status": "success"
     },
-    "flamingo": {
-      "warp_error": 106.48362654882543,
-      "clip_avg": 32.22305679321289,
-      "clip_max": 32.99375915527344,
+    "flamingo_a group of flamingos standing in the water, in flat 2d anime": {
+      "warp_error": 107.45030655180975,
+      "text_score": 0.31850239634513855,
+      "consistency_score": 0.9690182209014893,
       "status": "success"
     },
-    "sheep": {
-      "warp_error": 46.98595629821272,
-      "clip_avg": 32.41494015284947,
-      "clip_max": 33.61162567138672,
+    "sheep_a group of sheep and a baby lamb in a field, in flat 2d anime": {
+      "warp_error": 56.36622713918429,
+      "text_score": 0.31384798884391785,
+      "consistency_score": 0.9392115473747253,
       "status": "success"
     },
-    "guitar-violin": {
-      "warp_error": 108.35184574879816,
-      "clip_avg": 28.74724833170573,
-      "clip_max": 30.56446647644043,
+    "guitar-violin_two men playing violin and guitar in a room, in flat 2d anime": {
+      "warp_error": 110.7633667659384,
+      "text_score": 0.2726651430130005,
+      "consistency_score": 0.8959165811538696,
+      "status": "success"
+    },
+    "pigs_A Chinese ink painting of a group of pigs are standing on the ground": {
+      "warp_error": 102.13096671606318,
+      "text_score": 0.28283265233039856,
+      "consistency_score": 0.9058880805969238,
+      "status": "success"
+    },
+    "gold-fish_A Chinese ink painting of goldfish in aquarium": {
+      "warp_error": 87.7863267551436,
+      "text_score": 0.2784636318683624,
+      "consistency_score": 0.9608235359191895,
+      "status": "success"
+    },
+    "mallard-water_A Chinese ink painting of a duck swimming in a pond with some trees": {
+      "warp_error": 116.50170924363498,
+      "text_score": 0.28951531648635864,
+      "consistency_score": 0.9317690134048462,
+      "status": "success"
+    },
+    "guitar-violin_A Chinese ink painting of two men playing violin and guitar in a room": {
+      "warp_error": 111.91981247365518,
+      "text_score": 0.23251789808273315,
+      "consistency_score": 0.8765612840652466,
+      "status": "success"
+    },
+    "pigs_A group of cows are standing on the ground.": {
+      "warp_error": 110.60293468610645,
+      "text_score": 0.318500816822052,
+      "consistency_score": 0.9469029307365417,
+      "status": "success"
+    },
+    "dog-agility_A Corgi running through a field of poles.": {
+      "warp_error": 112.36474708188113,
+      "text_score": 0.3873736262321472,
+      "consistency_score": 0.9450345039367676,
+      "status": "success"
+    },
+    "dog-agility_A Husky running through a field of poles.": {
+      "warp_error": 111.60177116548961,
+      "text_score": 0.39960527420043945,
+      "consistency_score": 0.9290358424186707,
+      "status": "success"
+    },
+    "mallard-water_A flamingo swimming in a pond with some trees.": {
+      "warp_error": 109.62398569742948,
+      "text_score": 0.3445271849632263,
+      "consistency_score": 0.9258382320404053,
+      "status": "success"
+    },
+    "mallard-water_A swan swimming in a pond with some trees.": {
+      "warp_error": 110.61835601799223,
+      "text_score": 0.29678934812545776,
+      "consistency_score": 0.9384328722953796,
+      "status": "success"
+    },
+    "dogs-jump_A woman is standing in a field with two tigers.": {
+      "warp_error": 89.2406295445953,
+      "text_score": 0.27240368723869324,
+      "consistency_score": 0.9044153094291687,
+      "status": "success"
+    },
+    "dogs-jump_A woman is standing in a field with two leopards.": {
+      "warp_error": 88.33752765259646,
+      "text_score": 0.26362377405166626,
+      "consistency_score": 0.9127329587936401,
+      "status": "success"
+    },
+    "dogs-jump_A woman is standing in a field with two dogs in front of the Egyptian pyramids.": {
+      "warp_error": 89.77656165816282,
+      "text_score": 0.29374757409095764,
+      "consistency_score": 0.8513967990875244,
+      "status": "success"
+    },
+    "gold-fish_Goldfish in an aquarium surrounded by colorful coral reefs.": {
+      "warp_error": 91.25000348641525,
+      "text_score": 0.3124328851699829,
+      "consistency_score": 0.9618203043937683,
+      "status": "success"
+    },
+    "sheep_A group of cows and a baby calf in a field.": {
+      "warp_error": 52.00193552017779,
+      "text_score": 0.31312036514282227,
+      "consistency_score": 0.96397864818573,
+      "status": "success"
+    },
+    "breakdance-flare_An impressionist painting of a man doing a handstand on the street": {
+      "warp_error": 117.53093499288225,
+      "text_score": 0.22679567337036133,
+      "consistency_score": 0.8896406888961792,
+      "status": "success"
+    },
+    "mallard-water_An impressionist painting of a duck swimming in a pond with some trees": {
+      "warp_error": 110.86187807150478,
+      "text_score": 0.3005923926830292,
+      "consistency_score": 0.9414625763893127,
+      "status": "success"
+    },
+    "breakdance_An impressionist painting of a man doing a handstand on a brick wall": {
+      "warp_error": 79.70416166621165,
+      "text_score": 0.2703825831413269,
+      "consistency_score": 0.933941662311554,
+      "status": "success"
+    },
+    "sheep_An impressionist painting of a group of sheep and a baby lamb in a field": {
+      "warp_error": 58.76453939956474,
+      "text_score": 0.3100031018257141,
+      "consistency_score": 0.9121249914169312,
+      "status": "success"
+    },
+    "guitar-violin_An impressionist painting of two men playing violin and guitar in a room": {
+      "warp_error": 110.47386452101571,
+      "text_score": 0.2807554602622986,
+      "consistency_score": 0.8798320889472961,
+      "status": "success"
+    },
+    "dancing_An impressionist painting of a group of people dancing in the street": {
+      "warp_error": 108.67139285690041,
+      "text_score": 0.31859034299850464,
+      "consistency_score": 0.9427623748779297,
+      "status": "success"
+    },
+    "soccerball_An oil painting of a soccer ball is sitting in the grass next to a tree": {
+      "warp_error": 102.63777277009174,
+      "text_score": 0.3353242576122284,
+      "consistency_score": 0.8852230310440063,
+      "status": "success"
+    },
+    "dog-agility_An oil painting of a dog running through a field of poles": {
+      "warp_error": 108.33644617254201,
+      "text_score": 0.3316733241081238,
+      "consistency_score": 0.9055315256118774,
+      "status": "success"
+    },
+    "gold-fish_An oil painting of goldfish in aquarium": {
+      "warp_error": 84.95628535732735,
+      "text_score": 0.3261279761791229,
+      "consistency_score": 0.9568614959716797,
+      "status": "success"
+    },
+    "salsa_An oil painting of a group of people dancing on a street": {
+      "warp_error": 89.99150986730666,
+      "text_score": 0.31197547912597656,
+      "consistency_score": 0.9480661153793335,
+      "status": "success"
+    },
+    "soccerball_A pixel art of a soccer ball is sitting in the grass next to a tree": {
+      "warp_error": 96.93110491405719,
+      "text_score": 0.2926531434059143,
+      "consistency_score": 0.9208400249481201,
+      "status": "success"
+    },
+    "pigs_A pixel art of a group of pigs are standing on the ground": {
+      "warp_error": 94.16414728072644,
+      "text_score": 0.3541647791862488,
+      "consistency_score": 0.9431532621383667,
+      "status": "success"
+    },
+    "dog-agility_A pixel art of a dog running through a field of poles": {
+      "warp_error": 107.30005069576163,
+      "text_score": 0.34767064452171326,
+      "consistency_score": 0.8775731921195984,
+      "status": "success"
+    },
+    "elephant_A pixel art of a large elephant standing in a dirt area": {
+      "warp_error": 104.97510686079025,
+      "text_score": 0.3311465382575989,
+      "consistency_score": 0.8781471252441406,
+      "status": "success"
+    },
+    "breakdance-flare_A pixel art of a man doing a handstand on the street": {
+      "warp_error": 116.37444636767339,
+      "text_score": 0.2426353394985199,
+      "consistency_score": 0.8838775157928467,
+      "status": "success"
+    },
+    "gold-fish_A pixel art of goldfish in aquarium": {
+      "warp_error": 88.86519876698262,
+      "text_score": 0.300901859998703,
+      "consistency_score": 0.9581791162490845,
+      "status": "success"
+    },
+    "lindy-hop_A pixel art of a group of people dancing in a dance studio": {
+      "warp_error": 108.27128710225583,
+      "text_score": 0.3147096335887909,
+      "consistency_score": 0.9172475337982178,
+      "status": "success"
+    },
+    "flamingo_A pixel art of a group of flamingos standing in the water": {
+      "warp_error": 105.32469971722684,
+      "text_score": 0.2940649688243866,
+      "consistency_score": 0.9546706676483154,
+      "status": "success"
+    },
+    "breakdance_A pixel art of a man doing a handstand on a brick wall": {
+      "warp_error": 84.21894853695184,
+      "text_score": 0.25007858872413635,
+      "consistency_score": 0.9307884573936462,
+      "status": "success"
+    },
+    "sheep_A pixel art of a group of sheep and a baby lamb in a field": {
+      "warp_error": 55.050615459905885,
+      "text_score": 0.29227977991104126,
+      "consistency_score": 0.937746524810791,
+      "status": "success"
+    },
+    "guitar-violin_A pixel art of two men playing violin and guitar in a room": {
+      "warp_error": 112.2255948470237,
+      "text_score": 0.3145523965358734,
+      "consistency_score": 0.9251530766487122,
+      "status": "success"
+    },
+    "guitar-violin_A pencil sketch of two men playing violin and guitar in a room": {
+      "warp_error": 115.41653209825037,
+      "text_score": 0.2780326008796692,
+      "consistency_score": 0.8709422945976257,
+      "status": "success"
+    },
+    "dog-agility_Ukiyo-e Art - a dog running through a field of poles": {
+      "warp_error": 112.05074152567704,
+      "text_score": 0.2603634297847748,
+      "consistency_score": 0.8761076927185059,
+      "status": "success"
+    },
+    "gold-fish_Ukiyo-e Art - goldfish in aquarium": {
+      "warp_error": 88.46953308941953,
+      "text_score": 0.2758846879005432,
+      "consistency_score": 0.967410147190094,
+      "status": "success"
+    },
+    "tennis_Ukiyo-e Art - a man holding a tennis racket on a tennis court": {
+      "warp_error": 105.97472397146497,
+      "text_score": 0.2610706090927124,
+      "consistency_score": 0.8082873225212097,
+      "status": "success"
+    },
+    "tennis-vest_Ukiyo-e Art - a man holding a tennis racket on a tennis court": {
+      "warp_error": 102.41537502133038,
+      "text_score": 0.2365035116672516,
+      "consistency_score": 0.8010402321815491,
+      "status": "success"
+    },
+    "flamingo_Ukiyo-e Art - a group of flamingos standing in the water": {
+      "warp_error": 109.73323184048022,
+      "text_score": 0.26622503995895386,
+      "consistency_score": 0.9535101056098938,
+      "status": "success"
+    },
+    "guitar-violin_Ukiyo-e Art - two men playing violin and guitar in a room": {
+      "warp_error": 111.65300754880049,
+      "text_score": 0.21209204196929932,
+      "consistency_score": 0.8721439242362976,
+      "status": "success"
+    },
+    "dancing_Ukiyo-e Art - a group of people dancing in the street": {
+      "warp_error": 108.34318520139134,
+      "text_score": 0.2633468508720398,
+      "consistency_score": 0.9423826932907104,
+      "status": "success"
+    },
+    "salsa_Ukiyo-e Art - a group of people dancing on a street": {
+      "warp_error": 97.00304319151817,
+      "text_score": 0.2595502436161041,
+      "consistency_score": 0.9293978810310364,
+      "status": "success"
+    },
+    "soccerball_A Van Gogh style painting of a soccer ball is sitting in the grass next to a tree": {
+      "warp_error": 108.16648775157235,
+      "text_score": 0.2885034680366516,
+      "consistency_score": 0.9300369024276733,
+      "status": "success"
+    },
+    "pigs_A Van Gogh style painting of a group of pigs are standing on the ground": {
+      "warp_error": 107.76086292016353,
+      "text_score": 0.27830183506011963,
+      "consistency_score": 0.9501487612724304,
+      "status": "success"
+    },
+    "dog-agility_A Van Gogh style painting of a dog running through a field of poles": {
+      "warp_error": 107.73949127456281,
+      "text_score": 0.27422845363616943,
+      "consistency_score": 0.8659111261367798,
+      "status": "success"
+    },
+    "breakdance-flare_A Van Gogh style painting of a man doing a handstand on the street": {
+      "warp_error": 116.44695891470295,
+      "text_score": 0.20088964700698853,
+      "consistency_score": 0.9077394008636475,
+      "status": "success"
+    },
+    "tennis_A Van Gogh style painting of a man holding a tennis racket on a tennis court": {
+      "warp_error": 107.86594981477383,
+      "text_score": 0.27359500527381897,
+      "consistency_score": 0.7954485416412354,
+      "status": "success"
+    },
+    "walking_A Van Gogh style painting of a man taking a selfie with a woman on a street": {
+      "warp_error": 122.35569103652472,
+      "text_score": 0.24015888571739197,
+      "consistency_score": 0.8137956857681274,
+      "status": "success"
+    },
+    "mallard-water_A Van Gogh style painting of a duck swimming in a pond with some trees": {
+      "warp_error": 116.58771173865907,
+      "text_score": 0.25460654497146606,
+      "consistency_score": 0.9274809956550598,
+      "status": "success"
+    },
+    "lindy-hop_A Van Gogh style painting of a group of people dancing in a dance studio": {
+      "warp_error": 106.98034230029093,
+      "text_score": 0.2741237282752991,
+      "consistency_score": 0.9347144961357117,
+      "status": "success"
+    },
+    "tennis-vest_A Van Gogh style painting of a man holding a tennis racket on a tennis court": {
+      "warp_error": 101.13580943483713,
+      "text_score": 0.26012781262397766,
+      "consistency_score": 0.7923534512519836,
+      "status": "success"
+    },
+    "flamingo_A Van Gogh style painting of a group of flamingos standing in the water": {
+      "warp_error": 108.29471352021903,
+      "text_score": 0.26791346073150635,
+      "consistency_score": 0.9634361267089844,
+      "status": "success"
+    },
+    "breakdance_A Van Gogh style painting of a man doing a handstand on a brick wall": {
+      "warp_error": 77.00238975074744,
+      "text_score": 0.23675741255283356,
+      "consistency_score": 0.9258787631988525,
+      "status": "success"
+    },
+    "dogs-jump_A Van Gogh style painting of a woman is standing in a field with two dogs": {
+      "warp_error": 88.66148171928671,
+      "text_score": 0.2707200050354004,
+      "consistency_score": 0.9110330939292908,
+      "status": "success"
+    },
+    "guitar-violin_A Van Gogh style painting of two men playing violin and guitar in a room": {
+      "warp_error": 111.09325410578195,
+      "text_score": 0.2213662564754486,
+      "consistency_score": 0.8922314047813416,
+      "status": "success"
+    },
+    "salsa_A Van Gogh style painting of a group of people dancing on a street": {
+      "warp_error": 96.78281858673044,
+      "text_score": 0.24735379219055176,
+      "consistency_score": 0.907829999923706,
       "status": "success"
     }
   },
   "0.8": {
-    "soccerball": {
-      "warp_error": 97.87313673694221,
-      "clip_avg": 29.288231658935548,
-      "clip_max": 32.162132263183594,
+    "soccerball_a soccer ball is sitting in the grass next to a tree, in flat 2d anime": {
+      "warp_error": 96.79562822535863,
+      "text_score": 0.3037625849246979,
+      "consistency_score": 0.8996579051017761,
       "status": "success"
     },
-    "dog-agility": {
-      "warp_error": 112.07011493675044,
-      "clip_avg": 29.19057782491048,
-      "clip_max": 29.690954208374023,
+    "dog-agility_a dog running through a field of poles, in flat 2d anime": {
+      "warp_error": 120.41595598872165,
+      "text_score": 0.30783307552337646,
+      "consistency_score": 0.7559671401977539,
       "status": "success"
     },
-    "gold-fish": {
-      "warp_error": 79.01530347425583,
-      "clip_avg": 31.4542019367218,
-      "clip_max": 32.205387115478516,
+    "gold-fish_goldfish in aquarium, in flat 2d anime": {
+      "warp_error": 82.0153532481562,
+      "text_score": 0.3088465929031372,
+      "consistency_score": 0.953594982624054,
       "status": "success"
     },
-    "tennis": {
-      "warp_error": 105.88132712690735,
-      "clip_avg": 30.24172592163086,
-      "clip_max": 36.19102096557617,
+    "tennis_a man holding a tennis racket on a tennis court, in flat 2d anime": {
+      "warp_error": 111.71605122383032,
+      "text_score": 0.288664311170578,
+      "consistency_score": 0.8233067989349365,
       "status": "success"
     },
-    "walking": {
-      "warp_error": 121.15266789128601,
-      "clip_avg": 24.320110321044922,
-      "clip_max": 27.174488067626953,
+    "walking_a man taking a selfie with a woman on a street, in flat 2d anime": {
+      "warp_error": 122.89079862468402,
+      "text_score": 0.23345670104026794,
+      "consistency_score": 0.7760694026947021,
       "status": "success"
     },
-    "tennis-vest": {
-      "warp_error": 103.81052415926995,
-      "clip_avg": 27.185359954833984,
-      "clip_max": 30.0567626953125,
+    "tennis-vest_a man holding a tennis racket on a tennis court, in flat 2d anime": {
+      "warp_error": 106.83774193155645,
+      "text_score": 0.2848840355873108,
+      "consistency_score": 0.8492748141288757,
       "status": "success"
     },
-    "flamingo": {
-      "warp_error": 110.49796639667466,
-      "clip_avg": 31.114892959594727,
-      "clip_max": 32.809085845947266,
+    "flamingo_a group of flamingos standing in the water, in flat 2d anime": {
+      "warp_error": 115.69545414902481,
+      "text_score": 0.31493812799453735,
+      "consistency_score": 0.9147650003433228,
       "status": "success"
     },
-    "sheep": {
-      "warp_error": 45.22267030657436,
-      "clip_avg": 31.193450927734375,
-      "clip_max": 32.142242431640625,
+    "sheep_a group of sheep and a baby lamb in a field, in flat 2d anime": {
+      "warp_error": 51.06766051142715,
+      "text_score": 0.3157021701335907,
+      "consistency_score": 0.9352419376373291,
       "status": "success"
     },
-    "guitar-violin": {
-      "warp_error": 109.21737167409711,
-      "clip_avg": 27.712610244750977,
-      "clip_max": 30.08517074584961,
+    "guitar-violin_two men playing violin and guitar in a room, in flat 2d anime": {
+      "warp_error": 114.79769378199224,
+      "text_score": 0.2994927167892456,
+      "consistency_score": 0.8931536674499512,
+      "status": "success"
+    },
+    "pigs_A Chinese ink painting of a group of pigs are standing on the ground": {
+      "warp_error": 102.61163298547565,
+      "text_score": 0.34886255860328674,
+      "consistency_score": 0.9206864833831787,
+      "status": "success"
+    },
+    "gold-fish_A Chinese ink painting of goldfish in aquarium": {
+      "warp_error": 79.667619621798,
+      "text_score": 0.28979361057281494,
+      "consistency_score": 0.93573397397995,
+      "status": "success"
+    },
+    "mallard-water_A Chinese ink painting of a duck swimming in a pond with some trees": {
+      "warp_error": 121.07829171565696,
+      "text_score": 0.2748384475708008,
+      "consistency_score": 0.9011660814285278,
+      "status": "success"
+    },
+    "guitar-violin_A Chinese ink painting of two men playing violin and guitar in a room": {
+      "warp_error": 110.90995307527199,
+      "text_score": 0.2552092969417572,
+      "consistency_score": 0.9009065628051758,
+      "status": "success"
+    },
+    "pigs_A group of cows are standing on the ground.": {
+      "warp_error": 113.08867333143485,
+      "text_score": 0.32427337765693665,
+      "consistency_score": 0.916013240814209,
+      "status": "success"
+    },
+    "dog-agility_A Corgi running through a field of poles.": {
+      "warp_error": 116.0503988909049,
+      "text_score": 0.30004069209098816,
+      "consistency_score": 0.8265752196311951,
+      "status": "success"
+    },
+    "dog-agility_A Husky running through a field of poles.": {
+      "warp_error": 119.00617995463415,
+      "text_score": 0.3140944242477417,
+      "consistency_score": 0.8542642593383789,
+      "status": "success"
+    },
+    "mallard-water_A flamingo swimming in a pond with some trees.": {
+      "warp_error": 100.94777476780192,
+      "text_score": 0.3316763639450073,
+      "consistency_score": 0.9423324465751648,
+      "status": "success"
+    },
+    "mallard-water_A swan swimming in a pond with some trees.": {
+      "warp_error": 109.64429731858839,
+      "text_score": 0.30588775873184204,
+      "consistency_score": 0.9250814318656921,
+      "status": "success"
+    },
+    "dogs-jump_A woman is standing in a field with two tigers.": {
+      "warp_error": 90.25828104334495,
+      "text_score": 0.2757680416107178,
+      "consistency_score": 0.8674353361129761,
+      "status": "success"
+    },
+    "dogs-jump_A woman is standing in a field with two leopards.": {
+      "warp_error": 89.39519324261009,
+      "text_score": 0.2813740074634552,
+      "consistency_score": 0.8610274195671082,
+      "status": "success"
+    },
+    "dogs-jump_A woman is standing in a field with two dogs in front of the Egyptian pyramids.": {
+      "warp_error": 90.45179269193339,
+      "text_score": 0.2721826136112213,
+      "consistency_score": 0.8732694387435913,
+      "status": "success"
+    },
+    "gold-fish_Goldfish in an aquarium surrounded by colorful coral reefs.": {
+      "warp_error": 84.6312824182618,
+      "text_score": 0.3238169848918915,
+      "consistency_score": 0.9668991565704346,
+      "status": "success"
+    },
+    "sheep_A group of cows and a baby calf in a field.": {
+      "warp_error": 60.241464408758674,
+      "text_score": 0.30020591616630554,
+      "consistency_score": 0.9416089057922363,
+      "status": "success"
+    },
+    "breakdance-flare_An impressionist painting of a man doing a handstand on the street": {
+      "warp_error": 119.00732985980703,
+      "text_score": 0.23331905901432037,
+      "consistency_score": 0.9150288701057434,
+      "status": "success"
+    },
+    "mallard-water_An impressionist painting of a duck swimming in a pond with some trees": {
+      "warp_error": 117.83645930895506,
+      "text_score": 0.2961769104003906,
+      "consistency_score": 0.9004446268081665,
+      "status": "success"
+    },
+    "breakdance_An impressionist painting of a man doing a handstand on a brick wall": {
+      "warp_error": 68.32331101511713,
+      "text_score": 0.28234630823135376,
+      "consistency_score": 0.863372802734375,
+      "status": "success"
+    },
+    "sheep_An impressionist painting of a group of sheep and a baby lamb in a field": {
+      "warp_error": 59.81422803860782,
+      "text_score": 0.3265613913536072,
+      "consistency_score": 0.9402427673339844,
+      "status": "success"
+    },
+    "guitar-violin_An impressionist painting of two men playing violin and guitar in a room": {
+      "warp_error": 111.27723204498108,
+      "text_score": 0.2936146855354309,
+      "consistency_score": 0.9004241824150085,
+      "status": "success"
+    },
+    "dancing_An impressionist painting of a group of people dancing in the street": {
+      "warp_error": 109.45995949485216,
+      "text_score": 0.32693278789520264,
+      "consistency_score": 0.9172247648239136,
+      "status": "success"
+    },
+    "soccerball_An oil painting of a soccer ball is sitting in the grass next to a tree": {
+      "warp_error": 99.16005616286063,
+      "text_score": 0.32997891306877136,
+      "consistency_score": 0.9233352541923523,
+      "status": "success"
+    },
+    "dog-agility_An oil painting of a dog running through a field of poles": {
+      "warp_error": 116.53676959746984,
+      "text_score": 0.3058370053768158,
+      "consistency_score": 0.8394673466682434,
+      "status": "success"
+    },
+    "gold-fish_An oil painting of goldfish in aquarium": {
+      "warp_error": 87.05614997333551,
+      "text_score": 0.3532291054725647,
+      "consistency_score": 0.9695018529891968,
+      "status": "success"
+    },
+    "salsa_An oil painting of a group of people dancing on a street": {
+      "warp_error": 92.624290702449,
+      "text_score": 0.3121374547481537,
+      "consistency_score": 0.9296892285346985,
+      "status": "success"
+    },
+    "soccerball_A pixel art of a soccer ball is sitting in the grass next to a tree": {
+      "warp_error": 94.80591146705105,
+      "text_score": 0.3021030128002167,
+      "consistency_score": 0.9244145750999451,
+      "status": "success"
+    },
+    "pigs_A pixel art of a group of pigs are standing on the ground": {
+      "warp_error": 101.34035879344644,
+      "text_score": 0.2504527270793915,
+      "consistency_score": 0.9072610139846802,
+      "status": "success"
+    },
+    "dog-agility_A pixel art of a dog running through a field of poles": {
+      "warp_error": 100.48077234592046,
+      "text_score": 0.30864202976226807,
+      "consistency_score": 0.8649861812591553,
+      "status": "success"
+    },
+    "elephant_A pixel art of a large elephant standing in a dirt area": {
+      "warp_error": 113.46510836131209,
+      "text_score": 0.27884575724601746,
+      "consistency_score": 0.8816043138504028,
+      "status": "success"
+    },
+    "breakdance-flare_A pixel art of a man doing a handstand on the street": {
+      "warp_error": 116.67002257972993,
+      "text_score": 0.2590597867965698,
+      "consistency_score": 0.9363930225372314,
+      "status": "success"
+    },
+    "gold-fish_A pixel art of goldfish in aquarium": {
+      "warp_error": 81.28374982546754,
+      "text_score": 0.3205900490283966,
+      "consistency_score": 0.962300181388855,
+      "status": "success"
+    },
+    "lindy-hop_A pixel art of a group of people dancing in a dance studio": {
+      "warp_error": 111.872440854962,
+      "text_score": 0.3233491778373718,
+      "consistency_score": 0.9201838970184326,
+      "status": "success"
+    },
+    "flamingo_A pixel art of a group of flamingos standing in the water": {
+      "warp_error": 110.17496431779205,
+      "text_score": 0.3112630248069763,
+      "consistency_score": 0.9202196002006531,
+      "status": "success"
+    },
+    "breakdance_A pixel art of a man doing a handstand on a brick wall": {
+      "warp_error": 77.28322702627234,
+      "text_score": 0.27342525124549866,
+      "consistency_score": 0.8938568830490112,
+      "status": "success"
+    },
+    "sheep_A pixel art of a group of sheep and a baby lamb in a field": {
+      "warp_error": 47.375713797987736,
+      "text_score": 0.3130832612514496,
+      "consistency_score": 0.9365159869194031,
+      "status": "success"
+    },
+    "guitar-violin_A pixel art of two men playing violin and guitar in a room": {
+      "warp_error": 115.71813336088542,
+      "text_score": 0.27673929929733276,
+      "consistency_score": 0.9098723530769348,
+      "status": "success"
+    },
+    "guitar-violin_A pencil sketch of two men playing violin and guitar in a room": {
+      "warp_error": 118.89121727938762,
+      "text_score": 0.2689475417137146,
+      "consistency_score": 0.910386860370636,
+      "status": "success"
+    },
+    "dog-agility_Ukiyo-e Art - a dog running through a field of poles": {
+      "warp_error": 117.69306935946729,
+      "text_score": 0.21711009740829468,
+      "consistency_score": 0.8520022034645081,
+      "status": "success"
+    },
+    "gold-fish_Ukiyo-e Art - goldfish in aquarium": {
+      "warp_error": 80.61803655457491,
+      "text_score": 0.2837585210800171,
+      "consistency_score": 0.9639095067977905,
+      "status": "success"
+    },
+    "tennis_Ukiyo-e Art - a man holding a tennis racket on a tennis court": {
+      "warp_error": 111.08405012336756,
+      "text_score": 0.2659672498703003,
+      "consistency_score": 0.8680652379989624,
+      "status": "success"
+    },
+    "tennis-vest_Ukiyo-e Art - a man holding a tennis racket on a tennis court": {
+      "warp_error": 106.00069132896037,
+      "text_score": 0.24414630234241486,
+      "consistency_score": 0.8808877468109131,
+      "status": "success"
+    },
+    "flamingo_Ukiyo-e Art - a group of flamingos standing in the water": {
+      "warp_error": 116.38839909147315,
+      "text_score": 0.2802916169166565,
+      "consistency_score": 0.9353014230728149,
+      "status": "success"
+    },
+    "guitar-violin_Ukiyo-e Art - two men playing violin and guitar in a room": {
+      "warp_error": 111.89699393469617,
+      "text_score": 0.23570100963115692,
+      "consistency_score": 0.9061625599861145,
+      "status": "success"
+    },
+    "dancing_Ukiyo-e Art - a group of people dancing in the street": {
+      "warp_error": 112.95792255818569,
+      "text_score": 0.2591421604156494,
+      "consistency_score": 0.8871075510978699,
+      "status": "success"
+    },
+    "salsa_Ukiyo-e Art - a group of people dancing on a street": {
+      "warp_error": 98.66051882349606,
+      "text_score": 0.21966442465782166,
+      "consistency_score": 0.8901323676109314,
+      "status": "success"
+    },
+    "soccerball_A Van Gogh style painting of a soccer ball is sitting in the grass next to a tree": {
+      "warp_error": 98.50677995485358,
+      "text_score": 0.2959497272968292,
+      "consistency_score": 0.9030827283859253,
+      "status": "success"
+    },
+    "pigs_A Van Gogh style painting of a group of pigs are standing on the ground": {
+      "warp_error": 111.94688457322168,
+      "text_score": 0.3281249701976776,
+      "consistency_score": 0.9362934231758118,
+      "status": "success"
+    },
+    "dog-agility_A Van Gogh style painting of a dog running through a field of poles": {
+      "warp_error": 121.71883784929703,
+      "text_score": 0.2665170133113861,
+      "consistency_score": 0.8313928246498108,
+      "status": "success"
+    },
+    "breakdance-flare_A Van Gogh style painting of a man doing a handstand on the street": {
+      "warp_error": 121.28498884417331,
+      "text_score": 0.2312113344669342,
+      "consistency_score": 0.9033474922180176,
+      "status": "success"
+    },
+    "tennis_A Van Gogh style painting of a man holding a tennis racket on a tennis court": {
+      "warp_error": 122.16820753427628,
+      "text_score": 0.2868690490722656,
+      "consistency_score": 0.9098533391952515,
+      "status": "success"
+    },
+    "walking_A Van Gogh style painting of a man taking a selfie with a woman on a street": {
+      "warp_error": 123.05081993459662,
+      "text_score": 0.22085312008857727,
+      "consistency_score": 0.8206146955490112,
+      "status": "success"
+    },
+    "mallard-water_A Van Gogh style painting of a duck swimming in a pond with some trees": {
+      "warp_error": 121.1010940970352,
+      "text_score": 0.3014031648635864,
+      "consistency_score": 0.917561411857605,
+      "status": "success"
+    },
+    "lindy-hop_A Van Gogh style painting of a group of people dancing in a dance studio": {
+      "warp_error": 109.27102680612205,
+      "text_score": 0.2899230420589447,
+      "consistency_score": 0.9001939296722412,
+      "status": "success"
+    },
+    "tennis-vest_A Van Gogh style painting of a man holding a tennis racket on a tennis court": {
+      "warp_error": 115.1887846222036,
+      "text_score": 0.27554214000701904,
+      "consistency_score": 0.8807377815246582,
+      "status": "success"
+    },
+    "flamingo_A Van Gogh style painting of a group of flamingos standing in the water": {
+      "warp_error": 121.41732406505227,
+      "text_score": 0.3132230043411255,
+      "consistency_score": 0.922069787979126,
+      "status": "success"
+    },
+    "breakdance_A Van Gogh style painting of a man doing a handstand on a brick wall": {
+      "warp_error": 63.82102989585204,
+      "text_score": 0.27206650376319885,
+      "consistency_score": 0.9013128876686096,
+      "status": "success"
+    },
+    "dogs-jump_A Van Gogh style painting of a woman is standing in a field with two dogs": {
+      "warp_error": 96.4553357276271,
+      "text_score": 0.2679264545440674,
+      "consistency_score": 0.9076948165893555,
+      "status": "success"
+    },
+    "guitar-violin_A Van Gogh style painting of two men playing violin and guitar in a room": {
+      "warp_error": 114.44566773867179,
+      "text_score": 0.24637314677238464,
+      "consistency_score": 0.880678117275238,
+      "status": "success"
+    },
+    "salsa_A Van Gogh style painting of a group of people dancing on a street": {
+      "warp_error": 97.78707068760822,
+      "text_score": 0.31193771958351135,
+      "consistency_score": 0.9051492214202881,
       "status": "success"
     }
   },
-  "1.0": {
-    "soccerball": {
-      "warp_error": 102.47284674483082,
-      "clip_avg": 27.340283584594726,
-      "clip_max": 30.125835418701172,
+  "1": {
+    "soccerball_a soccer ball is sitting in the grass next to a tree, in flat 2d anime": {
+      "warp_error": 99.47845179428025,
+      "text_score": 0.3012259602546692,
+      "consistency_score": 0.8959062099456787,
       "status": "success"
     },
-    "dog-agility": {
-      "warp_error": 109.30340393036049,
-      "clip_avg": 27.103272755940754,
-      "clip_max": 28.700437545776367,
+    "dog-agility_a dog running through a field of poles, in flat 2d anime": {
+      "warp_error": 123.80197309785433,
+      "text_score": 0.31352561712265015,
+      "consistency_score": 0.8360790014266968,
       "status": "success"
     },
-    "gold-fish": {
-      "warp_error": 84.44180948434398,
-      "clip_avg": 32.055180311203,
-      "clip_max": 33.98988723754883,
+    "gold-fish_goldfish in aquarium, in flat 2d anime": {
+      "warp_error": 87.86376825535689,
+      "text_score": 0.31502923369407654,
+      "consistency_score": 0.9479383230209351,
       "status": "success"
     },
-    "tennis": {
-      "warp_error": 109.60298858879428,
-      "clip_avg": 26.099587849208287,
-      "clip_max": 29.01209259033203,
+    "tennis_a man holding a tennis racket on a tennis court, in flat 2d anime": {
+      "warp_error": 112.97410417195931,
+      "text_score": 0.2890932261943817,
+      "consistency_score": 0.8283678889274597,
       "status": "success"
     },
-    "walking": {
-      "warp_error": 124.73506691656483,
-      "clip_avg": 22.517714977264404,
-      "clip_max": 24.638343811035156,
+    "walking_a man taking a selfie with a woman on a street, in flat 2d anime": {
+      "warp_error": 127.46940783693495,
+      "text_score": 0.25540733337402344,
+      "consistency_score": 0.8517777919769287,
       "status": "success"
     },
-    "tennis-vest": {
-      "warp_error": 108.95955769835183,
-      "clip_avg": 22.943397045135498,
-      "clip_max": 25.17097282409668,
+    "tennis-vest_a man holding a tennis racket on a tennis court, in flat 2d anime": {
+      "warp_error": 118.27185342559844,
+      "text_score": 0.29154008626937866,
+      "consistency_score": 0.8864542245864868,
       "status": "success"
     },
-    "flamingo": {
-      "warp_error": 112.66278462426304,
-      "clip_avg": 32.57327842712402,
-      "clip_max": 33.51108932495117,
+    "flamingo_a group of flamingos standing in the water, in flat 2d anime": {
+      "warp_error": 113.58688992297873,
+      "text_score": 0.32052934169769287,
+      "consistency_score": 0.933047354221344,
       "status": "success"
     },
-    "sheep": {
-      "warp_error": 44.423895434448355,
-      "clip_avg": 31.22797421046666,
-      "clip_max": 31.9619140625,
+    "sheep_a group of sheep and a baby lamb in a field, in flat 2d anime": {
+      "warp_error": 47.34590907469942,
+      "text_score": 0.32061710953712463,
+      "consistency_score": 0.9361399412155151,
       "status": "success"
     },
-    "guitar-violin": {
-      "warp_error": 111.13026324866506,
-      "clip_avg": 26.942230224609375,
-      "clip_max": 29.644018173217773,
+    "guitar-violin_two men playing violin and guitar in a room, in flat 2d anime": {
+      "warp_error": 114.98050549429146,
+      "text_score": 0.2759843170642853,
+      "consistency_score": 0.8807652592658997,
+      "status": "success"
+    },
+    "pigs_A Chinese ink painting of a group of pigs are standing on the ground": {
+      "warp_error": 110.84833329950011,
+      "text_score": 0.35391825437545776,
+      "consistency_score": 0.9167014956474304,
+      "status": "success"
+    },
+    "gold-fish_A Chinese ink painting of goldfish in aquarium": {
+      "warp_error": 91.98785003730374,
+      "text_score": 0.3300962448120117,
+      "consistency_score": 0.9342368841171265,
+      "status": "success"
+    },
+    "mallard-water_A Chinese ink painting of a duck swimming in a pond with some trees": {
+      "warp_error": 128.89489100247593,
+      "text_score": 0.28924086689949036,
+      "consistency_score": 0.92722487449646,
+      "status": "success"
+    },
+    "guitar-violin_A Chinese ink painting of two men playing violin and guitar in a room": {
+      "warp_error": 112.55160188155178,
+      "text_score": 0.24015270173549652,
+      "consistency_score": 0.8738256692886353,
+      "status": "success"
+    },
+    "pigs_A group of cows are standing on the ground.": {
+      "warp_error": 105.15565775614101,
+      "text_score": 0.3254454433917999,
+      "consistency_score": 0.926379382610321,
+      "status": "success"
+    },
+    "dog-agility_A Corgi running through a field of poles.": {
+      "warp_error": 120.22653087169357,
+      "text_score": 0.3118017315864563,
+      "consistency_score": 0.893085241317749,
+      "status": "success"
+    },
+    "dog-agility_A Husky running through a field of poles.": {
+      "warp_error": 113.59141374400359,
+      "text_score": 0.3079531192779541,
+      "consistency_score": 0.8739949464797974,
+      "status": "success"
+    },
+    "mallard-water_A flamingo swimming in a pond with some trees.": {
+      "warp_error": 113.62581050967927,
+      "text_score": 0.3189384341239929,
+      "consistency_score": 0.9468523859977722,
+      "status": "success"
+    },
+    "mallard-water_A swan swimming in a pond with some trees.": {
+      "warp_error": 121.01126266544199,
+      "text_score": 0.3067386746406555,
+      "consistency_score": 0.9397531747817993,
+      "status": "success"
+    },
+    "dogs-jump_A woman is standing in a field with two tigers.": {
+      "warp_error": 96.2123927434986,
+      "text_score": 0.272051066160202,
+      "consistency_score": 0.9178928136825562,
+      "status": "success"
+    },
+    "dogs-jump_A woman is standing in a field with two leopards.": {
+      "warp_error": 100.1790923743489,
+      "text_score": 0.28104647994041443,
+      "consistency_score": 0.8902378082275391,
+      "status": "success"
+    },
+    "dogs-jump_A woman is standing in a field with two dogs in front of the Egyptian pyramids.": {
+      "warp_error": 91.5525521399957,
+      "text_score": 0.33625489473342896,
+      "consistency_score": 0.8985721468925476,
+      "status": "success"
+    },
+    "gold-fish_Goldfish in an aquarium surrounded by colorful coral reefs.": {
+      "warp_error": 90.96616789342069,
+      "text_score": 0.31844255328178406,
+      "consistency_score": 0.9625773429870605,
+      "status": "success"
+    },
+    "sheep_A group of cows and a baby calf in a field.": {
+      "warp_error": 49.89620327935533,
+      "text_score": 0.2943717837333679,
+      "consistency_score": 0.9467138051986694,
+      "status": "success"
+    },
+    "breakdance-flare_An impressionist painting of a man doing a handstand on the street": {
+      "warp_error": 117.93708023023623,
+      "text_score": 0.2571648359298706,
+      "consistency_score": 0.9256330728530884,
+      "status": "success"
+    },
+    "mallard-water_An impressionist painting of a duck swimming in a pond with some trees": {
+      "warp_error": 120.83243898734348,
+      "text_score": 0.3287084996700287,
+      "consistency_score": 0.9258567690849304,
+      "status": "success"
+    },
+    "breakdance_An impressionist painting of a man doing a handstand on a brick wall": {
+      "warp_error": 62.91957638459365,
+      "text_score": 0.2801670432090759,
+      "consistency_score": 0.8958700895309448,
+      "status": "success"
+    },
+    "sheep_An impressionist painting of a group of sheep and a baby lamb in a field": {
+      "warp_error": 55.49641873058301,
+      "text_score": 0.3289310336112976,
+      "consistency_score": 0.9381120204925537,
+      "status": "success"
+    },
+    "guitar-violin_An impressionist painting of two men playing violin and guitar in a room": {
+      "warp_error": 114.97611870255754,
+      "text_score": 0.283454954624176,
+      "consistency_score": 0.8823255896568298,
+      "status": "success"
+    },
+    "dancing_An impressionist painting of a group of people dancing in the street": {
+      "warp_error": 111.36911143788042,
+      "text_score": 0.3199842572212219,
+      "consistency_score": 0.920506477355957,
+      "status": "success"
+    },
+    "soccerball_An oil painting of a soccer ball is sitting in the grass next to a tree": {
+      "warp_error": 99.96369922096927,
+      "text_score": 0.3181140124797821,
+      "consistency_score": 0.9106700420379639,
+      "status": "success"
+    },
+    "dog-agility_An oil painting of a dog running through a field of poles": {
+      "warp_error": 108.10366454927225,
+      "text_score": 0.2994316816329956,
+      "consistency_score": 0.8685487508773804,
+      "status": "success"
+    },
+    "gold-fish_An oil painting of goldfish in aquarium": {
+      "warp_error": 98.61787268368485,
+      "text_score": 0.35263288021087646,
+      "consistency_score": 0.9454469680786133,
+      "status": "success"
+    },
+    "salsa_An oil painting of a group of people dancing on a street": {
+      "warp_error": 88.971657359826,
+      "text_score": 0.3123728334903717,
+      "consistency_score": 0.9235533475875854,
+      "status": "success"
+    },
+    "soccerball_A pixel art of a soccer ball is sitting in the grass next to a tree": {
+      "warp_error": 97.86261927937619,
+      "text_score": 0.32751303911209106,
+      "consistency_score": 0.9136320948600769,
+      "status": "success"
+    },
+    "pigs_A pixel art of a group of pigs are standing on the ground": {
+      "warp_error": 96.2342743130524,
+      "text_score": 0.28476035594940186,
+      "consistency_score": 0.9296024441719055,
+      "status": "success"
+    },
+    "dog-agility_A pixel art of a dog running through a field of poles": {
+      "warp_error": 114.11166258137165,
+      "text_score": 0.31455403566360474,
+      "consistency_score": 0.8791724443435669,
+      "status": "success"
+    },
+    "elephant_A pixel art of a large elephant standing in a dirt area": {
+      "warp_error": 114.28263065045913,
+      "text_score": 0.31675833463668823,
+      "consistency_score": 0.9447790384292603,
+      "status": "success"
+    },
+    "breakdance-flare_A pixel art of a man doing a handstand on the street": {
+      "warp_error": 113.07450104853996,
+      "text_score": 0.2314566969871521,
+      "consistency_score": 0.898090660572052,
+      "status": "success"
+    },
+    "gold-fish_A pixel art of goldfish in aquarium": {
+      "warp_error": 90.39344390710419,
+      "text_score": 0.3175022006034851,
+      "consistency_score": 0.9637510180473328,
+      "status": "success"
+    },
+    "lindy-hop_A pixel art of a group of people dancing in a dance studio": {
+      "warp_error": 97.85480487561952,
+      "text_score": 0.323092520236969,
+      "consistency_score": 0.9445042610168457,
+      "status": "success"
+    },
+    "flamingo_A pixel art of a group of flamingos standing in the water": {
+      "warp_error": 114.76682519567902,
+      "text_score": 0.2967206537723541,
+      "consistency_score": 0.9417572617530823,
+      "status": "success"
+    },
+    "breakdance_A pixel art of a man doing a handstand on a brick wall": {
+      "warp_error": 55.08149850573532,
+      "text_score": 0.2424454689025879,
+      "consistency_score": 0.9167938232421875,
+      "status": "success"
+    },
+    "sheep_A pixel art of a group of sheep and a baby lamb in a field": {
+      "warp_error": 44.98602481555928,
+      "text_score": 0.33540722727775574,
+      "consistency_score": 0.9486180543899536,
+      "status": "success"
+    },
+    "guitar-violin_A pixel art of two men playing violin and guitar in a room": {
+      "warp_error": 109.35763353696075,
+      "text_score": 0.27784183621406555,
+      "consistency_score": 0.908393383026123,
+      "status": "success"
+    },
+    "guitar-violin_A pencil sketch of two men playing violin and guitar in a room": {
+      "warp_error": 127.07746706323434,
+      "text_score": 0.2826533317565918,
+      "consistency_score": 0.8554086089134216,
+      "status": "success"
+    },
+    "dog-agility_Ukiyo-e Art - a dog running through a field of poles": {
+      "warp_error": 114.8395746814516,
+      "text_score": 0.25717392563819885,
+      "consistency_score": 0.8683061599731445,
+      "status": "success"
+    },
+    "gold-fish_Ukiyo-e Art - goldfish in aquarium": {
+      "warp_error": 93.07363359499244,
+      "text_score": 0.2939520478248596,
+      "consistency_score": 0.9683929681777954,
+      "status": "success"
+    },
+    "tennis_Ukiyo-e Art - a man holding a tennis racket on a tennis court": {
+      "warp_error": 111.7035245215383,
+      "text_score": 0.2566647529602051,
+      "consistency_score": 0.89438796043396,
+      "status": "success"
+    },
+    "tennis-vest_Ukiyo-e Art - a man holding a tennis racket on a tennis court": {
+      "warp_error": 111.35615347479217,
+      "text_score": 0.27542468905448914,
+      "consistency_score": 0.9157907366752625,
+      "status": "success"
+    },
+    "flamingo_Ukiyo-e Art - a group of flamingos standing in the water": {
+      "warp_error": 118.01092064994407,
+      "text_score": 0.29735317826271057,
+      "consistency_score": 0.9398041367530823,
+      "status": "success"
+    },
+    "guitar-violin_Ukiyo-e Art - two men playing violin and guitar in a room": {
+      "warp_error": 113.35439545237533,
+      "text_score": 0.23834097385406494,
+      "consistency_score": 0.844107449054718,
+      "status": "success"
+    },
+    "dancing_Ukiyo-e Art - a group of people dancing in the street": {
+      "warp_error": 107.69892093742963,
+      "text_score": 0.2790622115135193,
+      "consistency_score": 0.8817596435546875,
+      "status": "success"
+    },
+    "salsa_Ukiyo-e Art - a group of people dancing on a street": {
+      "warp_error": 89.70715188496428,
+      "text_score": 0.29679590463638306,
+      "consistency_score": 0.9149686098098755,
+      "status": "success"
+    },
+    "soccerball_A Van Gogh style painting of a soccer ball is sitting in the grass next to a tree": {
+      "warp_error": 98.50156401873294,
+      "text_score": 0.3090708255767822,
+      "consistency_score": 0.9033162593841553,
+      "status": "success"
+    },
+    "pigs_A Van Gogh style painting of a group of pigs are standing on the ground": {
+      "warp_error": 110.17206103176905,
+      "text_score": 0.32466772198677063,
+      "consistency_score": 0.9329903721809387,
+      "status": "success"
+    },
+    "dog-agility_A Van Gogh style painting of a dog running through a field of poles": {
+      "warp_error": 113.1489539300826,
+      "text_score": 0.29955142736434937,
+      "consistency_score": 0.8391058444976807,
+      "status": "success"
+    },
+    "breakdance-flare_A Van Gogh style painting of a man doing a handstand on the street": {
+      "warp_error": 122.93718883864653,
+      "text_score": 0.24924391508102417,
+      "consistency_score": 0.9128488302230835,
+      "status": "success"
+    },
+    "tennis_A Van Gogh style painting of a man holding a tennis racket on a tennis court": {
+      "warp_error": 123.35245574470885,
+      "text_score": 0.3068815767765045,
+      "consistency_score": 0.901351809501648,
+      "status": "success"
+    },
+    "walking_A Van Gogh style painting of a man taking a selfie with a woman on a street": {
+      "warp_error": 123.54421944160133,
+      "text_score": 0.25597575306892395,
+      "consistency_score": 0.8667856454849243,
+      "status": "success"
+    },
+    "mallard-water_A Van Gogh style painting of a duck swimming in a pond with some trees": {
+      "warp_error": 126.17435378105081,
+      "text_score": 0.3076895475387573,
+      "consistency_score": 0.926365852355957,
+      "status": "success"
+    },
+    "lindy-hop_A Van Gogh style painting of a group of people dancing in a dance studio": {
+      "warp_error": 105.85799724225554,
+      "text_score": 0.31276288628578186,
+      "consistency_score": 0.9126057624816895,
+      "status": "success"
+    },
+    "tennis-vest_A Van Gogh style painting of a man holding a tennis racket on a tennis court": {
+      "warp_error": 119.40788526343971,
+      "text_score": 0.30623704195022583,
+      "consistency_score": 0.904021143913269,
+      "status": "success"
+    },
+    "flamingo_A Van Gogh style painting of a group of flamingos standing in the water": {
+      "warp_error": 125.62415041425707,
+      "text_score": 0.3223959803581238,
+      "consistency_score": 0.9338522553443909,
+      "status": "success"
+    },
+    "breakdance_A Van Gogh style painting of a man doing a handstand on a brick wall": {
+      "warp_error": 59.73851322175168,
+      "text_score": 0.28273433446884155,
+      "consistency_score": 0.9110240340232849,
+      "status": "success"
+    },
+    "dogs-jump_A Van Gogh style painting of a woman is standing in a field with two dogs": {
+      "warp_error": 106.68544073252332,
+      "text_score": 0.31886449456214905,
+      "consistency_score": 0.9073405265808105,
+      "status": "success"
+    },
+    "guitar-violin_A Van Gogh style painting of two men playing violin and guitar in a room": {
+      "warp_error": 119.6080664406053,
+      "text_score": 0.2461009919643402,
+      "consistency_score": 0.8749073147773743,
+      "status": "success"
+    },
+    "salsa_A Van Gogh style painting of a group of people dancing on a street": {
+      "warp_error": 91.96562852504191,
+      "text_score": 0.3108821511268616,
+      "consistency_score": 0.9023276567459106,
       "status": "success"
     }
   }

@@ -1,352 +1,279 @@
-from importlib import import_module
-from typing import Callable, Optional, Union
+# attention_processor.py
+# Cached attention processors:
+# - Self-attn: keep a rolling cache of K/V (and optionally outputs) across frames; concat with current.
+# - Cross-attn: cache prompt-context K/V once per unique context and reuse across frames.
+
 from collections import deque
+from typing import Optional, Tuple
 
 import torch
+import torch.nn as nn
 import torch.nn.functional as F
-from torch import nn
 
-from diffusers.models.attention_processor import Attention
-from diffusers.utils import USE_PEFT_BACKEND, deprecate, logging
-from diffusers.utils.import_utils import is_xformers_available
-from diffusers.utils.torch_utils import maybe_allow_in_graph
-from diffusers.models.lora import LoRACompatibleLinear, LoRALinearLayer
+try:
+    import xformers.ops as xops  # type: ignore
+except Exception:
+    xops = None
 
-from .utils import get_nn_feats, random_bipartite_soft_matching
 
-if is_xformers_available():
-    import xformers
-    import xformers.ops
-else:
-    xformers = None
-    
-class CachedSTAttnProcessor2_0:
-    r"""
-    Processor for implementing scaled dot-product attention (enabled by default if you're using PyTorch 2.0).
-    """
+def _context_signature(x: torch.Tensor) -> Tuple[Tuple[int, ...], torch.dtype, torch.device, float]:
+    with torch.no_grad():
+        return (tuple(x.shape), x.dtype, x.device, float(x.mean().detach().float().item()))
 
-    def __init__(self, name=None, use_feature_injection=False,
-                 feature_injection_strength=0.8, 
-                 feature_similarity_threshold=0.98,
-                 interval=4, 
-                 max_frames=1, 
-                 use_tome_cache=False, 
-                 tome_metric="keys", 
-                 use_grid=False, 
-                 tome_ratio=0.5):
-        if not hasattr(F, "scaled_dot_product_attention"):
-            raise ImportError("AttnProcessor2_0 requires PyTorch 2.0, to use it, please upgrade PyTorch to 2.0.")
-        self.name = name
-        self.use_feature_injection = use_feature_injection
-        self.fi_strength = feature_injection_strength
-        self.threshold = feature_similarity_threshold
-        self.zero_tensor = torch.tensor(0)
-        self.frame_id = torch.tensor(0)
-        self.interval = torch.tensor(interval)
-        self.max_frames = max_frames
-        self.cached_key = None
-        self.cached_value = None
-        self.cached_output = None
-        self.use_tome_cache = use_tome_cache
-        self.tome_metric = tome_metric
-        self.use_grid = use_grid
-        self.tome_ratio = tome_ratio
-    
-    def _tome_step_kvout(self, keys, values, outputs):
-        keys = torch.cat([self.cached_key, keys], dim=1)
-        values = torch.cat([self.cached_value, values], dim=1)
-        outputs = torch.cat([self.cached_output, outputs], dim=1)
-        m_kv_out, _, _= random_bipartite_soft_matching(metric=keys, use_grid=self.use_grid, ratio=self.tome_ratio)
-        compact_keys, compact_values, compact_outputs = m_kv_out(keys, values, outputs)
-        self.cached_key = compact_keys
-        self.cached_value = compact_values
-        self.cached_output = compact_outputs
-        
-    def __call__(
+
+class _CachedBase(nn.Module):
+    def __init__(
         self,
-        attn: Attention,
-        hidden_states: torch.FloatTensor,
-        encoder_hidden_states: Optional[torch.FloatTensor] = None,
-        attention_mask: Optional[torch.FloatTensor] = None,
-        temb: Optional[torch.FloatTensor] = None,
-        scale: float = 1.0,
-    ) -> torch.FloatTensor:
-        residual = hidden_states
-        if attn.spatial_norm is not None:
-            hidden_states = attn.spatial_norm(hidden_states, temb)
-
-        input_ndim = hidden_states.ndim
-
-        if input_ndim == 4:
-            batch_size, channel, height, width = hidden_states.shape
-            hidden_states = hidden_states.view(batch_size, channel, height * width).transpose(1, 2)
-
-        batch_size, sequence_length, _ = (
-            hidden_states.shape if encoder_hidden_states is None else encoder_hidden_states.shape
-        )
-
-        if attention_mask is not None:
-            attention_mask = attn.prepare_attention_mask(attention_mask, sequence_length, batch_size)
-            # scaled_dot_product_attention expects attention_mask shape to be
-            # (batch, heads, source_length, target_length)
-            attention_mask = attention_mask.view(batch_size, attn.heads, -1, attention_mask.shape[-1])
-
-        if attn.group_norm is not None:
-            hidden_states = attn.group_norm(hidden_states.transpose(1, 2)).transpose(1, 2)
-
-        args = () if USE_PEFT_BACKEND else (scale,)
-        query = attn.to_q(hidden_states, *args)
-
-        is_selfattn = False
-        if encoder_hidden_states is None:
-            is_selfattn = True
-            encoder_hidden_states = hidden_states
-        elif attn.norm_cross:
-            encoder_hidden_states = attn.norm_encoder_hidden_states(encoder_hidden_states)
-
-        key = attn.to_k(encoder_hidden_states, *args)
-        value = attn.to_v(encoder_hidden_states, *args)
-
-        if is_selfattn:
-            cached_key = key.clone()
-            cached_value = value.clone()
-            
-            # Avoid if statement -> replace the dynamic graph to static graph
-            if torch.equal(self.frame_id, self.zero_tensor):
-            # ONNX
-                self.cached_key = cached_key
-                self.cached_value = cached_value
-
-            key = torch.cat([key, self.cached_key], dim=1)
-            value = torch.cat([value, self.cached_value], dim=1)
-
-        inner_dim = key.shape[-1]
-        head_dim = inner_dim // attn.heads
-
-        query = query.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
-
-        key = key.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
-        value = value.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
-
-        # the output of sdp = (batch, num_heads, seq_len, head_dim)
-        # TODO: add support for attn.scale when we move to Torch 2.1
-        hidden_states = F.scaled_dot_product_attention(
-            query, key, value, attn_mask=attention_mask, dropout_p=0.0, is_causal=False
-        )
-
-        hidden_states = hidden_states.transpose(1, 2).reshape(batch_size, -1, attn.heads * head_dim)
-        hidden_states = hidden_states.to(query.dtype)
-
-        # linear proj
-        hidden_states = attn.to_out[0](hidden_states, *args)
-        # dropout
-        hidden_states = attn.to_out[1](hidden_states)
-
-        if input_ndim == 4:
-            hidden_states = hidden_states.transpose(-1, -2).reshape(batch_size, channel, height, width)
-
-        if attn.residual_connection:
-            hidden_states = hidden_states + residual
-
-        hidden_states = hidden_states / attn.rescale_output_factor
-
-        if is_selfattn:
-            cached_output = hidden_states.clone()
-
-            if torch.equal(self.frame_id, self.zero_tensor):
-                self.cached_output = cached_output
-
-            if self.use_feature_injection and ("up_blocks.0" in self.name or "up_blocks.1" in self.name or 'mid_block' in self.name):
-                nn_hidden_states = get_nn_feats(hidden_states, self.cached_output, threshold=self.threshold)
-                hidden_states = hidden_states * (1-self.fi_strength) + self.fi_strength * nn_hidden_states
-
-        mod_result = torch.remainder(self.frame_id, self.interval)
-        if torch.equal(mod_result, self.zero_tensor) and is_selfattn:
-                self._tome_step_kvout(cached_key, cached_value, cached_output)
-        
-        self.frame_id = self.frame_id + 1
-        
-        return hidden_states
-
-
-
-class CachedSTXFormersAttnProcessor:
-    r"""
-    Processor for implementing memory efficient attention using xFormers.
-
-    Args:
-        attention_op (`Callable`, *optional*, defaults to `None`):
-            The base
-            [operator](https://facebookresearch.github.io/xformers/components/ops.html#xformers.ops.AttentionOpBase) to
-            use as the attention operator. It is recommended to set to `None`, and allow xFormers to choose the best
-            operator.
-    """
-
-    def __init__(self, attention_op: Optional[Callable] = None, name=None, 
-                 use_feature_injection=False, feature_injection_strength=0.8, feature_similarity_threshold=0.98,
-                 interval=4, max_frames=4, use_tome_cache=False, tome_metric="keys", use_grid=False, tome_ratio=0.5):
-        self.attention_op = attention_op
+        name: str = "",
+        use_feature_injection: bool = False,
+        feature_injection_strength: float = 0.8,
+        feature_similarity_threshold: float = 0.98,
+        interval: int = 4,
+        max_frames: int = 1,
+        use_tome_cache: bool = False,
+        tome_metric: str = "keys",
+        tome_ratio: float = 0.5,
+        use_grid: bool = False,
+        cache_cross_attention: bool = True,
+        **kwargs,  # ignore extra args for compatibility
+    ):
+        super().__init__()
         self.name = name
-        self.use_feature_injection = use_feature_injection
-        self.fi_strength = feature_injection_strength
-        self.threshold = feature_similarity_threshold
-        self.frame_id = 0
-        self.interval = interval
-        self.cached_key = deque(maxlen=max_frames)
-        self.cached_value = deque(maxlen=max_frames)
-        self.cached_output = deque(maxlen=max_frames)
-        self.use_tome_cache = use_tome_cache
+        self.interval = max(1, int(interval))
+        self.max_frames = max(1, int(max_frames))
+        self.use_feature_injection = bool(use_feature_injection)
+        self.feature_injection_strength = float(feature_injection_strength)
+        self.feature_similarity_threshold = float(feature_similarity_threshold)
+        self.use_tome_cache = bool(use_tome_cache)
         self.tome_metric = tome_metric
-        self.use_grid = use_grid
-        self.tome_ratio = tome_ratio
+        self.tome_ratio = float(tome_ratio)
+        self.use_grid = bool(use_grid)
+        self.cache_cross_attention = bool(cache_cross_attention)
 
-    def _tome_step_kvout(self, keys, values, outputs):
-        if len(self.cached_value) == 1:
-            keys = torch.cat(list(self.cached_key) + [keys], dim=1)
-            values = torch.cat(list(self.cached_value) + [values], dim=1)
-            outputs = torch.cat(list(self.cached_output) + [outputs], dim=1)
-            m_kv_out, _, _= random_bipartite_soft_matching(metric=eval(self.tome_metric), use_grid=self.use_grid, ratio=self.tome_ratio)
-            compact_keys, compact_values, compact_outputs = m_kv_out(keys, values, outputs)
-            self.cached_key.append(compact_keys)
-            self.cached_value.append(compact_values)
-            self.cached_output.append(compact_outputs)
-        else:
-            self.cached_key.append(keys)
-            self.cached_value.append(values)
-            self.cached_output.append(outputs)
+        # Rolling self-attn caches
+        self.cached_key = deque(maxlen=self.max_frames)
+        self.cached_value = deque(maxlen=self.max_frames)
+        self.cached_output = deque(maxlen=self.max_frames) if self.use_feature_injection else None
 
-    def _tome_step_kv(self, keys, values):
-        if len(self.cached_value) == 1:
-            keys = torch.cat(list(self.cached_key) + [keys], dim=1)
-            values = torch.cat(list(self.cached_value) + [values], dim=1)
-            _, m_kv, _= random_bipartite_soft_matching(metric=eval(self.tome_metric), use_grid=self.use_grid, ratio=self.tome_ratio)
-            compact_keys, compact_values = m_kv(keys, values)
-            self.cached_key.append(compact_keys)
-            self.cached_value.append(compact_values)
-        else:
-            self.cached_key.append(keys)
-            self.cached_value.append(values)
-            
-    def _tome_step_out(self, outputs):
-        if len(self.cached_value) == 1:
-            outputs = torch.cat(list(self.cached_output) + [outputs], dim=1)
-            _, _, m_out= random_bipartite_soft_matching(metric=outputs, use_grid=self.use_grid, ratio=self.tome_ratio)
-            compact_outputs = m_out(outputs)
-            self.cached_output.append(compact_outputs)
-        else:
-            self.cached_output.append(outputs)
+        # Pre-concatenated views (fast-path)
+        self._cat_k: Optional[torch.Tensor] = None
+        self._cat_v: Optional[torch.Tensor] = None
+        self._cat_out: Optional[torch.Tensor] = None
 
-    def __call__(
+        # Cross-attn single context cache
+        self._cross_k: Optional[torch.Tensor] = None
+        self._cross_v: Optional[torch.Tensor] = None
+        self._cross_sig: Optional[Tuple] = None
+
+        self._frame_id: int = 0
+
+    def _refresh_cat_views(self):
+        if len(self.cached_key) > 0:
+            self._cat_k = torch.cat(list(self.cached_key), dim=1)
+            self._cat_v = torch.cat(list(self.cached_value), dim=1)
+            if self.use_feature_injection and self.cached_output and len(self.cached_output) > 0:
+                self._cat_out = torch.cat(list(self.cached_output), dim=1)
+            else:
+                self._cat_out = None
+        else:
+            self._cat_k = self._cat_v = self._cat_out = None
+
+    def _maybe_push_self_cache(self, k_cur: torch.Tensor, v_cur: torch.Tensor, out_cur: Optional[torch.Tensor]):
+        if (self._frame_id % self.interval) == 0:
+            self.cached_key.append(k_cur)
+            self.cached_value.append(v_cur)
+            if self.use_feature_injection and self.cached_output is not None and out_cur is not None:
+                self.cached_output.append(out_cur)
+            self._refresh_cat_views()
+
+    def reset_cross_cache(self):
+        self._cross_k = None
+        self._cross_v = None
+        self._cross_sig = None
+
+    # nn.Module.forward wrapper (diffusers calls this object directly)
+    def forward(
         self,
-        attn: Attention,
-        hidden_states: torch.FloatTensor,
-        encoder_hidden_states: Optional[torch.FloatTensor] = None,
-        attention_mask: Optional[torch.FloatTensor] = None,
-        temb: Optional[torch.FloatTensor] = None,
-        scale: float = 1.0,
-    ) -> torch.FloatTensor:
+        attn: nn.Module,
+        hidden_states: torch.Tensor,
+        encoder_hidden_states: Optional[torch.Tensor] = None,
+        attention_mask: Optional[torch.Tensor] = None,
+        temb: Optional[torch.Tensor] = None,
+    ) -> torch.Tensor:
+        out = self._attention_core(attn, hidden_states, encoder_hidden_states, attention_mask)
+        self._frame_id += 1
+        return out
+
+    # Implemented in subclasses
+    def _attention_core(
+        self,
+        attn: nn.Module,
+        hidden_states: torch.Tensor,
+        encoder_hidden_states: Optional[torch.Tensor],
+        attention_mask: Optional[torch.Tensor],
+    ) -> torch.Tensor:
+        raise NotImplementedError
+
+
+# ---------------- SDPA (PyTorch) variant ----------------
+class CachedSTAttnProcessor2_0(_CachedBase):
+    def _attention_core(
+        self,
+        attn: nn.Module,
+        hidden_states: torch.Tensor,
+        encoder_hidden_states: Optional[torch.Tensor],
+        attention_mask: Optional[torch.Tensor],
+    ) -> torch.Tensor:
         residual = hidden_states
 
-        args = () if USE_PEFT_BACKEND else (scale,)
+        # Q
+        query = attn.to_q(hidden_states)
+        if getattr(attn, "norm_q", None) is not None:
+            query = attn.norm_q(query)
 
-        if attn.spatial_norm is not None:
-            hidden_states = attn.spatial_norm(hidden_states, temb)
-
-        input_ndim = hidden_states.ndim
-
-        if input_ndim == 4:
-            batch_size, channel, height, width = hidden_states.shape
-            hidden_states = hidden_states.view(batch_size, channel, height * width).transpose(1, 2)
-
-        batch_size, key_tokens, _ = (
-            hidden_states.shape if encoder_hidden_states is None else encoder_hidden_states.shape
-        )
-
-        attention_mask = attn.prepare_attention_mask(attention_mask, key_tokens, batch_size)
-        if attention_mask is not None:
-            # expand our mask's singleton query_tokens dimension:
-            #   [batch*heads,            1, key_tokens] ->
-            #   [batch*heads, query_tokens, key_tokens]
-            # so that it can be added as a bias onto the attention scores that xformers computes:
-            #   [batch*heads, query_tokens, key_tokens]
-            # we do this explicitly because xformers doesn't broadcast the singleton dimension for us.
-            _, query_tokens, _ = hidden_states.shape
-            attention_mask = attention_mask.expand(-1, query_tokens, -1)
-
-        if attn.group_norm is not None:
-            hidden_states = attn.group_norm(hidden_states.transpose(1, 2)).transpose(1, 2)
-
-        query = attn.to_q(hidden_states, *args)
-
-        is_selfattn = False
-        if encoder_hidden_states is None:
-            is_selfattn = True
-            encoder_hidden_states = hidden_states
-        elif attn.norm_cross:
-            encoder_hidden_states = attn.norm_encoder_hidden_states(encoder_hidden_states)
-
-        key = attn.to_k(encoder_hidden_states, *args)
-        value = attn.to_v(encoder_hidden_states, *args)
-
-        if is_selfattn:
-            cached_key = key.clone()
-            cached_value = value.clone()
-
-            if len(self.cached_key) > 0:
-                key = torch.cat([key] + list(self.cached_key), dim=1)
-                value = torch.cat([value] + list(self.cached_value), dim=1)
-
-            ## Code for storing and visualizing features 
-            # if self.frame_id % self.interval == 0:
-            #     # if "down_blocks.0" in self.name or "up_blocks.3" in self.name:
-            #     #     feats = {
-            #     #                 "hidden_states": hidden_states.clone().cpu(),
-            #     #                 "query": query.clone().cpu(),
-            #     #                 "key": cached_key.cpu(),
-            #     #                 "value": cached_value.cpu(),
-            #     #             }
-            #     #     torch.save(feats, f'./outputs/self_attn_feats_SD/{self.name}.frame{self.frame_id}.pt')
-            #     if self.use_tome_cache:
-            #         cached_key, cached_value = self._tome_step(cached_key, cached_value)
-
-        query = attn.head_to_batch_dim(query).contiguous()
-        key = attn.head_to_batch_dim(key).contiguous()
-        value = attn.head_to_batch_dim(value).contiguous()
-
-        hidden_states = xformers.ops.memory_efficient_attention(
-            query, key, value, attn_bias=attention_mask, op=self.attention_op, scale=attn.scale
-        )
-        hidden_states = hidden_states.to(query.dtype)
-        hidden_states = attn.batch_to_head_dim(hidden_states)
-
-        # linear proj
-        hidden_states = attn.to_out[0](hidden_states, *args)
-        # dropout
-        hidden_states = attn.to_out[1](hidden_states)
-
-        if input_ndim == 4:
-            hidden_states = hidden_states.transpose(-1, -2).reshape(batch_size, channel, height, width)
-
-        if attn.residual_connection:
-            hidden_states = hidden_states + residual
-
-        hidden_states = hidden_states / attn.rescale_output_factor
-        if is_selfattn:
-            cached_output = hidden_states.clone()
-            if self.use_feature_injection and ("up_blocks.0" in self.name or "up_blocks.1" in self.name or 'mid_block' in self.name):
-                if len(self.cached_output) > 0:
-                    nn_hidden_states = get_nn_feats(hidden_states, self.cached_output, threshold=self.threshold)
-                    hidden_states = hidden_states * (1-self.fi_strength) + self.fi_strength * nn_hidden_states
-            
-        if self.frame_id % self.interval == 0:
-            if is_selfattn:
-                if self.use_tome_cache:
-                    self._tome_step_kvout(cached_key, cached_value, cached_output)
+        # K,V
+        is_cross = encoder_hidden_states is not None
+        if is_cross:
+            ctx = encoder_hidden_states
+            if self.cache_cross_attention:
+                sig = _context_signature(ctx)
+                if self._cross_k is None or self._cross_sig != sig:
+                    key = attn.to_k(ctx)
+                    value = attn.to_v(ctx)
+                    if getattr(attn, "norm_k", None): key = attn.norm_k(key)
+                    if getattr(attn, "norm_v", None): value = attn.norm_v(value)
+                    self._cross_k, self._cross_v, self._cross_sig = key, value, sig
                 else:
-                    self.cached_key.append(cached_key)
-                    self.cached_value.append(cached_value)
-                    self.cached_output.append(cached_output)
-        self.frame_id += 1
+                    key, value = self._cross_k, self._cross_v
+            else:
+                key = attn.to_k(ctx); value = attn.to_v(ctx)
+                if getattr(attn, "norm_k", None): key = attn.norm_k(key)
+                if getattr(attn, "norm_v", None): value = attn.norm_v(value)
+            cached_out = None
+        else:
+            key = attn.to_k(hidden_states)
+            value = attn.to_v(hidden_states)
+            if getattr(attn, "norm_k", None): key = attn.norm_k(key)
+            if getattr(attn, "norm_v", None): value = attn.norm_v(value)
+            if self._cat_k is not None:
+                key = torch.cat((key, self._cat_k), dim=1)
+                value = torch.cat((value, self._cat_v), dim=1)
+            cached_out = hidden_states if self.use_feature_injection else None
 
-        return hidden_states
-    
+        # heads->batch
+        query = attn.head_to_batch_dim(query)
+        key = attn.head_to_batch_dim(key)
+        value = attn.head_to_batch_dim(value)
+
+        # mask (SDPA expects [B*H, Q, K])
+        if attention_mask is not None:
+            bsz, q_len, _ = hidden_states.shape
+            k_len = key.shape[1]
+            attention_mask = attn.prepare_attention_mask(attention_mask, k_len, bsz)
+            if attention_mask is not None:
+                attention_mask = attention_mask.view(bsz, attn.heads, 1, k_len)
+                attention_mask = attention_mask.expand(-1, -1, q_len, -1)
+                attention_mask = attention_mask.reshape(bsz * attn.heads, q_len, k_len)
+
+        out = F.scaled_dot_product_attention(
+            query, key, value, attn_mask=attention_mask, dropout_p=0.0, is_causal=False, scale=attn.scale
+        )
+        out = attn.batch_to_head_dim(out)
+        out = attn.to_out[0](out)
+        out = attn.to_out[1](out)
+
+        if not is_cross:
+            # Recompute small per-frame k/v to push (no history) to avoid slicing
+            k_cur = attn.to_k(residual if getattr(attn, "norm_k", None) is None else getattr(attn, "norm_k")(residual))
+            v_cur = attn.to_v(residual if getattr(attn, "norm_v", None) is None else getattr(attn, "norm_v")(residual))
+            self._maybe_push_self_cache(k_cur, v_cur, cached_out)
+
+        return out
+
+
+# ---------------- xFormers variant ----------------
+class CachedSTXFormersAttnProcessor(_CachedBase):
+    def _attention_core(
+        self,
+        attn: nn.Module,
+        hidden_states: torch.Tensor,
+        encoder_hidden_states: Optional[torch.Tensor],
+        attention_mask: Optional[torch.Tensor],
+    ) -> torch.Tensor:
+        residual = hidden_states
+
+        # Q
+        query = attn.to_q(hidden_states)
+        if getattr(attn, "norm_q", None) is not None:
+            query = attn.norm_q(query)
+
+        # K,V
+        is_cross = encoder_hidden_states is not None
+        if is_cross:
+            # breakpoint()
+            ctx = encoder_hidden_states
+            if self.cache_cross_attention:
+                sig = _context_signature(ctx)
+                if self._cross_k is None or self._cross_sig != sig:
+                    key = attn.to_k(ctx)
+                    value = attn.to_v(ctx)
+                    if getattr(attn, "norm_k", None): key = attn.norm_k(key)
+                    if getattr(attn, "norm_v", None): value = attn.norm_v(value)
+                    self._cross_k, self._cross_v, self._cross_sig = key, value, sig
+                else:
+                    key, value = self._cross_k, self._cross_v
+            else:
+                key = attn.to_k(ctx); value = attn.to_v(ctx)
+                if getattr(attn, "norm_k", None): key = attn.norm_k(key)
+                if getattr(attn, "norm_v", None): value = attn.norm_v(value)
+            cached_out = None
+        else:
+            key = attn.to_k(hidden_states)
+            value = attn.to_v(hidden_states)
+            if getattr(attn, "norm_k", None): key = attn.norm_k(key)
+            if getattr(attn, "norm_v", None): value = attn.norm_v(value)
+            if self._cat_k is not None:
+                key = torch.cat((key, self._cat_k), dim=1)
+                value = torch.cat((value, self._cat_v), dim=1)
+            cached_out = hidden_states if self.use_feature_injection else None
+
+        # heads->batch
+        query = attn.head_to_batch_dim(query)
+        key = attn.head_to_batch_dim(key)
+        value = attn.head_to_batch_dim(value)
+
+        # xFormers MEA (or SDPA fallback)
+        if xops is not None:
+            attn_bias = None
+            if attention_mask is not None:
+                bsz, q_len, _ = hidden_states.shape
+                k_len = key.shape[1]
+                attention_mask = attn.prepare_attention_mask(attention_mask, k_len, bsz)
+                if attention_mask is not None:
+                    attention_mask = attention_mask.view(bsz, attn.heads, 1, k_len)
+                    attention_mask = attention_mask.expand(-1, -1, q_len, -1)
+                    attn_bias = attention_mask.reshape(bsz * attn.heads, q_len, k_len)
+            out = xops.memory_efficient_attention(query, key, value, attn_bias=attn_bias, p=0.0, scale=attn.scale)
+        else:
+            if attention_mask is not None:
+                bsz, q_len, _ = hidden_states.shape
+                k_len = key.shape[1]
+                attention_mask = attn.prepare_attention_mask(attention_mask, k_len, bsz)
+                if attention_mask is not None:
+                    attention_mask = attention_mask.view(bsz, attn.heads, 1, k_len)
+                    attention_mask = attention_mask.expand(-1, -1, q_len, -1)
+                    attention_mask = attention_mask.reshape(bsz * attn.heads, q_len, k_len)
+            out = F.scaled_dot_product_attention(
+                query, key, value, attn_mask=attention_mask, dropout_p=0.0, is_causal=False, scale=attn.scale
+            )
+
+        out = attn.batch_to_head_dim(out)
+        out = attn.to_out[0](out)
+        out = attn.to_out[1](out)
+
+        if not is_cross:
+            k_cur = attn.to_k(residual if getattr(attn, "norm_k", None) is None else getattr(attn, "norm_k")(residual))
+            v_cur = attn.to_v(residual if getattr(attn, "norm_v", None) is None else getattr(attn, "norm_v")(residual))
+            self._maybe_push_self_cache(k_cur, v_cur, cached_out)
+
+        return out
